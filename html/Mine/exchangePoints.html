@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/exchangePoints.css" />
+		<title>积分兑换</title>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row content ">
+				<h2 class="exchangeTitle">
+                    <a href="javascript:history.back(-1);" class="back">
+                        <i class="layui-icon layui-icon-left"></i> 返回
+                    </a>
+                  积分兑换
+                </h2>
+				<!--总积分-->
+				<div class="layui-row headContent">
+					<div class="layui-form layui-form-item">
+						<label class="layui-form-label">总积分：20000</label>
+						<div class="layui-input-block">
+							<button class="layui-btn query_btn" lay-submit="" lay-filter="demo1">一键查询</button>
+						</div>
+					</div>
+				</div>
+				<!--储蓄卡和信用卡积分内容-->
+				<div class="layui-row layui-form centerContent">
+					<!--储蓄卡-->
+					<div class="layui-row contentPart ">
+						<div class="layui-inline">
+							<img src="../../img/cardType.png" class="layui-circle savings">储蓄卡
+						</div>
+						<div class="layui-form layui-form-item cardMsg">
+							<label class="layui-form-label">**** **** **** 7183</label>
+							<div class="layui-input-block radio">
+								<input type="radio" lay-filter="erweima" name="money" value="100" title="100">
+							</div>
+						</div>
+						<div class="layui-form layui-form-item cardMsg">
+							<label class="layui-form-label">**** **** **** 3920</label>
+							<div class="layui-input-block radio">
+								<input type="radio" lay-filter="erweima" name="money" value="100" title="100">
+							</div>
+						</div>
+						<div class="layui-form layui-form-item cardMsg">
+							<label class="layui-form-label">**** **** **** 0804</label>
+							<div class="layui-input-block radio">
+								<input type="radio" lay-filter="erweima" name="money" value="3000" title="3000">
+							</div>
+						</div>
+					</div>
+					<!--信用卡-->
+					<div class="layui-row contentPart ">
+						<div class="layui-inline">
+							<img src="../../img/cardType.png" class="layui-circle savings">储蓄卡
+						</div>
+						<div class="layui-form layui-form-item cardMsg">
+							<label class="layui-form-label">**** **** **** 7183</label>
+							<div class="layui-input-block radio">
+								<input type="radio" lay-filter="erweima" name="money" value="100" title="100">
+							</div>
+						</div>
+						<div class="layui-form layui-form-item cardMsg">
+							<label class="layui-form-label">**** **** **** 3920</label>
+							<div class="layui-input-block radio">
+								<input type="radio" lay-filter="erweima" name="money" value="100" title="100">
+							</div>
+						</div>
+						<div class="layui-form layui-form-item cardMsg">
+							<label class="layui-form-label">**** **** **** 0804</label>
+							<div class="layui-input-block radio">
+								<input type="radio" lay-filter="erweima" name="money" value="3000" title="3000">
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button class="layui-btn exchange-btn" lay-submit="" lay-filter="demo1">兑换商城积分</button>
+						</div>
+					</div>
+				</div>
+				<div class="layui-row footer">
+					<p class="warn">温馨提示</p>
+					<p class=""><span class="layui-badge-dot layui-bg-blue"></span>只显示个人账户相应的积分情况</p>
+					<p class=""><span class="layui-badge-dot layui-bg-blue"></span>仅支持兑换广西农信利农商城积分</p>
+					
+				</div>
+			</div>
+			<input type="hidden" name="radioText" id="radioText" value="001" />
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script>
+			layui.use(['form', 'layedit', 'laydate'], function() {
+				var form = layui.form,
+					layer = layui.layer,
+					layedit = layui.layedit,
+					laydate = layui.laydate;
+					
+					form.on('radio(erweima)', function (data) {
+			            var text = data.value;
+			            $('#radioText').val(text);
+			           	console.log($('#radioText').val())
+			            $(".exchange-btn").on('click', function() {
+							localStorage.setItem('amount',text);
+							layer.open({
+				                type: 2,
+				                closeBtn: 0,
+				                title: false,
+				                content: "exchangingX.html?text="+text,
+				                area: ['100%', '100%'],
+				                yes: function(index) {
+				                    layer.close(index);
+				                },
+				                end: function() {
+				                    form.render();
+				                }
+				            });
+						});
+			        });
+			        $(".exchange-btn").on('click', function() {
+						if ($('#radioText').val() == 001) {
+							alert("请选择要兑换的卡号")
+						}
+					});
+			        
+					
+
+				//监听提交
+//				form.on('submit(demo1)', function(data) {
+//					layer.alert(JSON.stringify(data.field), {
+//						title: '最终的提交信息'
+//					})
+//					return false;
+//				});
+
+				var textNum = $('.cardMsg label').html();
+				console.log(textNum)
+			});
+		</script>
+	</body>
+
+</html>

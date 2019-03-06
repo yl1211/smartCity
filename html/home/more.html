@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>首页</title>
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<link rel="stylesheet" href="../../css/base.css">
+	<link rel="stylesheet" href="../../css/index.css">
+</head>
+<body>
+				
+	<div class="layui-fluid bg">
+		<div class="layui-row titleContent">
+			<a href="javascript:history.back(-1);" class="back"><i class="layui-icon layui-icon-left"></i>返回</a>		
+	    </div>
+		<!-- end-header -->
+		<!-- App -->
+		<div class="layui-row appContent" id="appView"></div>
+		<!-- end-App -->
+		<!-- lastest news -->
+
+	<script src="../../js/jquery-3.3.1.min.js"></script>
+	<script src="../../layui/layui.js"></script>
+	<!-- end-应用模板引擎 -->
+
+	<script>
+		//刷新页面时的一些初始化设置
+		layui.use('laytpl', function(){
+		  var laytpl = layui.laytpl;
+		  // 请求首页相关功能列表  
+			$.ajax({
+				url: 'http://192.168.112.45:8080/gateway/appfunction/getAllAppFunction',
+				type: 'post',
+				data: {},
+				dataType: 'json',
+				success: function (data) {
+					console.log(data);
+					var appStr = '';
+                          for (var i = 0; i < data.data.length; i++) {        	
+							  appStr += "<div class='layui-col-xs3'><a href='../msgCenter/news.html'><div class='img-txt'><img src='"+data.data[i].icon+"' alt=''><h3>"+data.data[i].name+"</h3></div></a></div>"  
+
+                            }
+                            // new Array(16).join('data') + cardNum.slice(15);
+                          $("#appView").append(appStr);
+					
+				}
+			});
+		}); 
+
+	</script>
+</body>
+</html>

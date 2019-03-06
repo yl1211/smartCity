@@ -1,0 +1,50 @@
+.back{
+	position: absolute;
+  left: 1rem;
+  top: .5rem;
+  line-height: 2rem;
+  font-size: 1rem;
+  text-align: center;
+  color: rgba(72, 156, 245, 1);
+  background-color: rgba(153, 153, 153, 0);
+}
+
+.registerTitle{
+	font-size: 1.25rem;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+}
+
+.register-form{
+	margin: 3rem .5rem;
+}
+
+.formInputBox{
+	position: relative;
+	border-bottom: 1px solid #eee;
+}
+
+.formInput{
+	border: 0;
+}
+
+.getCode{
+	position: absolute;
+  right: 0;
+  bottom: 0.5rem;
+  color: rgba(72, 156, 245, 1);
+}
+
+.checkUserAgree + div.layui-unselect.layui-form-checkbox > i.layui-icon-ok{
+	border-radius: 2rem;
+  border-color: #1E9FFF;
+}
+
+.checkUserAgree + div.layui-form-checked > i.layui-icon-ok{
+	background-color: #1E9FFF;
+}
+
+.registerBtn{
+	margin-top: 2rem;
+}

@@ -1,0 +1,43 @@
+.back {
+	position: absolute;
+    left: 0rem;
+    font-size: 1rem;
+    text-align: center;
+    color: rgba(72, 156, 245, 1);
+    background-color: rgba(153,153,153,0);
+}
+.contentHeader{
+    position: fixed;
+    top: 0px;
+    background-color: white;
+    width: 95%;
+    z-index: 999;
+}
+.title {
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    color: #000;
+}
+.contentBox{
+	font-size: 1rem;
+	margin-top: 3rem;
+}
+.contentBox img{
+	width: 100%;
+	margin-top: 1rem;
+    object-fit: contain;
+    height: 7rem;
+}
+.contentBox p{
+	line-height:2rem;
+	color: gray;
+}
+.contentArticle{
+	text-align: center;
+	margin-top: 1rem;
+}
+.layui-fluid{
+	margin-bottom: 2rem;
+}

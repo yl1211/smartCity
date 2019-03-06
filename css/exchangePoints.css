@@ -1,0 +1,186 @@
+/*兑换积分-一键查询*/
+.back{
+	position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: rgba(72, 156, 245, 1);
+    background-color: rgba(153,153,153,0);
+}
+.exchangeTitle{
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+}
+.query_btn{
+	float: right;
+	background-color:#005ea7!important;
+}
+.layui-form-item .layui-form-label{
+	overflow: visible;
+	font-size: 14px;
+}
+.headContent{
+	margin-top: 1rem;
+	border-bottom: 1px solid gainsboro;
+}
+.layui-inline img{
+	height: 30px;
+	width: 30px;
+	margin: 0 10px;
+}
+.contentPart{
+	margin-top: 1rem;
+}
+.radio{
+	float: right;
+}
+.layui-anim.layui-icon{
+	float: right;
+	margin: 0 10px
+}
+.layui-form-radio>i:hover, .layui-form-radioed>i{
+	color:rgba(0, 95, 166) ;
+}
+.cardMsg{
+	border-bottom: 1px solid gainsboro;
+}
+.exchange-btn{
+	width: 80%;
+	text-align: center;
+	background-color:#005ea7!important;
+}
+.layui-input-block{
+	text-align: center;
+	margin-left: 0px;
+}
+.footer{
+	margin-top: 6rem;
+}
+.footer .warn{
+	color: red;
+}
+.footer p{
+	line-height: 1.6rem;
+}
+/*兑换ing页面*/
+.exchanging_form{
+	margin-top: 1rem;
+}
+.exchanging_form label{
+	padding: 9px 5px;
+}
+.right_input{
+	text-align: right;
+	width: 49%;
+	border: none;
+	font-size: 14px;
+	float: right;
+}
+.left_lable{
+	text-align: left;
+}
+.msgRow{
+	border-bottom: 1px solid gainsboro;
+}
+.msgRow span{
+	font-size: 12px;
+}
+.next_step{
+	width: 50%;
+	background-color: rgba(0, 95, 166);
+}
+.layui-badge-dot{
+	margin: 0 10px
+}
+.check_point{
+	float: right;
+	background-color: rgba(0, 95, 166);
+	height: 30px;
+	line-height: 30px;
+}
+/*弹窗样式*/
+.code_input{
+	line-height: 2rem;
+	border: none;
+	margin: 0 0 0 20px;
+}
+.pwd_input{
+	border: none;
+	margin: 0 0 0 20px;
+}
+/*成功失败页面*/
+.success {
+	margin-top: 2rem;
+	text-align: center;
+}
+.success img{
+	height: 55px;
+	height: 55px;
+}
+.successTit{
+	color: #FF0000;
+}
+.activeMsg{
+	margin:1rem 0;
+}
+.successMsg{
+	margin-top: 2rem;
+}
+.allNum{
+	margin-bottom: 25px;
+}
+.successMsg span{
+	color: rgba(0, 95, 166);
+}
+.close_btn,.close_btn_1{
+	margin-top: 2rem;
+	width: 50%;
+	background-color:#005ea7!important;
+	margin-left: 0!important;
+}
+.errorMsg{
+	color: red;
+}
+.right_input_1 {
+    text-align: center;
+    float: right;
+    font-size: 14px;
+    width: 8%;
+    padding: 0!important;
+    height: 26px;
+}
+.right_input_2 {
+    text-align: right;
+    float: right;
+    font-size: 12px;
+    padding: 0!important;
+    height: 26px;
+	width: 49%;
+}
+.changeNum{
+	background: #005ea7;
+	font-size: 30px;
+	color: #fff;
+	text-align: center;
+	width: 8%;
+	float: right;
+    height: 26px;
+    line-height: 26px;
+    border: none;
+}
+.btn{
+	display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: #005ea7;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}

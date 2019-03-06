@@ -1,0 +1,280 @@
+.logo {
+	text-align: center;
+}
+
+.user {
+	float: right;
+	color: rgba(72, 156, 245, 1);
+	position: absolute;
+	right: .5rem;
+	top: 1rem;
+	font-size: 1rem;
+	text-align: center;
+	background-color: rgba(153, 153, 153, 0)
+}
+
+.oftenRecharge {
+	position: absolute;
+	right: 1rem;
+	font-size: 1rem;
+	text-align: center;
+	color: #fff;
+	background-color: rgba(153, 153, 153, 0);
+}
+
+.file-title {
+	text-align: center;
+}
+
+.logoimg {
+	margin-top: 15%;
+	margin-bottom: 15%;
+}
+
+.logojpg {
+	height: 7rem;
+	width: 9rem;
+}
+
+.cityname {
+	text-align: center;
+	margin-top: 6%;
+}
+
+.layui-input,
+.layui-textarea {
+	border: none;
+}
+
+.get {
+	background-color: white;
+	color: rgb(72, 156, 245, 1);
+	border: none;
+	position: absolute;
+	top: 0rem;
+	right: 1rem;
+	z-index: 99;
+	height: 2rem;
+	width: 5rem;
+}
+
+.login_btn {
+	width: 100%;
+	background-color: rgb(72, 156, 245, 1);
+	border-radius: 5px;
+	margin-top: 5%;
+}
+
+.footer {
+	margin-top: 5%;
+}
+
+.register_btn {
+	background-color: white;
+	color: darkgray;
+	border: none;
+}
+
+.forget {
+	background-color: white;
+	border: none;
+	/*color: darkgray;*/
+	color: rgb(72, 156, 245, 1);
+	float: right;
+}
+.forget-a{
+	color: darkgray;
+}
+.register-a{
+	color: rgb(72, 156, 245, 1);
+
+}
+.onerow {
+	position: relative;
+	vertical-align: middle;
+}
+
+
+/*账号密码登陆*/
+
+
+/*.userimg{
+	background-image:url(../images/mine.png) ;
+	height: 2rem;
+	width: 2rem;
+	background-size: 100% 100%;
+	background-color: white;
+	color: rgb(72,156,245);
+	border: none;
+	position: absolute;
+	top: 0rem;
+	left: 1rem;
+}
+.pwdimg{
+	background-image:url(../images/pwd.png) ;
+	height: 2rem;
+	width: 2rem;
+	background-size: 100% 100%;
+	background-color: white;
+	color: rgb(72,156,245);
+	border: none;
+	position: absolute;
+	top: 0rem;
+	left: 1rem;
+}*/
+
+.back {
+	position: absolute;
+	left: 1rem;
+	font-size: 1rem;
+	text-align: center;
+	color: rgba(72, 156, 245, 1);
+	background-color: rgba(153, 153, 153, 0);
+}
+
+.next {
+	color: rgb(72, 156, 245, 1);
+	position: absolute;
+	right: 1rem;
+	font-weight: 100;
+	line-height: 3rem;
+	font-size: 0.98rem;
+	top: 0;
+}
+
+.phonemsg {
+	color: #FF0000;
+	font-size: 10px;
+	text-align: center;
+	display: none;
+}
+
+
+/*常用地选择*/
+
+.pick {
+	float: right;
+	border: none;
+	text-align: right;
+}
+
+.right {
+	float: right;
+}
+
+.listContent {
+	margin: 0 -15px;
+	padding: 0rem 1rem;
+	color: #000;
+	background-color: #fff;
+}
+
+.back {
+	position: absolute;
+	left: 1rem;
+	font-size: 1rem;
+	text-align: center;
+	color: rgba(72, 156, 245, 1);
+	background-color: rgba(153, 153, 153, 0);
+}
+
+.listTitle {
+	font-size: 1rem;
+	height: 3rem;
+	line-height: 3rem;
+	font-weight: 550;
+	text-align: center;
+	color: #000;
+}
+
+.nextHtml {
+	position: absolute;
+	right: 1rem;
+	font-size: 1rem;
+	color: rgba(72, 156, 245, 1);
+	background-color: rgba(153, 153, 153, 0);
+}
+
+.contentBox {
+	margin-top: 2rem;
+}
+
+.picker {
+	overflow: visible !important;
+}
+
+
+/*实名认证*/
+
+.authen {
+	margin-top: 10%;
+}
+
+.submit_btn {
+	width: 100%;
+	background-color: rgb(72, 156, 245);
+	border-radius: 5px;
+	margin-top: 5%;
+}
+
+.display {
+	color: #FF0000;
+	font-size: 10px;
+	text-align: center;
+	display: none;
+}
+
+.getCode {
+    position: absolute;
+    right: 1rem;
+    bottom: 0.6rem;
+    color: rgba(72, 156, 245, 1);
+    z-index: 999;
+    font-size: 0.88rem;
+}
+
+.formInputBox {
+	position: relative;
+	border-bottom: 1px solid #eee;
+}
+
+.goBack {
+	position: absolute;
+	left: 1rem;
+	font-size: 1rem;
+	text-align: center;
+	color: #fff;
+	background-color: rgba(153, 153, 153, 0);
+	color: #489CF5;
+}
+
+.msgTitle {
+	font-size: 1.25rem;
+	height: 3rem;
+	line-height: 3rem;
+	text-align: center;
+}
+
+.layui-form-item {
+	/*border-bottom: 1px solid gainsboro;*/
+}
+.layui-form-label{
+	width: 100%;
+	text-align: left;
+	padding: 9px 0px;
+}
+.layui-input-inline{
+   margin: 5px 0 10px 10px;
+}
+.inline{
+	margin-left: -100px;
+	border: 1px solid #ddd;
+	width: 10rem;
+	height: 2rem;
+	font-size: 0.84rem;
+	color: #252424;
+	border-radius: 5px;
+}
+.inline-option{
+	border: 1px solid #ddd;
+}

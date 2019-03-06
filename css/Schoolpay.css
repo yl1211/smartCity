@@ -1,0 +1,106 @@
+.schoolContent {
+	margin: 0 -15px;
+    padding: 0rem 1rem;
+    color: #000;
+    background-color: #fff;
+}
+.back {
+	position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: rgba(72, 156, 245, 1);
+    background-color: rgba(153,153,153,0);
+}
+.schoolTitle {
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    color: #000;
+}
+.layui-form-item{
+	border-bottom: 1px solid gainsboro
+}
+.layui-form-label{
+	padding: 9px 0;
+    text-align: left;
+}
+.layui-input, .layui-textarea{
+	border: none;
+    text-align: right;
+}
+.layui-form-select dl dd.layui-this{
+	    background-color: rgb(72, 156, 245, 1);
+}
+.layui-select-title{
+	border: 1px solid gainsboro;
+}
+.warn{
+	font-size: 1rem;
+	color: gray;
+}
+.addBtn{
+	width: 100%;
+	margin-top: 0.5rem;
+	background-color: rgb(72, 156, 245, 1);
+}
+.link{
+	float: right;
+	vertical-align: middle;
+}
+.item{
+	text-align: center;
+	line-height: 3rem;
+
+}
+.item-text{
+	line-height: 1.8rem;
+	text-align: left;
+	margin-top: 1.3rem;
+/*	margin-bottom: 0.4rem;*/
+}
+.schoolTitle{
+	font-size: 1.1rem;
+}
+.label{
+	width: 4%;
+	font-size: 1.2rem;
+	float: left;
+	line-height: 2.4rem;
+	 margin-left: -4px;
+	height:38px; 
+}
+.input-block{
+	height: 38px;
+	line-height: 1.5rem;
+}
+.layui-input{
+    float: left;
+    width: 96%;
+    text-align: left;
+    font-size: 1.4rem;
+    line-height: 2.7rem;
+    height: 38px;
+}
+.layui-form-item {
+	margin-bottom: 0px;
+}
+.text{
+	float: left;
+    width: 100%;
+    text-align: left;
+    margin-left: -18px;
+    font-size: 0.9rem;
+    line-height: 2.7rem;
+    height: 38px;
+
+}
+.warn{
+	width: 100%;
+	height: 2rem;
+	color:red;
+	line-height: 3rem;
+	font-size: 0.9rem;
+	margin-left: 0.1rem;
+}

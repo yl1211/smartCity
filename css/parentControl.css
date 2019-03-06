@@ -1,0 +1,64 @@
+html{
+	background-color: rgb(247,247,247);
+}
+.layui-fluid{
+	padding: 0px 0px;
+}
+.top{
+	background-color: white;
+}
+.msg{
+	/*text-indent:2rem;*/
+	margin-top: 1rem;
+	text-align: center;
+}
+.layui-form-label{
+	width: auto;
+}
+.control-form{
+	 margin: 1rem 0rem;
+}
+.layui-form-item{
+	background-color: white;
+	padding: 0 1rem;
+}
+
+.layui-input{
+	text-align: right;
+	padding-right: 1rem;
+}
+.interval{
+	height: 1rem;
+}
+.last{
+	margin-bottom: 0px;
+}
+hr{
+	margin: 0 0;
+}
+.range{
+	color: rgb(72, 156, 245,1);
+	position: absolute;
+	right: 1rem;
+	line-height: 3rem;
+	font-size: 1rem;
+	color: #489CF5;
+}
+.layui-form-switch{
+	float: right;
+}
+.goBack{
+	position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(153,153,153,0);
+    color: #489CF5;
+}
+.manageTitle{
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+}

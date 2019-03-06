@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>未领款</title>
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/noReceive.css" />
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row listContent">
+				<h2 class="listTitle">
+                    <a href="javascript:history.back(-1)" class="back">
+                        <i class="layui-icon layui-icon-left"></i> 返回
+                    </a>
+                    未领款
+                </h2>
+				<!--未领款内容-->
+				<div class="layui-row contentBox" id="content">
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script id="appContent" type="text/html">
+			{{# layui.each(d.appList, function(index, item){ }}
+			<div class="layui-col-xs10 layui-col-xs-offset1 receiveContent">
+				<a href="{{ item.NFCsrc }}" class="">
+					<p class="cardNumber">卡号：{{ item.cardNum }}<span>{{ item.money }}元</span></p>
+					<p class="cardTime">{{ item.cardTime }}<span class="none">待领款</span></p>
+				</a>
+			</div>
+			<!--无数据时-->
+			{{# }); }} {{# if(d.appList.length === 0){ }}
+			
+			{{# } }}
+		</script>
+		<script>
+			layui.use(['laytpl','layer'], function() {
+				var laytpl = layui.laytpl;
+				var layer = layui.layer;
+				var appData = { //数据
+					"title": "应用模板引擎",
+					"appList": [{
+							"NFCsrc": "NFCReceive.html",
+							"cardNum": "1029182378",
+							"money": "100",
+							"cardTime": "2018-02-03"
+						},
+						{
+							"NFCsrc": "NFCReceive.html",
+							"cardNum": "5679875443",
+							"money": "80",
+							"cardTime": "2018-02-03"
+						},
+						{
+							"NFCsrc": "NFCReceive.html",
+							"cardNum": "766878",
+							"money": "90",
+							"cardTime": "2018-02-03"
+						}
+					]
+				}
+				// $.ajax({
+				// 	url: '',
+				// 	type: 'post',
+				// 	data: {
+				// 	},
+				// 	dataType: 'json',
+				// 	success: function (data) {
+				// 		console.log(data);3
+				// 	}
+				var getAppTpl = appContent.innerHTML,
+					appView = document.getElementById('content');
+				laytpl(getAppTpl).render(appData, function(html) {
+					appView.innerHTML = html;
+				});
+			});
+		</script>
+	</body>
+</html>

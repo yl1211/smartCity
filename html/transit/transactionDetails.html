@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="cn">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            城市云卡-交易明细
+        </title>
+        <link rel="stylesheet" href="../../layui/css/layui.css">
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/transitIndex.css">
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <!-- 顶部返回与标题 -->
+            <div class="layui-row transitContent">
+                <h2 class="transitTitle">
+                    <a href="javascript:;" class="back ofenBack">
+                        <i class="layui-icon layui-icon-left">
+                        </i>
+                        返回
+                    </a>
+                    交易明细
+                </h2>
+            </div>
+            <!-- 顶部返回与标题end -->
+            <!-- 交易明细tab切换 -->
+            <div class="layui-row cardDetails">
+                <div class="layui-tab layui-tab-brief" lay-filter="cardDetails">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">
+                            全部
+                        </li>
+                        <li>
+                            充值
+                        </li>
+                        <li>
+                            消费
+                        </li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item allDetail layui-show">
+                            <div class="layui-row seachDetail">
+                                <div class="layui-col-xs2">
+                                    本月
+                                </div>
+                                <div class="layui-col-xs2 layui-col-xs-offset8">
+                                     <i class="layui-icon layui-icon-date seachTime" index='0'></i>
+                                </div>
+                                <div class="layui-col-xs12 seachHelp">
+                                    说明: 由于网络原因,数据可能会有延迟
+                                </div>
+                            </div>
+                            <div class="seachContent">
+                                <!-- <div class="layui-row seachContentBox">
+                                    <div class="layui-col-xs9">
+                                        <p class="detailsType">银联充值</p>
+                                        <p class="detailsTime">2019-01-10 13:11:23</p>
+                                        <p class="detailsNum">订单编号: <span>2012361285436521692</span></p>
+                                    </div>
+                                    <div class="layui-col-xs3">
+                                        <p class="detailsMoney">+100.00</p>
+                                        <p class="detailsStatus">待领取</p>
+                                    </div>
+                                </div> -->
+                                
+                            </div>
+                        </div>
+                        <div class="layui-tab-item rechargeDetail">
+                            <div class="layui-row seachDetail">
+                                <div class="layui-col-xs2">
+                                    本月
+                                </div>
+                                <div class="layui-col-xs2 layui-col-xs-offset8">
+                                     <i class="layui-icon layui-icon-date seachTime" index='1'></i>
+                                </div>
+                                <div class="layui-col-xs12 seachHelp">
+                                    说明: 由于网络原因,数据可能会有延迟
+                                </div>
+                            </div>
+                            <div class="seachContent">
+                                 
+                            </div>
+                        </div>
+                        <div class="layui-tab-item consumeDetail">
+                            <div class="layui-row seachDetail">
+                                <div class="layui-col-xs2">
+                                    本月
+                                </div>
+                                <div class="layui-col-xs2 layui-col-xs-offset8">
+                                     <i class="layui-icon layui-icon-date seachTime" index='2'></i>
+                                </div>
+                                <div class="layui-col-xs12 seachHelp">
+                                    说明: 由于网络原因,数据可能会有延迟
+                                </div>
+                            </div>
+                            <div class="seachContent">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 交易明细end -->
+            
+        </div>
+        <!-- 隐藏域 -->
+        <input type="hidden" id="hiddenData" value="">
+        <input type="hidden" id="hiddenData2" value="">
+    </body>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../layui/layui.js"></script>
+    <script src="../../js/jquery.selector-px.js"></script>
+    <script id="seachContent" type="text/html">
+        {{#layui.each(d.value,function(index, item) {}}
+        <div class="layui-row seachContentBox">
+            <div class="layui-col-xs9">
+                <p class="detailsType">{{ item.detailsType }}</p>
+                <p class="detailsTime">{{ item.detailsTime }}</p>
+                <p class="detailsNum">订单编号: <span>{{ item.detailsNum }}</span></p>
+            </div>
+            <div class="layui-col-xs3">
+                <p class="detailsMoney">{{ item.detailsMoney }}</p>
+                {{# if(item.detailsStatus == '已领款'){ }}
+                    <p class="detailsStatus" style="color: #4889EF;">{{ item.detailsStatus }}</p>
+                {{# }else{ }}
+                    <p class="detailsStatus">{{ item.detailsStatus }}</p>
+                {{# } }}
+            </div>
+        </div>
+        {{# }); }}
+    </script>
+    <script>
+    	var codeId = localStorage.getItem('codeId');
+        console.log(codeId)
+        layui.use(['form', 'layer', 'element', 'laytpl'],
+        function() {
+            var form = layui.form,
+            layer = layui.layer,
+            element = layui.element,
+            laytpl = layui.laytpl;
+            
+            //返回按钮
+            $(".ofenBack").on("click",
+            function() {
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+            });
+            
+            //tab一些事件监听
+            element.on('tab(cardDetails)', function(data){
+                console.log(data);
+            });
+            //请求充值消费记录接口
+            /*$.ajax({
+                url: '',
+                type: 'post',
+                data: {
+                    data: data.field
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function(){
+                    layer.msg("请求数据失败!");
+                }
+            });*/
+            //假数据,所有记录
+            var data = {code:0,success:'true',msg:'请求成功',value:[{type:0,detailsType:'银联充值',detailsTime:'2019-01-10 13:11:23',detailsNum:'20134565921321156521',detailsMoney:'+100',detailsStatus:'待领取'},{type:1,detailsType:'银联充值',detailsTime:'2019-01-10 13:11:23',detailsNum:'20134565921321156521',detailsMoney:'+100',detailsStatus:'已领款'},{type:0,detailsType:'银联充值',detailsTime:'2019-01-10 13:11:23',detailsNum:'20134565921321156521',detailsMoney:'+100',detailsStatus:''},{type:1,detailsType:'银联充值',detailsTime:'2019-01-10 13:11:23',detailsNum:'20134565921321156521',detailsMoney:'+100',detailsStatus:'待领取'},{type:0,detailsType:'银联充值',detailsTime:'2019-01-10 13:11:23',detailsNum:'20134565921321156521',detailsMoney:'+100',detailsStatus:'待领取'},{type:1,detailsType:'银联充值',detailsTime:'2019-01-10 13:11:23',detailsNum:'20134565921321156521',detailsMoney:'+100',detailsStatus:'待领取'},{type:1,detailsType:'银联充值',detailsTime:'2019-01-10 13:11:23',detailsNum:'20134565921321156521',detailsMoney:'+100',detailsStatus:'待领取'}]};
+            function elementInit(data){
+                var seachContentHtml = $("#seachContent").html();
+                laytpl(seachContentHtml).render(data,function(html) {
+                    $(".allDetail").find(".seachContent").html(html);
+                });
+                //区分充值记录与消费记录并重新渲染
+                var newData1 = {},newData2 = {},newArr1 = [],newArr2 = [];
+                    newData1.value = newArr1;
+                    newData2.value = newArr2;
+                for (var i = 0; i < data.value.length; i++) {
+                    if (data.value[i].type == 0) {
+                        newArr1.push(data.value[i]);
+
+                    } else {
+                        newArr2.push(data.value[i]);
+                    }
+                }
+                //渲染充值记录
+                laytpl(seachContentHtml).render(newData1,function(html) {
+                    $(".rechargeDetail").find(".seachContent").html(html);
+                });
+                //渲染消费记录
+                laytpl(seachContentHtml).render(newData2,function(html) {
+                    $(".consumeDetail").find(".seachContent").html(html);
+                });
+            }
+            elementInit(data);
+            var res='';
+            $(".seachTime").each(function(){
+                var $this = $(this);
+                var thisIndex = $this.attr("index");
+                $this.on("click",function(){
+                    layer.open({
+                        type: 2,
+                        closeBtn: 0,
+                        title: false,
+                        content: 'seachTimeDetailsMonth.html?thisIndex=' + thisIndex,
+                        area: ['100%', '100%'],
+                        yes: function(index) {
+                            layer.close(index);
+                        },
+                        end: function() {
+                            console.log($("#hiddenData").val());
+                            console.log($("#hiddenData2").val());
+                            elementInit(JSON.parse($("#hiddenData2").val()));
+                        }
+                    });
+                });
+                
+            });
+        });
+    </script>
+
+</html>

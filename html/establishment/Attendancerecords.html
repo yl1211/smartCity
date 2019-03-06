@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="cn">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			企业-考勤记录
+		</title>
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/establishment.css">
+	</head>
+	
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row recorendContent">
+				<a href="javascript:;" class="back ofenBack"><i class="layui-icon layui-icon-left"></i>返回</a>
+				<h2 class="file-title">考勤记录</h2>
+			</div>
+			<!-- 日期框与日期滚动模块 -->
+			<div class="layui-row  layui-col-space10 timeBox">
+				<div class="layui-col-xs4">
+					<input type="text" placeholder="请选择时间" autocomplete="off" class="layui-input seachTime" readonly="readonly">
+				</div>
+				<div class="layui-col-xs1 zhi">
+					-
+				</div>
+				<div class="layui-col-xs4">
+					<input type="text" placeholder="请选择时间" autocomplete="off" class="layui-input seachTimeEnd" readonly="readonly">
+				</div>
+				<div class="jeitem layui-col-xs3">
+					<!--查询事件-->
+					<div class="jeinpbox"><button class="layui-btn" onclick="javascript:button_onclick();">查询</button></div>
+				</div>
+			</div>
+			<!-- 日期狂与日期滚动模块end -->
+			<ul class="CardBox-line">
+				<li class="layui-row list_date">
+					<label class="layui-col-xs4">2019-2-16</label>
+					<label class="layui-col-xs4">12:33:49</label>
+					<label class="layui-col-xs3">南办公楼</label>
+				</li>
+				<li class="layui-row list_date">
+					<label class="layui-col-xs4">2019-2-16</label>
+					<label class="layui-col-xs4">12:33:49</label>
+					<label class="layui-col-xs3">南办公楼</label>
+				</li>
+				<li class="layui-row list_date">
+					<label class="layui-col-xs4">2019-2-16</label>
+					<label class="layui-col-xs4">12:33:49</label>
+					<label class="layui-col-xs3">南办公楼</label>
+				</li>
+				<li class="layui-row list_date">
+					<label class="layui-col-xs4">2019-2-16</label>
+					<label class="layui-col-xs4">12:33:49</label>
+					<label class="layui-col-xs3">南办公楼</label>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="../../js/jquery-3.3.1.min.js"></script>
+	<script src="../../layui/layui.js"></script>
+	<script src="../../js/jquery.selector-px.js"></script>
+	<script id="seachContent" type="text/html">
+		{{#layui.each(d.value,function(index, item) {}}
+        <div class="layui-row seachContentBox">
+            <div class="layui-col-xs9">
+                <p class="detailsType">{{ item.detailsType }}</p>
+                <p class="detailsTime">{{ item.detailsTime }}</p>
+                <p class="detailsNum">订单编号: <span>{{ item.detailsNum }}</span></p>
+            </div>
+            <div class="layui-col-xs3">
+                <p class="detailsMoney">{{ item.detailsMoney }}</p>
+                {{# if(item.detailsStatus == '已领款'){ }}
+                    <p class="detailsStatus" style="color: #4889EF;">{{ item.detailsStatus }}</p>
+                {{# }else{ }}
+                    <p class="detailsStatus">{{ item.detailsStatus }}</p>
+                {{# } }}
+            </div>
+        </div>
+        {{# }); }}
+    </script>
+	<script>
+		//获取日期时间段
+		function fun_date(time) {
+			var date1 = new Date(),
+				time1 = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate(); //time1表示当前时间
+			var date2 = new Date(date1);
+			date2.setDate(date1.getDate() + time);
+			var time2 = date2.getFullYear() + "-" + (date2.getMonth() + 1) + "-" + date2.getDate();
+			if (!time) {
+				return time1;
+			} else {
+				return time2;
+			}
+		}
+		//获取url参数
+		function getUrlParam(key) {
+			// 获取参数
+			var url = window.location.search;
+			// 正则筛选地址栏
+			var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+			// 匹配目标参数
+			var result = url.substr(1).match(reg);
+			//返回参数值
+			return result ? decodeURIComponent(result[2]) : null;
+		}
+		layui.use(['form', 'layer', 'element', 'laytpl'], function() {
+			var form = layui.form,
+				layer = layui.layer,
+				element = layui.element,
+				laytpl = layui.laytpl;
+
+			//返回按钮
+			$(".back").on("click", function() {
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.close(index); //再执行关闭
+			})
+			$(".dayChoose").on("click", function() {
+
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				parent.layer.iframeSrc(index, 'seachTimeDetailsMonth.html?thisIndex=' + getUrlParam('thisIndex'))
+			})
+			//获取当前年份与时间段区间
+			var date = new Date;
+			var endYear = date.getFullYear(),
+				startYear = endYear - 100;
+			//开始日期
+			$.dateSelector({
+				evEle: '.seachTime',
+				startYear: startYear,
+				endYear: endYear,
+				timeBoo: false,
+				afterAction: function(d1, d2, d3) {
+					var sDate = new Date((d1 + '-' + d2 + '-' + d3).replace(/\-/g, "\/")),
+						eDate = new Date($('.seachTimeEnd').val().replace(/\-/g, "\/"));
+					if(d3==1){
+						d3 = '0'+d3
+					}else{
+						d3 = d3
+					}
+					if (sDate > eDate) {
+						layer.msg("开始日期不得大于于结束日期！");
+						return false;
+					} else {
+						$('.seachTime').val(d1 + '-' + d2 + '-' + d3);
+					}
+				}
+			});
+			//结束日期
+			$.dateSelector({
+				evEle: '.seachTimeEnd',
+				startYear: startYear,
+				endYear: endYear,
+				timeBoo: false,
+				afterAction: function(d1, d2, d3) {
+					var sDate = new Date($('.seachTime').val().replace(/\-/g, "\/")),
+						eDate = new Date((d1 + '-' + d2 + '-' + d3).replace(/\-/g, "\/"));
+					if(d3==1){
+						d3 = '0'+d3
+					}else{
+						d3 = d3
+					}
+					if (sDate > eDate) {
+						layer.msg("结束日期不得小于开始日期！");
+						return false;
+					} else {
+						$('.seachTimeEnd').val(d1 + '-' + d2 + '-' + d3);
+					}
+
+				}
+			});			
+		});
+	</script>
+
+</html>

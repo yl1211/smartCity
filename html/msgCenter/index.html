@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>消息中心</title>
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<link rel="stylesheet" href="../../css/base.css">
+	<link rel="stylesheet" href="../../css/msgIndex.css">
+</head>
+<body>
+	<div class="layui-fluid">
+		<!-- 顶部返回与标题 -->
+        <div class="layui-row transitContent">
+            <h2 class="transitTitle">
+                消息中心
+            </h2>
+        </div>
+        <!-- 顶部返回与标题end -->
+        <!-- 交易明细tab切换 -->
+        <div class="layui-row cardMsg">
+            <div class="layui-tab layui-tab-brief" lay-filter="cardMsg">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">
+                        全部
+                        <span class="layui-badge-dot"></span>
+                    </li>
+                    <li>
+                        通知
+                    </li>
+                    <li>
+                        公告
+                        <span class="layui-badge-dot"></span>
+                    </li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item allMsg layui-show">                        
+                        <div class="seachContent">
+                    		<!-- lastest news -->
+							<div class="layui-row lastestNews">
+								<!-- <h2 class="lastestNewsTitle">最新动态</h2> -->
+								<div class="smartCityNotice smartCityNoticeView" id=""></div>
+							</div>
+							<!-- end-lastest news -->
+                        </div>
+                    </div>
+                    <div class="layui-tab-item noticeMsg">
+                        <div class="seachContent">
+                            <div class="layui-row noticeBox">
+								<div class="layui-col-xs3">
+									<div class="noticeStyle">
+										<p>考勤</p>
+									</div>
+								</div>
+								<div class="layui-col-xs9">
+									<div class="noticeContent">
+										<p>尊敬的家长</p>
+										<p>您在以下时间刷卡成功</p>
+										<p>时间: 2018.12.22 14:22:43</p>
+										<p>尊敬的家长</p>
+									</div>
+								</div>
+							</div>
+							<div class="layui-row noticeBox">
+								<div class="layui-col-xs3">
+									<div class="noticeStyle">
+										<p>考勤</p>
+									</div>
+								</div>
+								<div class="layui-col-xs9">
+									<div class="noticeContent">
+										<p>尊敬的家长</p>
+										<p>您在以下时间刷卡成功</p>
+										<p>时间: 2018.12.22 14:22:43</p>
+										<p>尊敬的家长</p>
+									</div>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item announcementMsg">
+                        <div class="seachContent">
+                            <!-- lastest news -->
+							<div class="layui-row lastestNews">
+								<!-- <h2 class="lastestNewsTitle">最新动态</h2> -->
+								<div class="smartCityNotice smartCityNoticeView" id=""></div>
+							</div>
+							<!-- end-lastest news -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 交易明细end -->
+
+	</div>
+	<!-- footer -->
+	<div class="layui-row footer">
+		<div class="layui-col-xs4">
+			<a href="javascript:;">
+				<div class="img-txt">
+					<img src="../../img/sy_index.png" alt="">
+					<h3>首页</h3>
+				</div>
+			</a>
+		</div>
+		<div class="layui-col-xs4">
+			<a href="javascript:;">
+				<div class="img-txt">
+					<img src="../../img/sy_msg2.png" alt="">
+					<h3>消息</h3>
+				</div>
+			</a>
+		</div>
+		<div class="layui-col-xs4">
+			<a href="javascript:;">
+				<div class="img-txt">
+					<img src="../../img/sy_my.png" alt="">
+					<h3>我的</h3>
+				</div>
+			</a>
+		</div>
+	</div>
+	<!-- end-footer -->
+	<script src="../../js/jquery-3.3.1.min.js"></script>
+	<script src="../../layui/layui.js"></script>
+	<!-- 智慧城市消息通知模板引擎 -->
+	<script id="lastestNewsTemplate"  type="text/html">
+		{{#  layui.each(d.lastestNewsList, function(index, item){ }}
+			{{# if( item.dataType === 0 ){ }}
+				<div class="noticeTitleBox">
+					<div class="layui-col-xs1">
+						<img class="imgNotice" src="{{ item.imgNotice }}" alt="">
+
+					</div>
+					<div class="layui-col-xs10 noticeTitle">
+						<p>{{ item.noticeApp }}</p>
+						<small>有新通知</small>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-xs8 noticeTxt">
+						<a href="javascript:;">
+							<h2 class="newsTitle">{{ item.noticeTitle }}</h2>
+						</a>
+						<div class="time">
+							<i class="layui-icon grayBox-icon"></i><small>{{ item.noticeTime }}分钟前</small>
+						</div>
+					</div>
+					<div class="layui-col-xs4">
+						<img class="" src="{{ item.noticeCover }}" alt="" width="100%">
+					</div>
+				</div>
+			{{# } }}
+			{{# if( item.dataType === 1 ){ }}
+				<div class="noticeTitleBox">
+					<div class="layui-col-xs1">
+						<img class="imgNotice" src="{{ item.imgNotice }}" alt="">
+					</div>
+					<div class="layui-col-xs10 noticeTitle">
+						<p>{{ item.noticeApp }}</p>
+						<small>有新的支付消息</small>
+					</div>
+				</div>
+				<div class="layui-row noticeTxt">
+					<a href="javascript:;">
+						<h2>消息通知</h2>
+						<p class="rechargeMsg">{{ item.rechargeMsg }}</p>
+					</a>
+					<div class="time">
+						<i class="layui-icon grayBox-icon"></i><small>{{ item.noticeTime }}分钟前</small>
+					</div>
+				</div>
+			{{# } }}
+		{{#  }); }}
+	</script>
+	<!-- end-智慧城市消息通知模板引擎 -->
+	<script>
+		//刷新页面时的一些初始化设置
+		/*$(function(){
+			$(".footer").find(".img-txt").eq(0).find("img").attr("src","../../img/sy_index2.png").siblings("h3").css("color","#005FA6");
+		})*/
+		layui.use(['laytpl', 'element'], function(){
+		    var laytpl = layui.laytpl,
+		  	    element = layui.element;
+		  
+
+			// 最新动态模板引擎
+			var lastestNewsData = {
+				"lastestNewsList" : [
+					{
+						"dataType" : 0,
+						"imgNotice" : "../../img/logo.jpg",
+						"noticeApp" : "广西农信智慧城市",
+						"noticeTitle" : "新用户首次绑定农信卡奖励红包已发送至您的账户的账户绑定农信卡",
+						"noticeTime" : "3",
+						"noticeCover" : "../../img/sy_jiang.png"
+					},
+					{
+						"dataType" : 1,
+						"imgNotice" : "../../img/sy_gjc.png",
+						"noticeApp" : "公交充值中心",
+						"rechargeMsg" : "赵**女士，您好，您卡号为23423548275819277584的公交卡于2019-01-01充值100元成功成功成功。",
+						"noticeTime" : "5",
+						"noticeCover" : " "
+					},
+				],
+			}
+			// $.ajax({
+			// 	url: '/getAppData',
+			// 	type: 'post',
+			// 	data: {
+			// 	},
+			// 	dataType: 'json',
+			// 	success: function (data) {
+					var getlastNewsTpl = lastestNewsTemplate.innerHTML;
+					laytpl(getlastNewsTpl).render(lastestNewsData, function(html){
+					  $(".smartCityNoticeView").html(html);
+					});
+			// 	}
+			// });
+		}); 
+
+	</script>
+</body>
+</html>

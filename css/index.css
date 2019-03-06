@@ -1,0 +1,206 @@
+
+/* 头部内容 */
+.bg-top{
+	background-image: url("../img/bg-top.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	min-height: 33vh;
+}
+.payContent {
+	position: relative;
+    top: 17vh;
+    background-color: #fff;
+    padding: 0.7vh 9%;
+    width: 76%;
+    margin: 0 3%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 18px #c1c1c1;
+}
+
+.payContent .img-txt,.footer .img-txt {
+	color: #fff;
+	text-align: center;
+}
+
+.payContent .img-txt img {
+	width: 1.7rem;
+	height:1.7rem; 
+	margin-top:0.2rem;
+}
+.payContent .img-txt h3{
+	color: #2196F3;
+	/*line-height: 2rem;*/
+	margin-top:0.2rem;
+    font-size: .82rem;
+}
+
+/* 应用 */
+.appContent {
+	margin-bottom:0.5rem;
+	padding-bottom:0.65rem;
+	background-color: #fff;
+	color: #000;
+}
+
+.appContent .img-txt {
+	margin-top: 0.65rem;
+	text-align: center;
+}
+
+.appContent .img-txt h3 {
+	margin-top: 0.1rem;
+    font-size: .82rem;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+.appContent .img-txt img {
+	width: 2.6rem;
+	height: 2.6rem;
+}
+
+/* 最新动态 */
+.lastestNews {
+/*	padding: 0 1rem;*/
+/*    margin-bottom:4rem;*/
+    background-color: #fff;
+    /*padding-bottom:4rem;*/
+}
+
+.smartCityNotice {
+    /*border-bottom: 1px solid #eee;*/
+}
+
+.lastestNewsTitle {
+	padding: 0.8rem 0 0.4rem;
+	font: 600 18px/20px '黑体'
+}
+
+.noticeTitleBox {
+    /*margin: 0rem 0 0.2rem;*/
+    overflow: hidden;
+}
+
+.noticeTitleBox .imgNotice {
+	display: inline-block;
+	width: 1.5rem;
+	padding: 0rem .2rem .2rem 0;
+}
+
+.noticeTitleBox .noticeTitle {
+	margin-left: 0.7rem;
+}
+
+.noticeTitleBox .noticeTitle p {
+	color: #000;
+}
+
+.noticeTitleBox .noticeTitle small {
+	color: #aaa;
+}
+.noticeTxt {
+	margin-right:1.5rem;
+
+}
+.noticeimg img {
+	height: 4.4rem;
+
+}
+.noticeTxt h2 {
+	font: 500 13.5px/25px 'Arial Verdana';
+	color: #000;
+	line-height:1.15rem;
+	margin-top: 0.5rem;
+	margin-left: 3px;
+
+}
+
+.noticeTxt small {
+	color: #aaa;
+}
+
+.grayBox-icon {
+	display: inline-block;
+	margin-right: .3rem;
+	width: 11.6px;
+    height: 11.6px;
+	line-height: 1.2rem; 
+	background-color: #aaa;
+	font-size: 16px;
+}
+
+.time {
+	margin: 0.9rem 0 0.5rem;
+	margin-left: 4px;
+}
+
+.rechargeMsg {
+	color: #999;
+	word-break: break-all;
+}
+
+/* 底部固定导航 */
+.footer {
+	position: fixed;
+	bottom: 0;
+	max-width: 768px;
+    width: 100%;
+	padding: .3rem 0 .2rem;
+	background-color: #fff;
+}
+
+.footer .img-txt h3 {
+	color: #999;
+	font-size: 13px;
+	text-align: center;
+}
+
+.footer .img-txt img {
+	width: 1.4rem;
+}
+
+/*
+ *新闻标题和消息通知内容超出两行隐藏
+ *不兼容IE和火狐
+*/
+.newsTitle,
+.rechargeMsg {
+	word-break: break-all;
+   	text-overflow: ellipsis;
+  	display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+   	-webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+   	-webkit-line-clamp: 2; /** 显示的行数 **/
+   	overflow: hidden;  /** 隐藏超出的内容 **/
+}
+.line{
+	height:0.5rem;
+	width: 120%;
+	margin-left:-15px;
+	
+
+}
+.layui-fluid{
+	padding:0;
+	background:#f7f7f7;
+	padding-bottom: 3rem;   
+}
+.bg{
+	background-color:#fff;
+	padding-bottom: 0;
+}
+.titleContent {
+    margin-top: .5rem;
+    padding: 0 -15px;
+    height: 2.5rem;
+}
+.back {
+    position: absolute;
+    left: .3rem;
+    top: 0px;
+    line-height: 2rem;
+    font-size: 1rem;
+    color: rgba(72, 156, 245, 1);
+}

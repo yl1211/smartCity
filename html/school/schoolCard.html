@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/schoolCard.css" />
+		<title>学校卡包</title>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div>
+				<a href="javascript:history.back(-1);" class="back"><i class="layui-icon layui-icon-left"></i>返回</a>
+				<h2 class="file-title">解绑</h2>
+			</div>
+			<div class="layui-row contentBox" id="content">
+			</div>
+			<!--点击“解绑”出现的弹窗内容-->
+			<div class="opendiv" id="opendiv" data-method="offset" data-type="c">
+				<h3 class="untyTitle">确定解绑？</h3>
+				<hr />
+				<button type="button" class="cancel" id="cancel">取消</button>
+				<button type="button" class="untying" id="untying">解绑</button>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script id="appContent" type="text/html">
+			{{# layui.each(d.appList, function(index, item){ }}
+			<div class="layui-col-xs12 layui-col-xs-offset1 content">
+				<p class="title">{{ item.cardName }}</p>
+				<p class="cardNum">{{ item.cardNumber }}</p>
+				<p class="cardName"><span>{{ item.cardType }}</span></p>
+			</div>
+			<!--无数据时-->
+			{{# }); }} {{# if(d.appList.length === 0){ }}
+			
+			{{# } }}
+		</script>
+		<script>
+			layui.use(['laytpl','layer'], function() {
+				var laytpl = layui.laytpl;
+				var layer = layui.layer;
+				var appData = { //数据
+					"title": "应用模板引擎",
+					"appList": [{
+							"cardName": "学生校园卡",
+							"cardNumber": "2018  202  345",
+							"cardType":"校园卡"
+						},
+						{
+							"cardName": "学生校园卡",
+							"cardNumber": "2018  202  345",
+							"cardType":"水卡"
+						},
+						{
+							"cardName": "学生校园卡",
+							"cardNumber": "2018  202  345",
+							"cardType":"电卡"
+						}
+					]
+				}
+				// $.ajax({
+				// 	url: '',
+				// 	type: 'post',
+				// 	data: {
+				// 	},
+				// 	dataType: 'json',
+				// 	success: function (data) {
+				// 		console.log(data);3
+				// 	}
+				var getAppTpl = appContent.innerHTML,
+					appView = document.getElementById('content');
+				laytpl(getAppTpl).render(appData, function(html) {
+					appView.innerHTML = html;
+				});
+				//点击卡出现弹窗
+			$(".content").on('click', function() {
+				layer.confirm('', {
+					title: false,
+					closeBtn: false,
+					area: '90%;',
+					type: 1,
+					shift: -1,
+					offset: 'b',
+					shadeClose: true,
+					btn: ['解绑', '取消'] //按钮
+				}, function() {
+					var index = layer.open({
+						title: false,
+						closeBtn: false,
+						area: '50%;',
+						type: 1,
+						shift: -1,
+						offset: 'auto',//位置
+						shadeClose: true,
+						content: $('#opendiv')
+					}) 
+				});
+			});
+			$(".cancel").on('click', function() {
+				layer.closeAll();
+			});
+			$(".untying").on('click', function() {
+				var index = layer.msg("解绑成功",{time:2000});
+				layer.close("#opendiv");
+				layer.close(layer.index-1);
+				layer.close(layer.index-2);
+			});
+			});
+		</script>
+		</script>
+	</body>
+
+</html>

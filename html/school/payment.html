@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/addSchool.css" />
+		<title>付款界面</title>
+	</head>
+
+	<body style="background: #fff;">
+		<div class="layui-fluid">
+			<div class="layui-row schoolContent">
+				<h2 class="schoolTitle">
+                    <a href="javascript:history.back(-1)" class="back">
+                        <i class="layui-icon layui-icon-left"></i> 返回
+                    </a>
+                   付款
+               </h2>
+				<div class="layui-row contentBox" id="content">
+					<form class="layui-form" action="">
+						<div class="item">
+							<!-- <label class="layui-form-label">选择学校</label>
+							<div class="layui-input-inline">
+								<div class="layui-input-block">
+									<a href="chooseSchool.html" class="layui-icon link">
+										<span class="schoolName">清华大学</span> &#xe602;
+									</a>
+								</div>
+							</div> -->
+							<p>付款给*林</p>
+						</div>
+						<div class="item">
+							<!-- <label class="layui-form-label">姓名</label>
+							<div class="layui-input-block">
+								<input type="text" name="username" lay-verify="required" placeholder="张三" class="layui-input">
+							</div> -->
+							<p class="item-text">付款金额</p>
+						</div>
+						<div class="layui-form-item">
+						  <div class="form-item-money">
+							<label class="label">￥</label>
+							<div class="input-block">
+								<!-- <input id="id-card" type="text" name="" placeholder="" class="layui-input" lay-verify="required" required> -->
+								<input id="id-money" type="number" name="" placeholder=""   onkeyup="clearNoNum(this)" class="layui-input" >								
+							</div>
+						  </div>
+						</div>
+						<div class="layui-form-item" style="border: none;">
+							<!-- <label class="layui-form-label">学号</label> -->
+							<div class="layui-input">
+								<input type="text" name="text" placeholder="添加备注（20字以内）"  class="layui-input text" >
+							</div>
+						</div>
+						<div class="warn">
+						    <p style="display: none;">请输入付款金额</p>
+						</div>
+						<button class="layui-btn addBtn" lay-submit="" lay-filter="demo1" >确认付款</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+	<script src="../../layui/layui.js" charset="utf-8"></script>
+	<script>
+		layui.use(['laytpl', 'layer'], function() {
+			var laytpl = layui.laytpl;
+			var layer = layui.layer;
+		});
+	</script>
+	<!--end-->
+	<script>
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form;
+
+			//监听提交
+			/*  form.on('submit(demo1)', function(data){
+			    layer.alert(JSON.stringify(data.field), {
+			      title: '最终的提交信息'
+			    })
+			    return false;
+			  });*/
+			form.on('submit(demo1)', function(data) {
+				// $('#id-money').blur(function() {
+			var idmoney = $('#id-mnoney').val();
+			// var Rega = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+           // 判断输入的值是正数
+			var Rega = /^\d+(\.\d{0,2})?$/;
+			if(!Rega.test(idmoney)) {
+				layer.msg('请输入正确的金额！');
+				return false;
+				alert('1111')
+			}
+		// });
+            if (idmoney==null) {
+            	alert('222')
+				$.ajax({
+					url: '',
+					type: 'post',
+					data: {
+						data: data.field
+					},
+					dataType: 'json',
+					success: function(data) {
+						console.log(data);
+						if(data) {
+							setTimeout(function() {
+								window.location.href = "addSuccess.html";
+							}, 3000);
+						}
+					}
+				});
+			}
+
+			});
+		});
+	</script>
+
+	<script>
+		// 判断输入的值
+		
+	</script>
+
+</html>

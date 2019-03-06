@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/exchangePoints.css" />
+		<title>开始兑换商城积分</title>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row content ">
+				<h2 class="exchangeTitle">
+                    <a href="javascript:history.back(-1);" class="back">
+                        <i class="layui-icon layui-icon-left"></i> 返回
+                    </a>
+                  兑换商城积分
+                </h2>
+			</div>
+			<form class="layui-form exchanging_form" action="">
+				<div class="layui-form-item msgRow">
+					<label class="layui-form-label left_lable">卡号：</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" disabled="" lay-verify="title" autocomplete="off" placeholder="**** **** ***** 9202" class="layui-input right_input">
+					</div>
+				</div>
+				<div class="layui-form-item msgRow">
+					<label class="layui-form-label left_lable">账户可兑换积分：</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" disabled="" lay-verify="title" autocomplete="off" placeholder="3928" class="layui-input right_input">
+					</div>
+				</div>
+				<div class="layui-form-item msgRow">
+					<label class="layui-form-label left_lable">兑换比率<span>(账户积分：商城积分)</span></label>
+					<div class="layui-input-block">
+						<input type="text" name="title" disabled="" lay-verify="title" autocomplete="off" placeholder="300:1" class="layui-input right_input">
+					</div>
+				</div>
+				<div class="layui-form-item msgRow">
+					<label class="layui-form-label left_lable">充值到商城账户：</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" disabled="" lay-verify="title" autocomplete="off" placeholder="15039280928" class="layui-input right_input">
+					</div>
+				</div>
+				<div class="layui-form-item msgRow">
+					<label class="layui-form-label left_lable">扣划卡积分：</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入兑换比率的整数倍" class="layui-input right_input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn next_step" lay-submit="" lay-filter="demo1">下一步</button>
+					</div>
+				</div>
+			</form>
+			<div class="layui-row footer">
+				<p class="warn">温馨提示</p>
+				<p class=""><span class="layui-badge-dot layui-bg-blue"></span>只显示个人账户相应的积分情况</p>
+				<p class=""><span class="layui-badge-dot layui-bg-blue"></span>仅支持兑换广西农信利农商城积分</p>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script>
+			layui.use(['form', 'layedit', 'laydate'], function() {
+				var form = layui.form,
+					layer = layui.layer,
+
+				//监听提交
+				//				form.on('submit(demo1)', function(data) {
+				//					layer.alert(JSON.stringify(data.field), {
+				//						title: '最终的提交信息'
+				//					})
+				//					return false;
+				//				});
+			});
+		</script>
+	</body>
+
+</html>

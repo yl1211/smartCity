@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="cn">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            常用充值
+        </title>
+        <link rel="stylesheet" href="../../layui/css/layui.css">
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/recharge.css">
+    </head>
+    
+    <body style="background-color: #F2F2F2;">
+        <div class="layui-fluid">
+            <div class="layui-row payContent ofenPayContent">
+                <h2 class="rechargeTitle">
+                    <a href="javascript:;" class="back ofenBack">
+                        <i class="layui-icon layui-icon-left">
+                        </i>
+                        返回
+                    </a>
+                    常用充值
+                </h2>
+            </div>
+            <!-- 常用卡信息 -->
+            <div id="oftenNameCard">
+            </div>
+            <!-- end-常用卡信息 -->
+        </div>
+    </body>
+    <script src="../../js/jquery-3.3.1.min.js">
+    </script>
+    <script src="../../layui/layui.js">
+    </script>
+    <!-- 常用卡信息模板 -->
+    <script id="cardBox" type="text/html">
+        {{#layui.each(d.value,function(index, item) {}} 
+    	<div class = "layui-row cardBox" >
+    		<div class = "layui-col-xs10 cardContent" > 
+	    		<p class = "name">{{ item.name }}</p>
+				<p class="school">{{ item.school }}</p > 
+				<p class = "cardNums">{{ item.cardNum }}</p>
+				<input type="hidden" value="{{ item.id }}" cardType="{{ item.cardType }}">
+			</div> 
+			<div class = "layui-col-xs2 cardDel" >
+				删除 
+			</div>
+		</div> 
+		{{# }); }}
+    </script>
+    <script>
+        layui.use(['form', 'layer', 'element', 'laytpl'],
+        function() {
+            var form = layui.form,
+            layer = layui.layer,
+            element = layui.element,
+            laytpl = layui.laytpl;
+            //返回按钮
+            $(".ofenBack").on("click",
+            function() {
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+            })
+            /*$.ajax({
+	 		url: '',//常用卡接口
+	 		type: 'POST',
+	 		dataType: 'JSON',
+	 		success: function(data){
+		        var cardBoxHtml = $("#cardBox").html();
+		        laytpl(cardBoxHtml).render(data, function(html){
+				    $("#oftenNameCard").html(html);
+				    slideDel();//执行滑动显示删除函数
+				});
+	 		},
+	 		error: function(){
+	 			layer.msg("请求数据失败");
+	 		}
+	 	})*/
+            //假数据,需要从后台拿
+            var data = {
+                code: 0,
+                success: '成功',
+                value: [{
+                    id: 1,
+                    name: '左滑显示删除模块',
+                    school: '郑州大学',
+                    cardNum: '20137740369',
+                    cardType: '城市云卡'
+                },
+                {
+                    id: 2,
+                    name: '左滑显示删除模块',
+                    school: '郑州大学',
+                    cardNum: '20137740369',
+                    cardType: '校园卡'
+                },
+                {
+                    id: 3,
+                    name: '左滑显示删除模块',
+                    school: '郑州大学',
+                    cardNum: '20137740369',
+                    cardType: '企业卡'
+                }]
+            };
+
+            var cardBoxHtml = $("#cardBox").html();
+            laytpl(cardBoxHtml).render(data,
+            function(html) {
+                $("#oftenNameCard").html(html);
+                slideDel(); //执行滑动显示删除函数
+            });
+            //循环添加滑动显示删除模块
+            function slideDel() {
+                $("#oftenNameCard").find(".cardBox").each(function() {
+                    var $this = $(this);
+                    // 滑动出现删除框
+                    var slideDom = $this.get(0); //滑动区域,此处获取dom对象,默认的为JQUERY对象
+                    var length = slideDom.children.length; //子类节点长度
+                    window.prevX = 0;
+                    slideDom.addEventListener('touchstart', touchstart, false);
+                    slideDom.addEventListener('touchmove', touchmove, false);
+                    slideDom.addEventListener('touchend', touchend, false);
+
+                    //开始滑动
+                    function touchstart(e) {
+                        var point = getPoint(e);
+                        window.startX = point.pageX;
+                        console.log(window.startX);
+                    };
+                    //滑动过程中
+                    function touchmove(e) {
+                        e.preventDefault(); //阻止默认行为
+                        var point = getPoint(e);
+                        window.moveX = point.pageX;
+                        window.deltaX = window.moveX - window.startX;
+                        // domove(window.deltaX+window.prevX);
+                    };
+                    //结束滑动
+                    function touchend(e) {
+                        var x = Math.abs(window.deltaX);
+                        console.log(x);
+                        console.log(window.deltaX);
+                        if (window.deltaX > 50) {
+                            $this.find(".cardDel").hide(500);
+
+                        } else if (window.deltaX < -50) {
+                            $this.find(".cardDel").show(500);
+
+                        }
+                    };
+                    //默认以第一个手指的位置计算
+                    function getPoint(e) {
+                        return e.touches ? e.touches[0] : e;
+                    };
+                    //点击确定事件
+                    $this.on("click",
+                    function() {
+                        var name = $this.find("p.name").text(),
+                        school = $this.find("p.school").text(),
+                        cardNum = $this.find("p.cardNums").text(),
+                        cardType = $this.find("input[type='hidden']").attr("cardType");
+                        console.log(name + "//" + school + "//" + cardNum + "//" + cardType);
+                        parent.$("select[name='cardType']").find("option:contains('" + cardType + "')").attr("selected", true);
+                        parent.$("input[name='schoolCompany']").val(school);
+                        parent.$("select[name='cardNum']").find("option:contains('" + cardNum + "')").attr("selected", true);
+                        parent.$("input[name='title']").val(name);
+                        //parent.form.render(null, 'recharge-form');
+                        alert("ok,这里需配置服务器环境才可以正确关闭窗口并执行回调函数");
+
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    })
+                    //删除事件
+                    $this.find(".cardDel").on("click",
+                    function() {
+                        var id = $this.find("input[type='hidden']").val();
+                        alert("del" + id);
+                        //询问框
+                        layer.confirm('确定删除该卡吗？', {
+                            btn: ['确定', '取消'] //按钮
+                        },
+                        function() {
+                            //调用删除接口
+                            $.ajax({
+                                url: '',
+                                type: 'POST',
+                                data: {
+                                    id: id
+                                },
+                                dataType: 'JSON',
+                                success: function(data) {
+                                    layer.msg('删除成功', {
+                                        icon: 1
+                                    });
+                                    $this.remove();
+                                },
+                                error: function() {
+                                    layer.msg('删除失败')
+                                }
+                            });
+                            layer.msg('删除成功', {
+                                icon: 1
+                            });
+                            $this.remove();
+                        });
+                        return false; //防止冒泡
+                    })
+                })
+            }
+
+        });
+    </script>
+
+</html>

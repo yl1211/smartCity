@@ -1,0 +1,64 @@
+.orderContent {
+	margin: 0 -15px;
+    padding: 0rem 1rem;
+    color: #000;
+    background-color: #fff;
+}
+.back {
+	position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: rgba(72, 156, 245, 1);
+    background-color: rgba(153,153,153,0);
+}
+.listTitle {
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    color: #000;
+}
+.contentBox{
+	margin-top: 1rem;
+}
+.receiveContent{
+	border-bottom: 1px solid gainsboro;
+	margin-top: 1rem;
+}
+.receiveContent p{
+	line-height: 2rem;
+	font-size: 16px;
+}
+.receiveContent span{
+	float: right;
+}
+.receiveContent .none{
+	color: red;
+}
+.dealContent{
+	margin-top: 1rem;
+}
+.dealContent p{
+	line-height: 2rem;
+	font-size: 16px;
+	text-align: center;
+}
+.dealContent .receiveMoney{
+	color: rgba(72, 156, 245, 1);
+	font-size: 25px;
+}
+.cardContent{
+	margin-top: 4rem;
+	font-size: 16px;
+}
+.cardContent span{
+	float: right;
+	color: darkgray;
+}
+.layui-row{
+	line-height: 3rem;
+}
+.dashed{
+	border-bottom: 1px dashed gray;
+}

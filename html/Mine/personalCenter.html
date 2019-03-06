@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/personCenter.css" />
+		<title>个人中心</title>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row personContent ">
+				<h2 class="personTitle">
+                    <a href="javascript:history.back(-1);" class="goBack">
+                        <i class="layui-icon layui-icon-left"></i> 返回
+                    </a>
+                  个人中心
+                  <a href="javascript:;" class="personOut">退出登录</a>
+                </h2>
+			</div>
+			<div class="layui-row personBox" id="personBox">
+				<!--<p class="recordList">头像
+					<a href=""><img src="../../img/cardType.png"><i class="layui-icon list">&#xe602;</i></a>
+				</p>
+				<p class="recordList">名字<span class=" list personName">张三</span></p>
+				<p class="recordList">手机号
+					<a href="" class="list"><span id="tel">15038176096</span><i class="layui-icon list">&#xe602;</i></a>
+				</p>
+				<p class="recordList">身份证号<span class=" list personcard">41012*********8023</span></p>
+				<p class="recordList">密码管理
+					<a href="" class="list"><i class="layui-icon list">&#xe602;</i></a>
+				</p>
+				<p class="recordList">常用地修改
+					<a href="" class="list"><i class="layui-icon list">&#xe602;</i></a>
+				</p>-->
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script type="text/javascript">
+		</script>
+		<!--引用模板引擎-->
+		<script id="recordContent" type="text/html">
+			{{# layui.each(d.appList, function(index, item){ }}
+			<p class="recordList">头像
+				<a href="defaultHead.html"><img src="{{ item.headImg }}"><i class="layui-icon list">&#xe602;</i></a>
+			</p>
+			<p class="recordList">名字<span class=" list personName">{{ item.personName }}</span></p>
+			<p class="recordList">手机号
+				<a href="phoneModify.html" class="list"><span id="tel">{{ item.personTel }}</span><i class="layui-icon list">&#xe602;</i></a>
+			</p>
+			<p class="recordList">身份证号<span class=" list personcard">{{ item.personCard }}</span></p>
+			<p class="recordList">密码管理
+				<a href="passwordManage.html" class="list"><i class="layui-icon list">&#xe602;</i></a>
+			</p>
+			<p class="recordList">常用地修改
+				<a href="choiceCity.html" class="list"><i class="layui-icon list">&#xe602;</i></a>
+			</p>
+			<!--无数据时-->
+			{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
+		</script>
+		<script>
+			layui.use(['laytpl', 'layer'], function() {
+				var laytpl = layui.laytpl;
+				var layer = layui.layer;
+				var recordData = { //数据
+					"title": "应用模板引擎",
+					"appList": [{
+						"headImg": "../../img/cardType.png",
+						"personName": "张三",
+						"personTel": "15038176096",
+						"personCard": "410122199508048023"
+					}]
+				}
+				// $.ajax({
+				// 	url: '',
+				// 	type: 'post',
+				// 	data: {
+				// 	},
+				// 	dataType: 'json',
+				// 	success: function (data) {
+				// 		console.log(data);
+				// 	}
+				var getAppTpl = recordContent.innerHTML,
+					appView = document.getElementById('personBox');
+				laytpl(getAppTpl).render(recordData, function(html) {
+					appView.innerHTML = html;
+				});
+				//手机号和身份证的安全显示
+				$(function() {
+					var tel = $('#tel').html();
+					var mtel = tel.substr(0, 3) + '****' + tel.substr(7);
+					$('#tel').text(mtel);
+				});
+				$(function() {
+					var card = $('.personcard').html();
+					var mcard = card.substr(0, 5) + '****' + card.substr(7);
+					$('.personcard').text(mcard);
+				});
+			});
+		</script>
+	</body>
+
+</html>

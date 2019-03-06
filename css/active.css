@@ -1,0 +1,70 @@
+.back {
+	position: absolute;
+	left: 1rem;
+	font-size: 1rem;
+	text-align: center;
+	color: #489CF5;
+	background-color: rgba(153, 153, 153, 0);
+}
+
+.activeTitle {
+	font-size: 1.25rem;
+	height: 3rem;
+	line-height: 3rem;
+	text-align: center;
+	color: #000;
+}
+
+.activeContent {
+	margin: 0 -15px;
+	padding: 0rem 1rem;
+	color: #000;
+}
+
+.layui-input,
+.layui-textarea {
+	border: none;
+	text-align: right;
+}
+
+.layui-form-item {
+	border-bottom: 1px solid gainsboro;
+}
+
+.layui-form-label {
+	padding: 9px 0;
+	text-align: left;
+}
+
+.activeBtn {
+	width: 100%;
+	background-color: rgb(72, 156, 245);
+}
+
+.layui-form-mid {
+	float: right;
+	color: rgb(72, 156, 245);
+}
+
+
+/*激活成功的页面*/
+.listContent{
+	line-height: 3rem;
+}
+.success {
+	margin-top: 7rem;
+	text-align: center;
+}
+.success img{
+	height: 55px;
+	height: 55px;
+}
+.activeMsg{
+	margin-top:1rem;
+}
+.oneMore{
+	float: right;
+	color:rgb(72, 156, 245) ;
+	font-size: 1rem;
+	position: absolute;right: 1rem;
+}

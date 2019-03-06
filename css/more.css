@@ -1,0 +1,68 @@
+.back {
+	position: absolute;
+	left: .3rem;
+	top: 0px;
+	line-height: 2rem;
+	font-size: 1rem;
+	color: rgba(72, 156, 245, 1);
+}
+.edit{
+    position: absolute;
+    right: 1rem;
+    top: 0px;
+    line-height: 2rem;
+    font-size: 1rem;
+    color: rgba(72, 156, 245, 1);
+}
+.end{
+	position: absolute;
+    right: 1rem;
+    top: 0px;
+    line-height: 2rem;
+    font-size: 1rem;
+    color: rgba(72, 156, 245, 1);
+    display: none;
+}
+/* 上部应用 */
+.appContent {
+	position: relative;top: 3.4rem;
+	background-color: #fff;
+	color: #000;
+}
+
+.appContent .img-txt {
+	margin-top: 1rem;
+	text-align: center;
+}
+
+.appContent .img-txt h3 {
+	line-height: 2rem;
+}
+
+.appContent .img-txt img {
+	width: 2rem;
+	height: 2rem;
+}
+.footContent{
+	position: relative;top: 4.4rem;
+}
+.reduce{
+	height: 1rem;
+	width: 1rem;
+	position: relative;
+    bottom: -1.4rem;
+    left: 3.2rem;
+    display: none;
+}
+.addAplay{
+	height: 1rem;
+	width: 1rem;
+	position: relative;
+    bottom: -1.4rem;
+    left: 3.2rem;
+    display: none;
+}
+.titleContent{
+	margin-top: .5rem;
+	padding: 0 -15px;
+}

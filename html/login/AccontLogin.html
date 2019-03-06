@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>账号密码登录页面</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/login.css" />
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row">
+				<div class="layui-col-xs12">
+					<a class="user" href="IdentifyLogin.html">验证码登录</a>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs12 logoimg">
+					<div class="logo"><img class="logojpg" src="../../img/logo.jpg" /></div>
+					<p class="cityname"><strong>广西农信智慧城市</strong></p>
+				</div>
+			</div>
+			<form class="layui-form User" action="">
+				<div class="layui-form-item onerow">
+					<input id="userid" type="text" name="number" placeholder="请输入账号" lay-verify="required" class="layui-input">
+				</div>
+				<div class="layui-form-item onerow">
+					<input id="pwdid" type="password" name="password" placeholder="请输入密码" class="layui-input" lay-verify="required">
+				</div>
+				<button type="button" class="layui-btn login_btn" id="login_btn" lay-submit="">登录</button>
+			</form>
+			<div class="layui-row footer">
+				<button type="button" class="register_btn ">用户注册</button>
+				<button type="button" class="forget">
+					<a class="register-a" href="forgetpassword.html">忘记密码</a>
+				</button>
+				<!-- <button type="button" class="forget"></button> -->
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script src="../../layui/layui.js" charset="utf-8"></script>
+		<script>
+			layui.use(['form'], function() {
+				var form = layui.form;
+
+			});
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$("#login_btn").click(function() {
+					//取用户名和密码
+					var username = $("#userid").val(); //取输入的用户名
+					var pwd = $("#pwdid").val(); //取输入的密码
+					$.ajax({
+						url: "", //验证地址
+						data: {
+							"username": username,
+							"password": pwd,
+						},
+						type: "POST",
+						dataType: "json",
+						success: function(data) {
+							if(data.trim() == "OK") //要加上去空格，防止内容里面有空格引起错误。
+							{
+								window.location.href = ""; //成功后跳转到首页。
+							} else {
+								alert("用户名或密码错误");
+							}
+
+						}
+
+					});
+
+				})
+			});
+		</script>
+	</body>
+
+</html>

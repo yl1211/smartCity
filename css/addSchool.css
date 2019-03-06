@@ -1,0 +1,102 @@
+.schoolContent {
+	margin: 0 -15px;
+    padding: 0rem 1rem;
+    color: #000;
+    background-color: #fff;
+}
+.back {
+	position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: rgba(72, 156, 245, 1);
+    background-color: rgba(153,153,153,0);
+}
+.schoolTitle {
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    color: #000;
+}
+.layui-form-item{
+	border-bottom: 1px solid gainsboro
+}
+.layui-form-label{
+	padding: 9px 0;
+    text-align: left;
+}
+.layui-input, .layui-textarea{
+	border: none;
+    text-align: right;
+}
+.layui-form-select dl dd.layui-this{
+	    background-color: rgb(72, 156, 245, 1);
+}
+.layui-select-title{
+	border: 1px solid gainsboro;
+}
+.warn{
+	font-size: 1rem;
+	color: gray;
+	color: #CCCCCC;
+}
+.addBtn{
+	width: 100%;
+	margin-top: 2.5rem;
+	background-color: rgb(72, 156, 245, 1);
+}
+.link{
+	/*float: right;*/
+	vertical-align: middle;
+    position: absolute;
+    right: 20px;
+    overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+	text-align: right;
+}
+.cont{
+	/*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
+	line-height: 36px;
+	width: 100%;
+	position: absolute;
+	left: -103px;
+}
+.link-1{
+	position: absolute;
+	right: 2px;
+	vertical-align: middle;
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #CCCCCC;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #CCCCCC;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #CCCCCC;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #CCCCCC;
+}
+.number{
+	text-align: left;
+    position: absolute;
+    left: -70px;
+}
+.search{	
+	position: absolute;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    line-height: 36px;
+    top: 8px;
+}

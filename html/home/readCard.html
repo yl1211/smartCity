@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/readCard.css" />
+		<title>贴卡读卡</title>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<!-- 充值单位卡号选择 -->
+			<div class="layui-row content">
+				<h2 class="title">
+                    <a href="javascript:history.back(-1)" class="back">
+                        <i class="layui-icon layui-icon-left">
+                        </i>
+                        返回
+                    </a>
+                    贴卡读卡
+               </h2>
+				<div class="layui-row contentBox">
+					<div class="layui-col-xs10 layui-col-xs-offset1">
+						<img src="../../img/rc_logo.png" />
+						<p class="deal">请将卡片贴于手机背面此区域处</p>
+					</div>
+				</div>
+				<div class="layui-row warn">
+					<p>温馨提示</p>
+					<p class="operate">如贴卡无反应，可移动卡片寻找nfc区域</p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script type="text/javascript">
+			//调用读卡的接口
+			function  doajax(url, data){
+			    $.ajax({
+					url:url,
+					data:data,
+					type:"post",
+					dataType:"json",
+					success:function (result) {
+						if (result.success){
+						    window.location.href="cloudRecharge.html?cardnum="+result.cardnum;
+						} else {
+						    alert("读取卡号失败，请重试");
+						}
+                    }
+				})
+			}
+			//读取卡号后返回的卡号
+			$(".deal").mouseover(function () {
+                window.location.href="cloudRecharge.html?cardnum=11111111111";
+            })
+		</script>
+	</body> 
+</html>

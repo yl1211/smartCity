@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/newsDetails.css" />
+		<title>资讯详情</title>
+		<style>
+			.w-e-toolbar,.w-e-text-container{
+				border: none!important;
+			}
+			.newTitle{
+				font-size: 1.2rem;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row content">
+				<div class="layui-row contentHeader">
+					<h2 class="title">
+                    <a href="javascript:history.back(-1)" class="back">
+                        <i class="layui-icon layui-icon-left">
+                        </i>
+                        返回
+                    </a>
+                    资讯详情
+               </h2>
+				</div>
+				<div class="layui-row contentBox" id="newsBox">
+					<!--<h2>最美南宁，豪华游船带您夜游邕江！抢豪华游船票开始啦！</h2>
+					<p class="newsTime">2018-11-23</p>
+					<div class="layui-row contentImg">
+							<img src="../../img/card.png" />
+							<img src="../../img/nd_example.jpg" />
+							<img src="../../img/nd_sur.png" />
+					</div>
+					<div class="layui-row contentArticle ">
+						抛不完相思血泪抛红豆，开不完春柳春花满画楼，睡不稳纱窗风雨黄昏后，忘不了新愁与旧愁，展不开的眉头，捱不明的更漏，恰便似遮不住的青山隐隐，流不断的绿水幽幽……
+					</div>-->
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<!--引用模板引擎-->
+		<script id="appContent" type="text/html">
+			{{# layui.each(d.appList, function(index, item){ }}
+			<h3>{{ item.newsTitle }}</h3>
+			<p class="newsTime">{{ item.newsTime }}</p>
+			<div class="layui-row contentImg">
+				<img src="{{ item.newsImgone }}" />
+				<img src="{{ item.newsImgtwo }}" />
+				<img src="{{ item.newsImgthree }}" />
+			</div>
+			<div class="layui-row contentArticle ">
+				{{ item.newsArticle }}
+			</div>
+			<!--无数据时-->
+			{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
+		</script>
+		<script>
+			layui.use(['laytpl', 'layer'], function() {
+						var laytpl = layui.laytpl;
+						var layer = layui.layer;
+						// var appData = { //数据
+						// 	"title": "应用模板引擎",
+						// 	"appList": [{
+						// 		"newsTitle": "最美南宁，豪华游船带您夜游邕江！抢豪华游船票开始啦！",
+						// 		"newsTime": "2019-02-01",
+						// 		"newsImgone": "../../img/card.png",
+						// 		"newsImgtwo": "../../img/nd_example.jpg",
+						// 		"newsImgthree": "../../img/nd_sur.png",
+						// 		"newsArticle": "抛不完相思血泪抛红豆，开不完春柳春花满画楼，睡不稳纱窗风雨黄昏后，忘不了新愁与旧愁，展不开的眉头，捱不明的更漏，恰便似遮不住的青山隐隐，流不断的绿水幽幽……"
+						// 	}]
+						// }
+						/*时间戳转换*/
+						function timestampToTime(timestamp) {
+							var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+							Y = date.getFullYear() + '-';
+							M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+							D = date.getDate() + ' ';
+							return Y+M+D;
+						}
+						//获取url中的参数
+						function getUrlParam(name) {
+							var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+							var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+							if (r != null) return unescape(r[2]); return null; //返回参数值
+						}
+						var id = getUrlParam('id'); //公益募捐详情ID
+						$.ajax({
+							type:"post",
+							url:"http://1.192.121.127:12613/gateway/notice/getNoticeDetail?id="+id,
+							async:false,
+							success: function (result) {
+								console.log(result)
+								var detail=result.data;
+								var newDetail=
+								    "<h2 class='newTitle'>"+detail.title+"</h2>"+
+									"<p class='newsTime'>"+timestampToTime(detail.createTime)+"</p>"+
+									"<div class='layui-row contentArticle '>"+detail.content+"</div>"
+								$("#newsBox").append(newDetail)
+							}
+						})
+						// var getAppTpl = appContent.innerHTML,
+						// 	appView = document.getElementById('newsBox');
+						// laytpl(getAppTpl).render(appData, function(html) {
+						// 	appView.innerHTML = html;
+						 });
+					
+		</script>
+	</body>
+
+</html>

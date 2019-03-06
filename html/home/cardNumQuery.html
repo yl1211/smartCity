@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="cn">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            查询
+        </title>
+        <link rel="stylesheet" href="../../layui/css/layui.css">
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/recharge.css">
+    </head>
+    
+    <body>
+    <div class="cardnumquery-bg">
+        <div class="layui-fluid">
+            <!-- 查询卡号 -->
+            <div class="layui-row payContent">
+                <h2 class="rechargeTitle">
+                    <a href="javascript:;" class="back queryBack">
+                        <i class="layui-icon layui-icon-left">
+                        </i>
+                        返回
+                    </a>
+                    查询
+                </h2>
+                <form class="layui-form recharge-form" id="cardQuery" lay-filter="cardQuery">
+                    <div class="layui-form-item">
+                        <input type="text" name="school" required autocomplete="off" value="郑州大学"
+                        class="layui-input schoolQuery" readonly="readonly">
+                        <input type="hidden" name="cardTypeQuery" value="">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            请输入姓名 
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="nameQuery" required  autocomplete="off"
+                            value="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            请输入身份证号 
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="IDNum" required autocomplete="off" 
+                            value="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" lay-submit="" lay-filter="cardQuerySub">
+                            查询
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- end-查询卡号 -->
+            <div id="cardQueryBox">
+            </div>
+        </div>
+        <!-- end-智慧城市消息通知模板引擎 -->
+        <script src="../../js/jquery-3.3.1.min.js">
+        </script>
+        <script src="../../layui/layui.js">
+        </script>
+        <!-- 查询信息模板 -->
+		<script id="cardQBox" type="text/html">
+			{{#  layui.each(d.value, function(index, item){ }}
+			<div class="layui-row cardBox cardBoxQuery">
+				<div class="layui-col-xs10">
+					<p class="name">{{ item.name }}</p>
+					<p class="school">{{ item.school }}</p>
+					<p class="cardNums">{{ item.cardNum }}</p>
+					<input type="hidden" value="{{ item.id }}" cardType="{{ item.cardType }}">
+				</div>
+				<div class="layui-col-xs2">
+		            <i class="layui-icon layui-icon-right"></i>
+		        </div>
+			</div>
+			{{#  }); }}
+		</script>
+        <script>
+            //获取url参数
+            function getUrlParam(key) {
+                // 获取参数
+                var url = window.location.search;
+                // 正则筛选地址栏
+                var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+                // 匹配目标参数
+                var result = url.substr(1).match(reg);
+                //返回参数值
+                return result ? decodeURIComponent(result[2]) : null;
+            }
+
+            layui.use(['form', 'layer', 'element', 'laytpl'],
+            function() {
+                var form = layui.form,
+                layer = layui.layer,
+                element = layui.element,
+                laytpl = layui.laytpl;
+                //返回按钮
+                $(".queryBack").on("click",
+                function() {
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                })
+                //进页面时的学校名称
+                $(".schoolQuery").val(getUrlParam('schoolVal'));
+                //监听提交
+                form.on('submit(cardQuerySub)',
+                function(data) {
+                    /*layer.msg(JSON.stringify(data.field));
+		    return false;*/
+                    console.log(data.field);
+                    //身份证号的正则验证
+                    var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                    if (!data.field.nameQuery || data.field.nameQuery == '') {
+                        layer.msg("请输入姓名");
+                    } else if (!data.field.IDNum || data.field.IDNum == '') {
+                        layer.msg("请输入身份证号");
+                    } else if (reg.test(data.field.IDNum) === false) {
+                        layer.msg("请输入正确的身份证号");
+                    } else {
+                        //请求查询接口
+                        /*$.ajax({
+					url: '',
+					type: 'post',
+					data: {
+					},
+					dataType: 'json',
+					success: function (data) {
+						console.log(data);
+							
+					}
+				});*/
+                        //假数据,需要从后台拿
+                        var data = {
+                            code: 0,
+                            success: '成功',
+                            value: [{
+                                id: 1,
+                                name: '左滑显示删除模块',
+                                school: '郑州大学',
+                                cardNum: '20137740369',
+                                cardType: '城市云卡'
+                            },
+                            {
+                                id: 2,
+                                name: '左滑显示删除模块',
+                                school: '郑州大学',
+                                cardNum: '20137740369',
+                                cardType: '校园卡'
+                            },
+                            {
+                                id: 3,
+                                name: '左滑显示删除模块',
+                                school: '郑州大学',
+                                cardNum: '20137740369',
+                                cardType: '企业卡'
+                            }]
+                        };
+                        var cardBoxHtml = $("#cardQBox").html();
+                        laytpl(cardBoxHtml).render(data,function(html) {
+                            $("#cardQueryBox").html(html);
+                            $(".cardBoxQuery").each(function() {
+                                var $this = $(this);
+                                $this.on("click",
+                                function() {
+                                    var name = $this.find("p.name").text(),
+                                    school = $this.find("p.school").text(),
+                                    cardNum = $this.find("p.cardNums").text(),
+                                    cardType = $this.find("input[type='hidden']").attr("cardType");
+                                    console.log(name + "//" + school + "//" + cardNum + "//" + cardType);
+                                    parent.$("select[name='cardType']").find("option:contains('" + cardType + "')").attr("selected", true);
+                                    parent.$("input[name='schoolCompany']").val(school);
+                                    parent.$("select[name='cardNum']").find("option:contains('" + cardNum + "')").attr("selected", true);
+                                    parent.$("input[name='title']").val(name);
+                                    //parent.form.render(null, 'recharge-form');
+                                    alert("ok,这里需配置服务器环境才可以正确关闭窗口并执行回调函数");
+
+                                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                    parent.layer.close(index); //再执行关闭
+                                })
+                            })
+                        });
+                    }
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>

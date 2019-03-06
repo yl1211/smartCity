@@ -1,0 +1,53 @@
+.file-title {
+	text-align: center;
+	line-height: 3rem;
+}
+
+.back {
+	position: absolute;
+	left: .3rem;
+	top: 0px;
+	line-height: 3rem;
+	font-size: 1rem;
+	text-align: center;
+	color: rgba(72, 156, 245, 1);
+	background-color: rgba(153, 153, 153, 0);
+}
+.lossContent{
+	font-size: 1rem;
+}
+.loss {
+	margin-top: 1rem;
+	text-align: center;
+}
+
+.loss img {
+	height: 9rem;
+	width: 9rem;
+}
+
+.lossBox {
+	margin-top: 3rem;
+	line-height: 2rem;
+}
+
+.lossBox p {
+	padding: 1rem 0rem;
+	border-bottom: 1px solid gray;
+}
+
+.lossBox span {
+	color: gray;
+	float: right;
+}
+
+.warn {
+	margin-top: 1rem;
+	color: gray;
+}
+.lossBtn{
+	margin-top: 1rem;
+	width: 100%;
+	background-color: rgb(0,95,166);
+	margin-bottom: 240px;
+}

@@ -1,0 +1,37 @@
+/*.back {
+	position: absolute;
+	left: .3rem;
+	top: 0px;
+	line-height: 2rem;
+	font-size: 1rem;
+	text-align: center;
+	color: rgba(72, 156, 245, 1);
+	background-color: rgba(153, 153, 153, 0);
+}
+.file-title{
+	text-align: center;
+}*/
+.back{
+	position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(153,153,153,0);
+    color: #489CF5;
+}
+.file-title{
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+}
+.explain{
+	margin: 3rem 0rem 0rem .6rem;
+}
+.layui-input, .layui-textarea{
+	border-bottom: 1px solid  gainsboro;
+}
+.addgetCode{
+	bottom: 8.5rem;
+}

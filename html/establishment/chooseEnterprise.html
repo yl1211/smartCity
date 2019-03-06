@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="cn">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            选择企业
+        </title>
+        <link rel="stylesheet" href="../../layui/css/layui.css">
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/recharge.css">
+    </head>
+    
+    <body style="background-color: #F2F2F2;">
+        <div class="layui-fluid">
+            <div class="layui-row payContent ofenPayContent">
+                <h2 class="rechargeTitle">
+                    <a href="javascript:;" class="back ofenBack">
+                        <i class="layui-icon layui-icon-left">
+                        </i>
+                        返回
+                    </a>
+                    选择企业
+                </h2>
+            </div>
+            <!-- 搜索框 -->
+            <div class="layui-row seachSchool">
+                <div class="layui-form-item">
+                    <button class="seachBtn" type="button">
+                        <i class="layui-icon layui-icon-search">
+                        </i>
+                    </button>
+                    <input type="text" name="seachSchool" placeholder="搜索学校名称" autocomplete="off"
+                    value="" class="layui-input schoolQuery">
+                </div>
+            </div>
+            <!-- 所有学校信息 -->
+            <div id="chooseSchool">
+            </div>
+            <!-- end-所有学校信息 -->
+            <!-- 首字母锚点盒子 -->
+            <div id="anchorBox">
+            </div>
+        </div>
+        <input type="hidden" name="choose" id="choose" value="" />
+    </body>
+    <script src="../../js/jquery-3.3.1.min.js">
+    </script>
+    <script src="../../layui/layui.js">
+    </script>
+    <!-- 搜索学校模板 -->
+	<script id="chooseBox" type="text/html">
+		{{#  layui.each(d.value, function(index, item){ }}
+		<div class="chooseBox">
+			<div class="firstCode" id="{{ item.firstCode }}">
+				{{ item.firstCode }}
+			</div>
+			<div class="schoolList">
+				<ul>
+					{{#  layui.each(item.list, function(index, items){ }}
+					<li class="tSchool">
+						<img src="{{ items.img }}" alt="">
+						<span>{{ items.name }}</span>
+					</li>
+					{{#  }); }}
+				</ul>
+			</div>
+		</div>
+		{{#  }); }}
+	</script>
+	<!-- 搜索之后的模板 -->
+	<script id="seachBox" type="text/html">
+		<div class="chooseBox">
+			<div class="schoolList">
+				<ul>
+					{{#  layui.each(d.value, function(index, item){ }}
+					<li>
+						<img src="{{ item.img }}" alt="">
+						<span>{{ item.name }}</span>
+					</li>
+					{{#  }); }}
+				</ul>
+			</div>
+		</div>
+	</script>
+	<!-- 首字母锚点模板 -->
+	<script id="anchor" type="text/html">
+		<div class="anchor">
+			<ul>
+				{{#  layui.each(d.value, function(index, item){ }}
+				<li><a href="#{{ item.firstCode }}">{{ item.firstCode }}</a></li>
+				{{#  }); }}
+			</ul>
+		</div>
+	</script>
+    <script>
+        layui.use(['form', 'layer', 'element', 'laytpl'],
+        function() {
+            var form = layui.form,
+            layer = layui.layer,
+            element = layui.element,
+            laytpl = layui.laytpl;
+            //返回按钮
+            $(".ofenBack").on("click",
+            function() {
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+            })
+            /*$.ajax({
+	 		url: '',
+	 		type: 'POST',
+	 		dataType: 'JSON',
+	 		success: function(data){
+		        var chooseBoxHtml = $("#chooseBox").html();
+		        laytpl(chooseBoxHtml).render(data, function(html){
+				    $("#chooseSchool").html(html);
+				    
+				});
+	 		},
+	 		error: function(){
+	 			layer.msg("请求数据失败");
+	 		}
+	 	})*/
+            function allSchool() {
+                //假数据,需要从后台拿
+                var data = {
+                    code: 0,
+                    success: '成功',
+                    value: [{
+                        firstCode: "A",
+                        list: [{
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴1"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴2"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴3"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴4"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴5"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴6"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴7"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴8"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "阿里巴巴9"
+                        }]
+                    },
+                    {
+                        firstCode: "T",
+                        list: [{
+                            img: "../../img/school_1.png",
+                            name: "腾讯1"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "腾讯2"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "腾讯3"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "腾讯4"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "腾讯5"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "腾讯6"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "腾讯7"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "腾讯8"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "腾讯9"
+                        }]
+                    },
+                    {
+                        firstCode: "Z",
+                        list: [{
+                            img: "../../img/school_1.png",
+                            name: "郑州财经"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "郑州财经"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "郑州财经"
+                        }]
+                    }]
+                };
+                //所有学校
+                var chooseBoxHtml = $("#chooseBox").html();
+                laytpl(chooseBoxHtml).render(data,
+                function(html) {
+                    $("#chooseSchool").html(html);
+                });
+                //首字母锚点
+                var anchorHtml = $("#anchor").html();
+                laytpl(anchorHtml).render(data,
+                function(html) {
+                    $("#anchorBox").html(html);
+                });
+            }
+            allSchool();
+
+            //搜索学校,监听搜索框的内容变化事件
+            $("input[name='seachSchool']").on("input propertychange",
+            function() {
+                if ($(this).val()) {
+                    var data = {
+                        code: 0,
+                        success: '成功',
+                        value: [{
+                            img: "../../img/school_1.png",
+                            name: "广西财经大学"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "广西财经大学"
+                        },
+                        {
+                            img: "../../img/school_1.png",
+                            name: "广西财经大学"
+                        }]
+                    };
+
+                    var seachBoxHtml = $("#seachBox").html();
+                    laytpl(seachBoxHtml).render(data,
+                    function(html) {
+                        $("#chooseSchool").html(html);
+                    });
+                } else {
+                    allSchool();
+                }
+
+            });
+            //点击学校名字后关闭窗口并回填
+            $("#chooseSchool").on("click", ".tSchool",
+            function() {
+                var $this = $(this);
+                var chooseName = $this.find("span").text();
+                $('#choose').val(chooseName);
+                var content1 = $("#choose").val()
+                localStorage.setItem("content1",content1);
+                console.log(content1)
+                window.location.href="addenterprise.html?content1="+content1;
+               
+//              parent.$("input[name='schoolCompany']").val(chooseName);
+//              alert("ok,这里需配置服务器环境才可以正确关闭窗口并执行回调函数");
+//
+//              var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+//              console.log('-----------',index)
+//              parent.layer.close(index); //再执行关闭
+            })
+
+        });
+    </script>
+
+</html>

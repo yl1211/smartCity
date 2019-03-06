@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="cn">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            城市云卡-首页
+        </title>
+        <link rel="stylesheet" href="../../layui/css/layui.css">
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/transitIndex.css">
+        <link rel="stylesheet" href="../../css/swiper.min.css">
+        <!-- <link rel="stylesheet" href="../../css/certify.css"> -->
+    </head>
+    <body style="background-color: #F2F2F2;">
+        <div class="layui-fluid">
+            <!-- 顶部返回与标题 -->
+            <div class="layui-row transitContent">
+                <h2 class="transitTitle">
+                    <a href="javascript:history.back(-1);" class="back">
+                        <i class="layui-icon layui-icon-left">
+                        </i>
+                        返回
+                    </a>
+                    城市云卡
+                </h2>
+            </div>
+            <!-- 顶部返回与标题end -->
+
+            <!-- 展示的城市云卡 -->
+            <div class="layui-row transitCardBox">
+                <div id="certify">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title"><img src="../../img/sy_gjc.png">广西农信城市云卡</p>
+                                    <p class="mmm" style="display: none;">2013 1811 000</p>
+                                    <p class="cardNum"></p>
+                                    <p class="cardName"><span>城市云卡</span></p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title"><img src="../../img/sy_gjc.png">广西农信城市云卡</p>
+                                    <!--<p class="cardNum">2013 1811 132</p>-->
+                                    <p class="mmm" style="display: none;">2013 1811 132</p>
+                                    <p class="cardNum"></p>
+                                    <p class="cardName"><span>城市云卡</span></p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title"><img src="../../img/sy_gjc.png">广西农信城市云卡</p>
+                                    <!--<p class="cardNum">2013 1811 133</p>-->
+                                    <p class="mmm" style="display: none;">2013 1811 333</p>
+                                    <p class="cardNum"></p>
+                                    <p class="cardName"><span>城市云卡</span></p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title"><img src="../../img/sy_gjc.png">广西农信城市云卡</p>
+                                    <!--<p class="cardNum">2013 1811 134</p>-->
+                                    <p class="mmm" style="display: none;">2013 1811 123</p>
+                                    <p class="cardNum"></p>
+                                    <p class="cardName"><span>城市云卡</span></p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title"><img src="../../img/sy_gjc.png">广西农信城市云卡</p>
+                                    <!--<p class="cardNum">2013 1811 135</p>-->
+                                    <p class="mmm" style="display: none;">2013 1811 135</p>
+                                    <p class="cardNum"></p>
+                                    <p class="cardName"><span>城市云卡</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="transitCard">
+                    <p class="title"><img src="../../img/sy_gjc.png">广西农信城市云卡</p>
+                    <p class="cardNum">2013 1811 132</p>
+                    <p class="cardName"><span>城市云卡</span></p>
+                </div> -->
+            </div>
+            <!-- 展示的城市云卡 -->
+            <!-- 主要的功能内容盒子 -->
+            <div class="layui-row transitContentBox">
+                <!--<div class="layui-col-xs6">
+                    <a href="javascript:;" id="transitCode">
+                        <div class="layui-row contentOne">
+                            <div class="layui-col-xs5">
+                                <img src="../../img/sy_gjc.png">
+                            </div>
+                            <div class="layui-col-xs7">
+                                乘车码
+                            </div>
+                        </div>
+                    </a>
+                </div>-->
+                <div class="layui-col-xs6">
+                    <a href="javascript:;" id="transitBalance">
+                        <div class="layui-row contentOne">
+                            <div class="layui-col-xs5">
+                                <img src="../../img/sy_gjc.png">
+                            </div>
+                            <div class="layui-col-xs7">
+                                余额
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-xs6">
+                    <a href="javascript:;" id="transitRecharge">
+                        <div class="layui-row contentOne">
+                            <div class="layui-col-xs5">
+                                <img src="../../img/sy_gjc.png">
+                            </div>
+                            <div class="layui-col-xs7">
+                                充值
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-xs6">
+                    <a href="javascript:;" id="transactionDetails">
+                        <div class="layui-row contentOne">
+                            <div class="layui-col-xs5">
+                                <img src="../../img/sy_gjc.png">
+                            </div>
+                            <div class="layui-col-xs7">
+                                交易明细
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-xs6">
+                    <a href="javascript:;" id="serviceRange">
+                        <div class="layui-row contentOne">
+                            <div class="layui-col-xs5">
+                                <img src="../../img/sy_gjc.png">
+                            </div>
+                            <div class="layui-col-xs7">
+                                服务范围
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- 主要的功能盒子 -->
+        </div>
+        <!-- 隐藏域,存放卡片信息 -->
+        <input type="hidden" id="cardMsg" value="">
+        <!-- 隐藏域,存放卡片信息 --> 
+    </body>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../layui/layui.js"></script>
+    <script src="../../js/swiper.min.js"></script>
+    <script>
+        layui.use(['form', 'layer', 'element', 'laytpl'],
+        function() {
+            var form = layui.form,
+            layer = layui.layer,
+            element = layui.element,
+            laytpl = layui.laytpl;
+            
+        
+        });
+        /*var certifySwiper = new Swiper('#certify .swiper-container', {
+            watchSlidesProgress: true,
+            slidesPerView: 'auto',
+            centeredSlides: true,
+            loop: true,
+            loopedSlides: 5,
+            autoplay: false,
+            pagination: {
+                el: '.swiper-pagination',
+                //clickable :true,
+            },
+            on: {
+                progress: function(progress) {
+                    for (i = 0; i < this.slides.length; i++) {
+                        var slide = this.slides.eq(i);
+                        var slideProgress = this.slides[i].progress;
+                        modify = 1;
+                        if (Math.abs(slideProgress) > 1) {
+                            modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
+                        }
+                        translate = slideProgress * modify * 260 + 'px';
+                        scale = 1 - Math.abs(slideProgress) / 5;
+                        zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
+                        slide.transform('translateX(' + translate + ') scale(' + scale + ')');
+                        slide.css('zIndex', zIndex);
+                        slide.css('opacity', 1);
+                        if (Math.abs(slideProgress) > 3) {
+                            slide.css('opacity', 0);
+                        }
+                    }
+                },
+                setTransition: function(transition) {
+                    for (var i = 0; i < this.slides.length; i++) {
+                        var slide = this.slides.eq(i)
+                        slide.transition(transition);
+                    }
+                },
+                slideChangeTransitionEnd: function(){
+                    console.log(this);
+                    console.log(this.slides.eq(this.activeIndex).html());
+                    var $this = this.slides.eq(this.activeIndex);
+                    console.log(this.slides.eq(this.activeIndex).find(".cardNum").text())
+                  //alert(this.activeIndex);//切换结束时，告诉我现在是第几个slide
+                }
+            }
+
+        })*/
+        var swiper = new Swiper('#certify .swiper-container', {
+            effect: 'coverflow',
+            grabCursor: true,
+            loop: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows : true,
+            },
+            on: {
+                 transitionEnd: function(){
+//                  console.log(this.slides.eq(this.activeIndex).html());
+//                  var $this = this.slides.eq(this.activeIndex);
+//                  console.log(this.slides.eq(this.activeIndex).find(".cardNum").text());
+//                  $("#cardMsg").val($this.find(".cardNum").text());
+
+//					console.log(this.slides.eq(this.activeIndex).html());
+                    var $this = this.slides.eq(this.activeIndex);
+//                  console.log(this.slides.eq(this.activeIndex).find(".mmm").text());
+                    $("#cardMsg").val($this.find(".mmm").text());                   
+                    var data = this.slides.eq(this.activeIndex).find(".mmm").text();
+			        var nnn = data.replace(/\s/g,'').replace(/(\d{4})\d+(\d{4})$/, "**** **** **** $2");
+//					console.log(nnn)
+					$('.cardNum').html(nnn)
+                }
+            }
+        });
+        
+        // 乘车码
+//      $("#transitCode").on("click",function(){
+//          var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+//          //window.location.href = "myTransitCard.html?codeId="+codeId;
+//          
+//          localStorage.setItem("codeId",codeId);
+//          layer.open({
+//              type: 2,
+//              closeBtn: 0,
+//              title: false, 
+//              content: "myTransitCard.html?codeId="+codeId,
+//              area: ['100%', '100%'],
+//              yes: function(index) {
+//                  layer.close(index);
+//              },
+//              end: function() {
+//                  form.render();
+//              }
+//          });
+//      });
+        // 余额
+        $("#transitBalance").on("click",function(){
+            var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+            //window.location.href = "cardBalance.html?codeId="+codeId;
+            localStorage.setItem("codeId",codeId);
+            layer.open({
+                type: 2,
+                closeBtn: 0,
+                title: false,
+                content: "cardBalance.html?codeId="+codeId,
+                area: ['100%', '100%'],
+                yes: function(index) {
+                    layer.close(index);
+                },
+                end: function() {
+                    form.render();
+                }
+            });
+        });
+        // 充值
+        $("#transitRecharge").on("click",function(){
+            var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+            //window.location.href = "transitRecharge.html?codeId="+codeId;
+            localStorage.setItem("codeId",codeId);
+            layer.open({
+                type: 2,
+                closeBtn: 0,
+                title: false,
+                content: "transitRecharge.html?codeId="+codeId,
+                area: ['100%', '100%'],
+                yes: function(index) {
+                    layer.close(index);
+                },
+                end: function() {
+                    form.render();
+                }
+            });
+        });
+        // 交易明细
+        $("#transactionDetails").on("click",function(){
+            var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+            //window.location.href = "transactionDetails.html?codeId="+codeId;
+            localStorage.setItem("codeId",codeId);
+            layer.open({
+                type: 2,
+                closeBtn: 0,
+                title: false,
+                content: "transactionDetails.html?codeId="+codeId,
+                area: ['100%', '100%'],
+                yes: function(index) {
+                    layer.close(index);
+                },
+                end: function() {
+                    form.render();
+                }
+            });
+        });
+        // 服务范围
+        $("#serviceRange").on("click",function(){
+            var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+            //window.location.href = "serviceRange.html?codeId="+codeId;
+            localStorage.setItem("codeId",codeId);
+            layer.open({
+                type: 2,
+                closeBtn: 0,
+                title: false,
+                content: "serviceRange.html?codeId="+codeId,
+                area: ['100%', '100%'],
+                yes: function(index) {
+                    layer.close(index);
+                },
+                end: function() {
+                    form.render();
+                }
+            });
+        });
+    </script>
+
+</html>

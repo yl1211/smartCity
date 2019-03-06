@@ -1,0 +1,79 @@
+.transitTitle {
+    font-size: 1.1rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    color: #000;
+    background: #fff;
+}
+.transitlist{
+	font-size: 14px;
+    height: 2rem;
+    line-height: 2rem;
+    text-align：left;
+    padding-left: 1.1rem;
+    color: #000;
+    background: #f7f7f7;
+}
+.noticeTitleBox {
+    padding-top:0px;
+    margin: -0.4rem 0 0rem
+}
+.layui-fluid {
+    padding: 0;
+}
+.lastestNews{
+	margin-bottom:0.5rem;
+}
+.line{
+	height: 100px;
+	background: #fff;
+}
+
+            
+/*列表*/
+.mescroll{
+    position: fixed;
+    top: 80px;
+    bottom: 40px;
+    height: auto;
+    background: #f7f7f7;
+}
+/*回到顶部按钮*/
+.mescroll-totop {
+    bottom: 50px;
+}
+/*展示上拉加载的数据列表*/
+
+.newstop{
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+.mescroll-totop {
+    z-index: 9990;
+    position: fixed;
+    right: 15px;
+    bottom: 80px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    opacity: 0;
+}
+.mescroll-upwarp {
+    min-height: 20px;
+    padding-right:35px;
+
+}
+.news-list li{
+	padding: 0 1rem;
+	margin-bottom: 0.5rem;
+	background: #fff;			
+}
+.time {
+    margin: 0.9rem 0 -1rem;
+    margin-left: 4px;
+}

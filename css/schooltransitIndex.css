@@ -1,0 +1,262 @@
+.transitContent {
+	margin: 0 -15px;
+    padding: 0rem 1rem;
+    color: #000;
+    background-color: #fff;
+}
+.transitTitle {
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    color: #000;
+}
+#certify .swiper-container {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+#certify .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 75%;
+}
+.back {
+	position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #489CF5;
+    background-color: rgba(153,153,153,0);
+}
+.transitCard {
+    /* margin-top: 15px;
+    margin-bottom: 15px; */
+    background-color: rgba(92, 209, 222, 1);
+    border-radius: 10px;
+    box-shadow: 0px 20px 30px rgba(58, 165, 216, 0.349019607843137);
+    padding: 10px;
+    color: #fff;
+    text-align: right;
+    font-size: 1.1rem;
+}
+.transitCard p.title {
+	text-align: left;
+}
+.transitCard p.title img {
+	width: 1.8rem;
+    height: 1.8rem;
+    margin-right: 10px;
+}
+.transitCard p.cardNum {
+    font-size: 2.2rem;
+    margin: 30px auto 15px;
+}
+.transitCard p.cardName span {
+	padding: 4px 10px;
+    background: rgba(255,255,255,.5);
+    margin-right: -10px;
+    font-size: 1rem;
+}
+
+.transitContentBox {
+
+}
+.transitContentBox>.layui-col-xs6 {
+	padding: 5px;
+}
+.contentOne{
+    height: 102px;
+    line-height: 102px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.contentOne>div:first-child {
+	text-align: center;
+}
+.contentOne>div:first-child img {
+	width: 3rem;
+	height: 3rem;
+}
+.contentOne>div:last-child {
+	font-size: 1.15rem;
+    font-weight: 700;
+    font-style: normal;
+    color: #666;
+}
+.myTransitCard {
+	background-color: #2A82E4;
+}
+.myTransitCard h2,.myTransitCard a {
+	color: #fff;
+}
+
+.myTransitCardBox {
+	background-color: #fff;
+	padding: 10px;
+	border-radius: 10px;
+	text-align: center;
+    margin-top: 20px;
+}
+.myTransitCardBox>p {
+	margin: 15px auto;
+}
+
+.myTransitCardBox>p.myTcName {
+	font-weight: 700;
+    font-size: 16px;
+    color: #333;
+}
+.myTransitCardBox>p.myTc img {
+	width: 80%;
+}
+.myTransitCardBox>p.myTcBtn {
+	padding: 5px 0 20px;
+    border-bottom: 1px dashed #999;
+}
+.myTransitCardBox>p.myTcBtn button {
+	width: 150px;
+    height: 37px;
+    border-radius: 100px;
+    background: none;
+    border: 1px solid rgba(153, 153, 153, 1);
+}
+.myTransitCardBox>p.myTcContent {
+	color: #333;
+	font-size: .9rem;
+}
+.myTransitCardBox>p.myTcContent img {
+    width: 30px;
+    height: 24px;
+}
+.myTransitCardBox>p.myTcHelp {
+	color: #666;
+
+}
+.cardBalance {
+	background-color: #45A7F1;
+    color: #fff;
+}
+.cardBalance h2,.cardBalance a {
+	color: #fff;
+}
+.available {
+	padding-bottom: 10px;
+}
+.available p {
+	font-size: .85rem;
+	color: #fff;
+	margin: 15px 0 15px 10px;
+}
+.available p.availableMoney {
+	font-size: 2.5rem;
+}
+.transactionRecord {
+	background-color: #61B9FC;
+	margin: auto -15px; 
+}
+.transactionRecord>div:first-child {
+    border-right: 1px solid #fff;
+}
+.recordBalance {
+	height: 76px;
+	line-height: 76px;
+	text-align: center;
+	color: #fff;
+	font-size: .95rem;
+}
+.cardDetails li {
+	font-size: 1rem;
+    width: 33%;
+    padding: 0;
+}
+.cardDetails li.layui-this {
+	color: #333!important;
+	font-weight: 400;
+}
+.cardDetails li.layui-this:after {
+    border-bottom: 3px solid #797979!important;
+}
+.cardDetails .layui-tab-content {
+	padding-top: 0;
+}
+.seachDetail {
+	background-color: #F2F2F2;
+	height: 49px;
+	line-height: 49px;
+    margin: 0 -25px;
+}
+.seachDetail>div {
+	text-align: center;
+}
+.seachDetail>div i {
+	font-size: 1.2rem;
+}
+.seachDetail>div.seachHelp {
+    text-align: left;
+    padding-left: 1rem;
+    height: 25px;
+    line-height: 25px;
+    color: #999;
+}
+.seachContent p {
+	color: #999;
+	margin: 5px auto;
+}
+.seachContent p.detailsType {
+	color: #333;
+	font-weight: 700;
+}
+.seachContent p.detailsMoney{
+	color: #333;
+	font-weight: 700;
+    text-align: right;
+    margin-top: 27px;
+}
+.seachContent p.detailsStatus{
+	font-size: 12px;
+    color: #EE4462;
+    text-align: right;
+}
+.seachContent .seachContentBox {
+    border-bottom: 1px solid #636161;
+    margin-top: 20px;
+}
+.timeTrue {
+    position: absolute;
+    right: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #489CF5;
+}
+.timeTrue:hover {
+    color: #489CF5;
+}
+
+.seachTimeBtn .layui-btn-primary {
+    padding: 0;
+    border: none;
+}
+.seachTimeBtn .month {
+    border: 1px solid #C9C9C9;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+    margin-top: 3px;
+    border-radius: 15px;
+}
+.seachTimeBtn .zhuanhuan {
+    width: 14px;
+    margin: 0 3px 2px;
+}
+.timeBox input.seachTime,.timeBox input.seachTimeEnd {
+    border: none;
+    color: #429BF1;
+    text-align: center;
+    border-bottom: 1px solid #429BF1;
+}
+.timeBox .zhi {
+    text-align: center;
+    height: 38px;
+    line-height: 38px;
+}

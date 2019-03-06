@@ -1,0 +1,45 @@
+/*考勤记录*/
+
+.file-title {
+	text-align: center;
+	line-height: 3rem;
+	font-size: 1rem;
+}
+
+.back {
+	position: absolute;
+	left: .3rem;
+	top: 0px;
+	line-height: 3rem;
+	font-size: 1rem;
+	text-align: center;
+	color: rgba(72, 156, 245, 1);
+	background-color: rgba(153, 153, 153, 0);
+}
+
+.contentBox {
+	margin-top: 2rem;
+}
+
+.layui-input,
+.layui-textarea {
+	display: inline;
+	width: 35%;
+}
+.queryBtn{
+	float: right;
+	background-color: rgb(72, 156, 245, 1);
+}
+.recordBox{
+	margin-top: 3rem;
+	line-height: 2rem;
+}
+.recordBox .recordTime{
+	padding: 1rem 0rem;
+	font-size: 1rem;
+	border-bottom: 1px solid gainsboro;
+}
+.recordBox .recordAddress{
+	color: gray;
+	float: right;
+}

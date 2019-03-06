@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="cn">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            充值
+        </title>
+        <link rel="stylesheet" href="../../layui/css/layui.css">
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/recharge.css">
+    </head>
+    
+    <body>
+        <div class="layui-fluid">
+            <!-- 充值单位卡号选择 -->
+            <div class="layui-row payContent">
+                <h2 class="rechargeTitle">
+                    <a href="javascript:history.back(-1)" class="back">
+                        <i class="layui-icon layui-icon-left">
+                        </i>
+                        返回
+                    </a>
+                    充值
+                    <a href="javascript:;" class="oftenRecharge">
+                        常用充值
+                    </a>
+                </h2>
+                <form class="layui-form recharge-form" id="recharge-form" lay-filter="recharge-form">
+                    <div class="layui-form-item formInput">
+                        <!-- 以下三种下拉框验证未加 -->
+                        <div class="cardType">
+                            <select name="cardType" lay-verify="cardType" lay-search>
+                                <option value="">请选择行业</option>
+                                <option value="0">城市云卡</option>
+                                <option value="1">校园卡</option>
+                                <option value="2">企业卡</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item formInput">
+                        <input type="text" name="schoolCompany" lay-verify="schoolCompany" autocomplete="off"
+                        placeholder="请选择学校/企业" class="layui-input schoolCompany" readonly="readonly">
+                    </div>
+                    <div class="layui-form-item formInput">
+                        <button type="button" class="formImg">
+                            <i class="layui-icon layui-icon-search">
+                            </i>
+                        </button>
+                        <div class="cardNum layui-input-inline">
+                            <!-- <select name="cardNum" lay-verify="cardNum" lay-search>
+                                <option value="">请输入学工号</option>
+                                <option value="20137740368">20137740368</option>
+                                <option value="20137740369">20137740369</option>
+                            </select> -->
+                            <input type="text" name="cardNum" lay-verify="cardNum" autocomplete="off" placeholder="请输入学工号" class="layui-input">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end-充值单位卡号选择 -->
+            <!-- 姓名卡状态 -->
+            <div class="layui-row nameCard">
+                <div class=" layui-col-xs6">
+                    <label class="layui-form-label">
+                        姓名 :
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off"
+                        value="张三" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+                <div class=" layui-col-xs6">
+                    <label class="layui-form-label">
+                        卡状态 :
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="status" lay-verify="status" autocomplete="off"
+                        value="正常" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <!-- end-姓名卡状态 -->
+            <!-- 充值金额 -->
+            <div class="layui-row rechargeAmount">
+                <h2 class="payTitle">
+                    充值金额
+                </h2>
+                <div class="layui-row layui-col-space20 amount">
+                    <div class=" layui-col-xs4">
+                        <div class="amountNum">
+                            10元
+                        </div>
+                    </div>
+                    <div class=" layui-col-xs4">
+                        <div class="amountNum">
+                            20元
+                        </div>
+                    </div>
+                    <div class=" layui-col-xs4">
+                        <div class="amountNum">
+                            30元
+                        </div>
+                    </div>
+                    <div class=" layui-col-xs4">
+                        <div class="amountNum">
+                            50元
+                        </div>
+                    </div>
+                    <div class=" layui-col-xs4">
+                        <div class="amountNum">
+                            100元
+                        </div>
+                    </div>
+                    <div class=" layui-col-xs4">
+                        <!-- <div class="amountNum" id="customAmount">自定义金额</div> -->
+                        <input type="text" class="amountNum" id="customAmount" autocomplete="off"
+                        placeholder="自定义金额" class="layui-input" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <!-- end-充值金额 -->
+            <!-- 温馨提示 -->
+            <div class="layui-row">
+                <p class="tips">
+                    温馨提示
+                </p>
+                <p class="tipsContent">
+                    请在网络畅通的环境下充值，以免造成不必要的麻烦。
+                </p>
+            </div>
+            <!-- end-温馨提示 -->
+            <!-- 支付方式 -->
+            <div class="layui-row">
+                <p class="payMethod">
+                    支付方式
+                </p>
+                <div class="layui-row payBox">
+                    <div class="layui-col-xs-offset2 layui-col-xs4">
+                        <a href="javascript:;" id="ePay">
+                            <div class="img-txt">
+                                <img src="../../img/logo.jpg" alt="">
+                                <p>
+                                    农信e支付
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <a href="javascript:;" id="alipay">
+                            <div class="img-txt">
+                                <img src="../../img/yinlian.png" alt="">
+                                <p>
+                                    银联
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- <div class="layui-col-xs3">
+                    <a href="javascript:;" id="weixinPay">
+                    <div class="img-txt">
+                    <img src="../../img/weixin.png" alt="">
+                    <p>微信</p>
+                    </div>
+                    </a>
+                    </div>
+                    <div class="layui-col-xs3">
+                    <a href="javascript:;" id="unionPay">
+                    <div class="img-txt">
+                    <img src="../../img/weixin.png" alt="">
+                    <p>云闪付</p>
+                    </div>
+                    </a>
+                    </div> -->
+                </div>
+            </div>
+            <!-- end-支付方式 -->
+        </div>
+        <script id="moneyInput" type="text/html">
+            <div id = "moneyInput" style = "margin: 20px;" >
+            	<div class = "layui-form-item" > 
+	            	<label class = "layui-form-label"> 充值金额 </label>
+				    <div class="layui-input-block">
+				      <input type="text" name="customAmount" required  lay-verify="required" placeholder="请输入充值金额" class="layui-input">
+				    </div>
+			    </div>
+			</div>
+        </script>
+        <!-- end-智慧城市消息通知模板引擎 -->
+        <script src="../../js/jquery-3.3.1.min.js">
+        </script>
+        <script src="../../layui/layui.js">
+        </script>
+        <script>
+        </script>
+        <script>
+            layui.use(['form', 'layer', 'element'],
+            function() {
+                var form = layui.form,
+                layer = layui.layer,
+                element = layui.element;
+                //打开常用充值页面弹窗
+                $(".oftenRecharge").on("click",
+                function() {
+                    layer.open({
+                        type: 2,
+                        closeBtn: 0,
+                        title: false,
+                        content: 'oftenRecharge.html',
+                        area: ['100%', '100%'],
+                        yes: function(index) {
+                            layer.close(index);
+                        },
+                        end: function() {
+                            form.render();
+                        }
+                    })
+                });
+                //打开选择学校页面弹窗
+                $(".schoolCompany").on("click",
+                function() {
+                    layer.open({
+                        type: 2,
+                        closeBtn: 0,
+                        title: false,
+                        content: 'chooseSchool.html',
+                        area: ['100%', '100%'],
+                        yes: function(index) {
+                            layer.close(index);
+                        },
+                        end: function() {
+                            form.render();
+                        }
+                    })
+                });
+                //打开查询学工号页面弹窗
+                $(".formImg").on("click",
+                function() {
+                    var schoolVal = $("input[name='schoolCompany']").val();
+                    if (!schoolVal || schoolVal == '') {
+                        layer.msg("请选择学校!");
+                    } else {
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: 'cardNumQuery.html?schoolVal=' + schoolVal,
+                            area: ['100%', '100%'],
+                            yes: function(index) {
+                                layer.close(index);
+                            },
+                            end: function() {
+                                form.render();
+                            }
+                        })
+                    }
+
+                });
+                // 下拉框调用接口 暂未完成
+                function ajaxGetDropDown(url, dataBox, data) {
+                    $.ajax({
+                        url: url,
+                        type: 'post',
+                        data: {},
+                        dataType: 'json',
+                        success: function(res) {
+                            console.log(res);
+                            var opt = "";    $("select[name=termId]").append(opt);
+                            for (var i = 0; i < res.data.length; i++) {
+                                var option = "<option value=\"" + res.data[i].termId + "\"";
+                                option += ">" + res.data[i].termName + "</option>"; //动态添加数据
+                                $("select[name=termId]").append(option);
+                            }     form.render('select', dataBox);
+                        }
+                    });
+                }
+
+                var getDropName = $('#recharge-form select');
+                var url = 'getUrl'; //url接口命名和name一致
+                console.log(getDropName);
+                for (var i = 0; i < getDropName.length; i++) {
+                    ajaxGetDropDown(url + getDropName[i].name, getDropName[i].name);
+                }
+
+                //监听提交
+                form.on('submit(formDemo)',
+                function(data) {
+                    layer.msg(JSON.stringify(data.field));
+                    return false;
+                });
+
+                //充值金额点击改变样式
+                $(".rechargeAmount").on("click",".amountNum",function(){
+                    var $this = $(this);
+                    $this.addClass("activeTrue").parent().siblings().find(".amountNum").removeClass("activeTrue");
+                });
+                $('#customAmount').on('click',
+                function() {
+                    layer.open({
+                        type: 1,
+                        title: '自定义金额',
+                        content: $('#moneyInput').html(),
+                        btn: ['确认', '取消'],
+                        area: ['300px', '170px'],
+                        yes: function(index) {
+                            var customAmountVal = $("input[name='customAmount']").val();
+                            //正则验证,只能输入数字与小数点
+                            var numPoint = /^(?!0$|0\.00|0\.0|0\d+$)([1-9]?\d+(\.\d*)|(\\s&&[^\\f\\n\\r\\t\\v])|([1-9]*[1-9][0-9]*)?)$/;
+                            if (!customAmountVal) {
+                                layer.msg("请输入金额!");
+                            } else if (!numPoint.test(customAmountVal)) {
+                                layer.msg("请输入正确格式金额!");
+                            } else {
+                                $("#customAmount").val(customAmountVal);
+                                layer.close(index);
+                            }
+
+                        }
+                    });
+                });
+            });
+        </script>
+        <script>
+            // 农信e支付调用接口
+            $('#ePay').on('click',
+            function() {
+                $.ajax({
+                    url: '/getePay',
+                    type: 'post',
+                    data: {},
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+
+                    }
+                });
+            });
+        </script>
+    </body>
+
+</html>

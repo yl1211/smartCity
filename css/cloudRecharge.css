@@ -1,0 +1,260 @@
+.payContent {
+  margin:0 -15px;
+  padding:0rem 1rem;
+}
+.back {
+  position:absolute;
+  left:1rem;
+  font-size:1rem;
+  text-align:center;
+  background-color: rgba(153,153,153,0);
+}
+.ofenBack {
+  color:#489CF5;
+}
+.oftenRecharge {
+  position:absolute;
+  right:1rem;
+  font-size:1rem;
+  text-align:center;
+  color: rgba(72, 156, 245, 1);
+  background-color:rgba(153,153,153,0);
+}
+.rechargeTitle {
+  font-size:1.25rem;
+  height:3rem;
+  line-height:3rem;
+  text-align:center;
+}
+.ofenPayContent .rechargeTitle {
+  color:#000;
+}
+.recharge-form {
+  padding:2rem 1rem 1rem;
+}
+.recharge-for select {
+  background-color:rgba(63,183,246,1) !important;
+}
+.formImg i {
+  font-size:1.8rem;
+  line-height:38px;
+}
+.formInput input {
+  background:none;
+  border: none;
+  border-bottom: 1px solid gray;
+}
+.cardType {
+  }.cardNum {
+  margin:0 5rem 10px 3px!important;
+}
+/*姓名卡状态*/
+.nameCard {
+  margin-top:20px;
+  border:1px solid #F5F5F5;
+  border-radius:8px;
+  box-shadow:0px 0px 6px #F5F5F5;
+  color:#757779;
+}
+.nameCard .layui-form-label {
+  float:left;
+  display:block;
+  padding:9px 15px;
+  width:57px;
+  font-weight:400;
+  line-height:20px;
+  text-align:right;
+}
+.nameCard .layui-input-block {
+  margin-left:88px;
+  min-height:36px;
+}
+.nameCard .layui-input-block input {
+  border:none;
+  color:#757779;
+}
+/* 充值金额 */
+.payTitle {
+  margin:2rem 0 1rem;
+  font-size:16px;
+  font-weight:600;
+}
+.amountNum {
+  line-height:50px;
+  text-align:center;
+  color:#050505;
+  border-radius:10px;
+  border:1px solid #888;
+  width:100%;
+}
+.activeTrue {
+  border-color:#005FA6;
+  color:#005FA6;
+}
+/* 温馨提示 */
+.tips {
+  margin:8px 0;
+  font-size:13px;
+  font-weight:600;
+}
+.tipsContent {
+  margin:8px 0;
+  font-size:12px;
+}
+.payMethod {
+  font-size:17px;
+}
+/* 支付方式 */
+.payBox {
+  margin:2rem 1rem 1rem;
+}
+.payBox .img-txt {
+  text-align:center;
+}
+.payBox .img-txt img {
+  width:2.5rem;
+  height:2.5rem;
+}
+/*常用充值*/
+
+#oftenNameCard {
+  margin:0 -15px;
+  padding-bottom:50px;
+}
+
+.cardBox p {
+  font-size:.9rem;
+  line-height:23px;
+  height:23px;
+}
+.cardBox p:first-child {
+  margin-top:10px;
+}
+#cardQuery .layui-btn {
+  width:100%;
+  background-color:#D9E5FA;
+  color:#4889EF;
+}
+.cardBoxQuery {
+  background-color:#97A6F9;
+  box-shadow:3px 3px 8px #97A6F9;
+  border-radius:10px;
+  color:#333;
+}
+.seachSchool .layui-form-item {
+  position:relative;
+  margin:8px auto;
+  line-height:38px;
+}
+.seachSchool .seachBtn {
+  position:absolute;
+  padding-left:5px;
+  border:none;
+  background:none;
+  height:38px;
+  line-height:38px;
+}
+.seachSchool .seachBtn i {
+  font-size:1.2rem;
+}
+.seachSchool .schoolQuery {
+  padding-left:30px;
+  border:none;
+  border-radius:7px;
+}
+#chooseSchool .firstCode {
+  margin:0 -15px;
+  padding:0 15px;
+  height:35px;
+  line-height:35px;
+  font-size:1rem;
+  color:#333;
+  border-bottom:1px solid #e8e5e5;
+  border-top:1px solid #e8e5e5;
+}
+#anchorBox {
+  position:fixed;
+  right:15px;
+  bottom:50%;
+  text-align:center;
+}
+#anchorBox li {
+  margin-top:2px;
+}
+/*公交充值页面样式*/
+
+.cardContent {
+	margin: 0 -15px;
+	padding: 0rem 1rem;
+	background-color: rgb(78, 155, 245);
+	height: 12rem;
+}
+
+.CardBox {
+	margin-top: -7rem;
+}
+
+.cardTitle {
+	font-size: 1.25rem;
+	height: 3rem;
+	line-height: 3rem;
+	text-align: center;
+	color: white;
+}
+
+.cardBack {
+	position: absolute;
+	left: 1rem;
+	font-size: 1rem;
+	text-align: center;
+	color: white;
+}
+
+.transitCard p.title {
+	text-align: left;
+}
+
+.transitCard p.title img {
+	width: 1.8rem;
+	height: 1.8rem;
+	margin-right: 10px;
+}
+
+.transitCard p.cardNumber {
+	font-size: 2.2rem;
+	margin: 30px auto 15px;
+}
+
+.transitCard p.cardName span {
+	padding: 4px 10px;
+	background: rgba(255, 255, 255, .5);
+	margin-right: -10px;
+	font-size: 1rem;
+}
+/*服务范围页面*/
+.goBack{
+	    position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(153,153,153,0);
+    color: #489CF5;;
+}
+.rangeTitle{
+	font-size: 1.25rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+}
+.readCard{
+	border-bottom: 1px solid gray;
+}
+.readCard img{
+	height: 1.4rem;
+	width: 1.4rem;
+	float: right;
+}
+.readCard label{
+	text-align: left;
+}

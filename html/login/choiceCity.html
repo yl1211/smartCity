@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>常用地选择</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/base.css" />
+		<link rel="stylesheet" href="../../css/login.css" />
+		<style type="text/css">
+			.title {
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-fluid ">
+			<div class="layui-row listContent">
+				<h2 class="listTitle">
+                    <!-- <a href="javascript:history.back(-1)" class="back">
+                        <i class="layui-icon layui-icon-left"></i>
+                        返回
+                    </a> -->
+                    选择常用地
+                    <a href="javascript:;" id="next" class="next">
+                     下一步 
+                   </a>
+               </h2>
+			</div>
+			<!--常用地选择-->
+			<div class="layui-field-box">
+				<form class="form" action="javascript:;">
+					<div class="layui-form-item">
+						<label class="layui-form-label">选择常用地</label>
+						<div class="layui-input-inline">
+							<select id="selectPro" class="inline" lay-filter="Pro" >
+								<option value="" class="inline-option">请选择省份</option>
+							</select>					   
+					    </div>
+
+						<div class="layui-input-inline" >
+							<select id="selectCity" class="inline" lay-filter="City" style="display:none;">
+								<option value="" class="inline-option" >请选择城市</option>
+							</select>
+						</div>
+						<div class="layui-input-inline" >
+							<select id="selectArea" class="inline Area" lay-filter="Area" style="display:none;" >
+								<option value=""  class="inline-option">请选择县区</option>
+							</select>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- 隐藏域,存放卡片信息 -->
+        <input type="hidden" id="cardMsg" value="">
+        <!-- 隐藏域,存放卡片信息 --> 
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/lay/modules/layui.all.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<!-- <script type="text/javascript" src="../../js/citys.js"></script> -->
+		<!-- <script type="text/javascript">
+			pca.init('select[name=P1]', 'select[name=C1]', 'select[name=A1]'); --> 
+		<!-- </script> -->
+		<script>
+        layui.use(['form', 'layer', 'element', 'laytpl'],
+        function() {
+            var form = layui.form,
+            layer = layui.layer,
+            element = layui.element,
+            laytpl = layui.laytpl;
+            
+        
+        });
+		</script>
+		<script type="text/javascript">
+		
+	
+	// 进入程序就请求接口
+	// $(document).ready(function(e){	
+        
+
+				    //输出省
+				  $.ajax({
+                    url:"http://172.20.10.2:8080/gateway/appregion/getProvinceRegionList", 
+                    type:'post',
+                    // data:{area:area},
+                    dataType:"json",
+                    // contentType:"application/json",
+                    success:function(data){
+                        console.log(data);
+                        var ProvinceStr = '';
+                          for (var i = 0; i < data.data.length; i++) {
+                              ProvinceStr += "<option value='"+data.data[i].id+"'>"+data.data[i].name+"</option>"
+                          }
+                          
+                       $("#selectPro").html('<option value="" selected="true"  disabled="">请选择省份</option>'+ProvinceStr);
+
+                        },
+                 
+             });  
+     
+		 // });
+
+				//输出城市列表
+				  $("#selectPro").change(function(){
+
+				   var Pro = $('#selectPro option:selected').val(); 
+				   var Proid=$("#selectPro").val()
+				   if(!Pro==''){
+					
+
+					 $.ajax({
+                    url:"http://172.20.10.2:8080/gateway/appregion/getRegionList", 
+                    type:'post',
+                    data:{
+                    	id:Proid
+                    },
+                    dataType:"json",
+                    // contentType:"application/json",
+                    success:function(data){
+                        console.log(data);
+                        var CityStr = '';
+                          for (var i = 0; i < data.data.length; i++) {
+                              CityStr += "<option value='"+data.data[i].id+"'>"+data.data[i].name+"</option>"    
+                          }
+                          // console.log(CityStr)
+                       $("#selectCity").html('<option value="" selected="true"  disabled="">请选择城市</option>'+CityStr);
+  						 document.getElementById("selectCity").style.display="block";
+                        },
+                 
+                       });
+					 
+			     }
+				    // console.log(Proid);
+             	})
+				//输出区列表
+				$("#selectCity").change(function(){
+				var City = $('#selectCity option:selected').val(); //市选中的值
+				var Cityid=$("#selectCity").val()
+					if(!City==''){
+					 
+
+
+					 $.ajax({
+                    url:"http://172.20.10.2:8080/gateway/appregion/getRegionList", 
+                    type:'post',
+                    data:{
+                    	id:Cityid
+                    },
+                    dataType:"json",
+                    // contentType:"application/json",
+                    success:function(data){
+                        console.log(data);
+                        var AreaStr = '';
+                          for (var i = 0; i < data.data.length; i++) {
+                              AreaStr += "<option value='"+data.data[i].id+"'>"+data.data[i].name+"</option>"    
+                          }
+                          // console.log(AreaStr)
+                       $("#selectArea").html('<option value="" selected="true"  disabled="">请选择县区</option>'+AreaStr);
+  						document.getElementById("selectArea").style.display="block";
+                        },
+                 
+                  });   
+			     }
+				  
+
+				   
+				  })
+		
+           // $("#selectArea").click(function(){
+           	    
+           // 	    document.getElementById("next").style.display="block";  
+
+           // 	 })
+
+// 存储地区选择数据
+
+
+    $("#next").on("click",function(){
+         	    var Pro = $('#selectPro option:selected').val(); //省选中的值
+				var City = $('#selectCity option:selected').val(); //市选中的值
+				var Area = $('#selectArea option:selected').val(); //区选中的值
+				var Areaid=$("#selectArea").val()
+				// 提交时判断知否为空
+				if(Pro==''){
+					layer.msg('请选择省份！');
+					 return false;
+			     }
+			     if(City==''){
+				
+					layer.msg('请选择城市！');
+					 return false;
+			     }
+			     if(Area==''){
+					
+					layer.msg('请选择县区！');
+					 return false;
+			     }
+        
+				$.ajax({
+					type: "post",
+					dataType: "json",
+					url: "http://172.20.10.2:8080/gateway/appregion/editRegion",
+					data: {
+						regionId: Areaid
+					},
+					success: function(data) {
+						console.log(data.code)
+
+						if(data.code == "0000") {
+							var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+				            //window.location.href = "myTransitCard.html?codeId="+codeId;
+				            layer.open({
+				                type: 2,
+				                closeBtn: 0,
+				                title: false,
+				                content: "nameAuthenticate.html?codeId="+codeId,
+				                area: ['100%', '100%'],
+				                yes: function(index) {
+				                    layer.close(index);
+				                },
+				                end: function() {
+				                    form.render();
+				                }
+				            });
+							// window.location.href = "nameAuthenticate.html";
+ 
+						} else {
+							alert("选择有误")
+						}
+					}
+				});
+			})
+</script>
+	</body>
+
+</html>
