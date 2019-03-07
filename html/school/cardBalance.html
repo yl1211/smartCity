@@ -38,8 +38,8 @@
 						<div class="layui-row recordBalance">
 							交易明细
 						</div>
-					<a href="transactionDetails.html">
-					<i class="layui-icon layui-icon-right icon-right">
+					<a href="javascript:;">
+					<i class="layui-icon layui-icon-right icon-right" id="schooltransactionDetails">
 					</i>
 		          </a> 
 				</div>
@@ -59,10 +59,8 @@
 			<!-- 交易明细与充值end -->
 		</div>
 	</body>
-	<script src="../../js/jquery-3.3.1.min.js">
-	</script>
-	<script src="../../layui/layui.js">
-	</script>
+	<script src="../../js/jquery-3.3.1.min.js"></script>
+	<script src="../../layui/layui.js"></script>
 
 	<script>
 		var codeId = localStorage.getItem('codeId');
@@ -81,7 +79,25 @@
 				parent.layer.close(index);
 			});
 		});
-		
+		// 交易明细
+        $("#schooltransactionDetails").on("click",function(){
+//          var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+//          //window.location.href = "transactionDetails.html?codeId="+codeId;
+//          localStorage.setItem("codeId",codeId);
+            layer.open({
+                type: 2,
+                closeBtn: 0,
+                title: false,
+                content: "schooltransactionDetails.html",
+                area: ['100%', '100%'],
+                yes: function(index) {
+                    layer.close(index);
+                },
+                end: function() {
+                    form.render();
+                }
+            });
+        });
 		// 充值
         $("#transitRecharge").on("click",function(){
 //          var codeId = $("#cardMsg").val().replace(/\s*/g,"");
@@ -91,7 +107,7 @@
                 type: 2,
                 closeBtn: 0,
                 title: false,
-                content: "transitRecharge.html?codeId="+codeId,
+                content: "schoolRecharge.html",
                 area: ['100%', '100%'],
                 yes: function(index) {
                     layer.close(index);
