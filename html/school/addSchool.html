@@ -16,12 +16,13 @@
 			<div class="layui-row schoolContent">
 				<h2 class="schoolTitle">
                     <a href="javascript:;" class="back ofenBack">
-                        <i class="layui-icon layui-icon-left"></i> 返回
+                        <i class="layui-icon layui-icon-left"></i>
+                        <p class="comeback">返回</p>
                     </a>
                    添加
                </h2>
 				<div class="layui-row contentBox" id="content">
-					<form class="layui-form" action="">
+					<form class="layui-form" >
 						<div class="layui-form-item">
 							<label class="layui-form-label">选择学校</label>
 							<div class="layui-input-inline">
@@ -75,6 +76,33 @@
 		});
 	</script>
 	<!--end-->
+	<!-- <script type="text/javascript">
+		// 进入程序就请求接口
+	$(document).ready(function(e){	
+        
+
+				    //输出省
+				  $.ajax({
+                    url:"http://172.20.10.2:8080/gateway/appregion/getProvinceRegionList", 
+                    type:'post',
+                    // data:{area:area},
+                    dataType:"json",
+                    // contentType:"application/json",
+                    success:function(data){
+                        console.log(data);
+                        var ProvinceStr = '';
+                          for (var i = 0; i < data.data.length; i++) {
+                              ProvinceStr += "<option value='"+data.data[i].id+"'>"+data.data[i].name+"</option>"
+                          }
+                          
+                       $("#selectPro").html('<option value="" selected="true"  disabled="">请选择省份</option>'+ProvinceStr);
+
+                        },
+                 
+             });  
+     
+		 });
+	</script> -->
 	<script>
 		var codeId = localStorage.getItem('codeId');
 		var content = localStorage.getItem('content');
@@ -101,7 +129,7 @@
 						console.log(data);
 						if(data) {
 							setTimeout(function() {
-								window.location.href = "addSuccess.html";
+								window.location.href ="addSuccess.html";
 							}, 3000);
 						}
 					}

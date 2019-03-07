@@ -64,14 +64,12 @@
 
 /* 最新动态 */
 .lastestNews {
-/*	padding: 0 1rem;*/
+	padding: 0 1rem;
 /*    margin-bottom:4rem;*/
     background-color: #fff;
     /*padding-bottom:4rem;*/
 }
-.zuixin{
-	padding: 0 1rem;
-}
+
 .smartCityNotice {
     /*border-bottom: 1px solid #eee;*/
 }

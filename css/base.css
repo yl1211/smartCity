@@ -2,3 +2,9 @@ body {
 	max-width: 768px;
 	margin: 0 auto;
 }
+.comeback{
+	float: left;
+}
+.layui-icon{
+	float: left;
+}

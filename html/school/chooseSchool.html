@@ -60,7 +60,7 @@
 				<ul>
 					{{#  layui.each(item.list, function(index, items){ }}
 					<li class="tSchool">
-						<img src="{{ items.img }}" alt="">
+					
 						<span>{{ items.name }}</span>
 					</li>
 					{{#  }); }}
@@ -76,7 +76,7 @@
 				<ul>
 					{{#  layui.each(d.value, function(index, item){ }}
 					<li>
-						<img src="{{ item.img }}" alt="">
+						
 						<span>{{ item.name }}</span>
 					</li>
 					{{#  }); }}
@@ -107,6 +107,83 @@
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                 parent.layer.close(index); //再执行关闭
             })
+
+ // $(document).ready(function(e){ 
+
+
+
+ /**拼音排序 */
+                        function pySegSort(arr, empty) {
+                            if(!String.prototype.localeCompare)
+                                return null;
+                            var letters = "*ABCDEFGHJKLMNOPQRSTWXYZ".split('');
+                            var zh = "阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀".split('');
+                            var segs = [];// 存放数据
+                            var py = [];// 存放首字母
+                            var res = {};
+                            var curr;
+                            $.each(letters, function(i) {
+                                curr = {
+                                    letter: this,
+                                    data: []
+                                };
+                                $.each(arr, function(k, v) {
+                                    if((!zh[i - 1] || zh[i - 1].localeCompare(v.cityName) <= 0) && v.cityName.localeCompare(zh[i]) == -1) {
+                                        curr.data.push(this);
+                                    }
+                                });
+                                if(empty || curr.data.length) {
+                                    py.push(this);
+                                    segs.push(curr);
+                                    curr.data.sort(function(a, b) {
+                         
+                                        return a.cityName.localeCompare(b.cityName);
+                                    });
+                                }
+                            });
+                            res["segs"] = segs;
+                            res["py"] = py;
+                            return res;
+                        }
+
+
+           var industryType = "d31bcda74acd4499b96efc6d46a8eb98";
+     //输出省
+                  $.ajax({
+                    url:"http://192.168.112.45:8080/gateway/partnerInfo/partnerInfoList", 
+                    type:'post',
+                    data:{industryType:industryType},
+                    dataType:"json",
+                    // contentType:"application/json",
+                    success:function(data){
+                        
+                        var schoolStr = '';
+                        // var schoolname=data.data;
+                    function pinyin() {
+                        
+                        var arr2 = data.data;
+                        var str = pySegSort(arr2);
+                        JSON.stringify(str);
+                        console.log(str);
+                    }
+
+
+
+
+
+                       //    for (var i = 0; i < schoolname.length; i++) {
+                       //        schoolStr += "<div class='chooseBox'><div class='firstCode' id=''>{{ item.firstCode }}</div><div class='schoolList'><ul><li class='tSchool'><span>"+schoolname[i].name+"</span></li></ul></div></div>"
+                       //    }
+                          
+                       // $("#chooseSchool").html(schoolStr);
+
+                        },
+                 
+             });  
+     
+         // });
+
+
             /*$.ajax({
 	 		url: '',
 	 		type: 'POST',
@@ -167,7 +244,7 @@
                         }]
                     },
                     {
-                        firstCode: "N",
+                        firstCode: "B",
                         list: [{
                             img: "../../img/school_1.png",
                             name: "南宁广西财经大学"

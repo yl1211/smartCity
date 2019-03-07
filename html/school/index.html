@@ -18,12 +18,11 @@
             <div class="layui-row transitContent">
                 <h2 class="transitTitle">
                     <a href="javascript:history.back(-1);" class="back">
-                        <i class="layui-icon layui-icon-left">
-                        </i>
-                        返回
+                        <i class="layui-icon layui-icon-left"></i>
+                        <p class="comeback">返回</p>
                     </a>
                     校园
-                    <a href="javascript:##;" class="right addschool add">
+                    <a href="javascript:;" class="right addschool add">
                         添加
                     </a>
                 </h2>
@@ -40,7 +39,7 @@
                                     <p class="title">
                                        <!--  <img src="../../img/sy_gjc.png"> -->
                                         北京大学</p>
-                                    <p class="cardNum">李明   <span>2013  1811  131</span></p>
+                                    <p class="cardNum">李明<span>2013  1811  131</span></p>
                                     <p class="cardName"><span>校园卡</span></p>
                                 </div>
                             </div>
@@ -48,7 +47,7 @@
                                 <div class="transitCard">
                                     <p class="title">
                                      <!-- <img src="../../img/sy_gjc.png"> -->清华大学</p>
-                                    <p class="cardNum">天一   <span>2013  1811  132</span></p>
+                                    <p class="cardNum">天一<span>2013  1811  132</span></p>
                                     <p class="cardName"><span>校园卡</span></p>
                                 </div>
                             </div>
@@ -56,7 +55,7 @@
                                 <div class="transitCard">
                                     <p class="title">
                                     <!-- <img src="../../img/sy_gjc.png"> -->洛阳理工</p>
-                                    <p class="cardNum">小花   <span>2013  1811  133</span></p>
+                                    <p class="cardNum">小花<span>2013  1811  133</span></p>
                                     <p class="cardName"><span>校园卡</span></p>
                                 </div>
                             </div>
@@ -64,7 +63,7 @@
                                 <div class="transitCard">
                                     <p class="title">
                                     <!-- <img src="../../img/sy_gjc.png"> -->河南广播电视大学</p>
-                                    <p class="cardNum">小欧   <span>2013  1811  134</span></p>
+                                    <p class="cardNum">小欧<span>2013  1811  134</span></p>
                                     <p class="cardName"><span>校园卡</span></p>
                                 </div>
                             </div>
@@ -72,7 +71,7 @@
                                 <div class="transitCard">
                                     <p class="title">
                                     <!-- <img src="../../img/sy_gjc.png"> -->广西壮族大学</p>
-                                    <p class="cardNum">小美   <span>2013  1811  135</span></p>
+                                    <p class="cardNum">小美<span>2013  1811  135</span></p>
                                     <p class="cardName"><span>校园卡</span></p>
                                 </div>
                             </div>
@@ -216,53 +215,7 @@
             
         
         });
-        /*var certifySwiper = new Swiper('#certify .swiper-container', {
-            watchSlidesProgress: true,
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            loop: true,
-            loopedSlides: 5,
-            autoplay: false,
-            pagination: {
-                el: '.swiper-pagination',
-                //clickable :true,
-            },
-            on: {
-                progress: function(progress) {
-                    for (i = 0; i < this.slides.length; i++) {
-                        var slide = this.slides.eq(i);
-                        var slideProgress = this.slides[i].progress;
-                        modify = 1;
-                        if (Math.abs(slideProgress) > 1) {
-                            modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
-                        }
-                        translate = slideProgress * modify * 260 + 'px';
-                        scale = 1 - Math.abs(slideProgress) / 5;
-                        zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
-                        slide.transform('translateX(' + translate + ') scale(' + scale + ')');
-                        slide.css('zIndex', zIndex);
-                        slide.css('opacity', 1);
-                        if (Math.abs(slideProgress) > 3) {
-                            slide.css('opacity', 0);
-                        }
-                    }
-                },
-                setTransition: function(transition) {
-                    for (var i = 0; i < this.slides.length; i++) {
-                        var slide = this.slides.eq(i)
-                        slide.transition(transition);
-                    }
-                },
-                slideChangeTransitionEnd: function(){
-                    console.log(this);
-                    console.log(this.slides.eq(this.activeIndex).html());
-                    var $this = this.slides.eq(this.activeIndex);
-                    console.log(this.slides.eq(this.activeIndex).find(".cardNum").text())
-                  //alert(this.activeIndex);//切换结束时，告诉我现在是第几个slide
-                }
-            }
 
-        })*/
         var swiper = new Swiper('#certify .swiper-container', {
             effect: 'coverflow',
             grabCursor: true,
