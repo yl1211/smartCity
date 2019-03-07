@@ -11,6 +11,7 @@ html{
 	/*text-indent:2rem;*/
 	margin-top: 1rem;
 	text-align: center;
+	color: #999999;
 }
 .layui-form-label{
 	width: auto;
