@@ -43,7 +43,13 @@
 		</script>
 		<script>
 			var codeId = localStorage.getItem('codeId');
+			var schoolname=localStorage.setItem('schoolname');
+			var name=localStorage.setItem('name')
+        		console.log(name)
+        		console.log(schoolname)
         		console.log(codeId)
+
+
 			layui.use(['laytpl', 'layer'], function() {
 				var laytpl = layui.laytpl;
 				var layer = layui.layer;
@@ -60,20 +66,7 @@
 							"schoolName": "郑州大学",
 							"cardNum": "2015 181 132",
 							"cardType": "校园卡"
-						},
-						{
-							"cardImg": "../../img/sc_logo.png",
-							"schoolName": "河南大学",
-							"cardNum": "2013 181 132",
-							"cardType": "校园卡"
-						},
-						{
-							"cardImg": "../../img/sc_logo.png",
-							"schoolName": "清华大学",
-							"cardNum": "2012 181 132",
-							"cardType": "校园卡"
-						}
-					]
+						}]
 				}
 				// $.ajax({
 				// 	url: '',
@@ -89,6 +82,33 @@
 				laytpl(getAppTpl).render(appData, function(html) {
 					appView.innerHTML = html;
 				});
+//获取url中的参数
+						function getUrlParam(name) {
+							var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+							var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+							if (r != null) return unescape(r[2]); return null; //返回参数值
+						}
+						var id = getUrlParam('id'); //公益募捐详情ID
+// 解绑校园卡信息
+// 	$(function(){  
+// 			$.ajax({
+// 					url: "http://1.192.121.127:12613/gateway/merchant/delMerchant?id="+id,
+// 					type: 'post',
+// 					data: {},
+// 					dataType: 'json',
+// 					success: function (data) {
+// 						console.log(data);
+// 						var schoolcardStr = '';
+//                           for (var i = 0; i < data.data.length; i++) {        	
+// 							  schoolcardStr += "<div class='layui-col-xs12  schoolCard'><p class='title'><img src='../../img/sc_logo.png'>{{item.schoolName }}</p><p class='cardNum'>{{ item.cardNum }}</p><p class='cardName'><span>{{item.cardType }}</span></p></div>"  
+
+//                             }
+//                             // new Array(16).join('data') + cardNum.slice(15);
+//                           $("#untyingBox").append(schoolcardStr);
+//                       }
+//             });
+// 			});
+
 				//解绑弹窗
 				$(".schoolCard").on('click', function() {
 				    var cardnum=$(this).find("P").eq(1).text();
