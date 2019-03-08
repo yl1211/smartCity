@@ -19,41 +19,19 @@
                     <a href="javascript:history.back(-1);" class="goBack">
                         <i class="layui-icon layui-icon-left"></i> 返回
                     </a>
-                 家长管控
-                  <a href="###" class="range" id="userRange">适用范围</a>
+                	 家长管控
+                  	<a href="###" class="range" id="userRange">适用范围</a>
                 </h2>
 			</div>
 			<h3 class="msg">开通后，接收孩子校园、公交等信息</h3>
-			<form class="layui-form control-form" action="" id="content">
-			</form>
-			<h3 class="msg">温馨提示：由于网络延迟，有可能出现信息更新信息延迟情况，请耐心等待。</h3>
-		</div>
-		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="../../layui/layui.js"></script>
-		<script type="text/javascript">
-			layui.use('form', function() {
-						var form = layui.form;
-				})
-		</script>
-		<script id="appContent" type="text/html">
-			{{# layui.each(d.appList, function(index, item){ }}
-			<div class="layui-form-item">
-					<label class="layui-form-label">孩子姓名</label>
-					<div class="layui-input-block">
-						<input type="text" name="identity" id="namea" autocomplete="off" class="layui-input" disabled="" value="{{ item.childName }}">
-					</div><hr />
-					<label class="layui-form-label">开通</label>
-					<input type="checkbox" name="xxx" lay-skin="switch">
-				</div>
-			<!--无数据时-->
-			{{# }); }} {{# if(d.appList.length === 0){ }}
-			<div class="layui-form-item">
+			<form class="layui-form" action="" id="content">
+				<div class="layui-form-item">
 					<label class="layui-form-label">孩子姓名</label>
 					<div class="layui-input-block">
 						<input type="text" name="identity" id="namea" autocomplete="off" class="layui-input" disabled="" value="付苏苏">
 					</div><hr />
 					<label class="layui-form-label">开通</label>
-					<input type="checkbox" name="xxx" lay-skin="switch">
+					<input type="checkbox" lay-filter="switchTest" name="switch" lay-skin="switch">
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">孩子姓名</label>
@@ -61,41 +39,29 @@
 						<input type="text" name="identity" id="namea" autocomplete="off" class="layui-input" disabled="" value="付醒醒">
 					</div><hr />
 					<label class="layui-form-label">开通</label>
-					<input type="checkbox" name="xxx" lay-skin="switch">
+					<input type="checkbox" lay-filter="switchTest" name="switch" lay-skin="switch">
 				</div>
-			{{# } }}
-		</script>
-		<script>
-			layui.use('laytpl', function() {
-				var laytpl = layui.laytpl;
-				var appData = { //数据
-					"title": "应用模板引擎",
-					"appList": [{
-							"childName": "付星星"
-						},
-						{
-							"childName": "付醒醒"
-						},
-						{
-							"childName": "付妮妮"
-						}
-					]
-				}
-				// $.ajax({
-				// 	url: '',
-				// 	type: 'post',
-				// 	data: {
-				// 	},
-				// 	dataType: 'json',
-				// 	success: function (data) {
-				// 		console.log(data);3
-				// 	}
-				var getAppTpl = appContent.innerHTML,
-					appView = document.getElementById('content');
-				laytpl(getAppTpl).render(appData, function(html) {
-					appView.innerHTML = html;
-				});
-			});
+			</form>
+			<h3 class="msg">温馨提示：由于网络延迟，有可能出现信息更新信息延迟情况，请耐心等待。</h3>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script type="text/javascript">
+			layui.use('form', function() {
+				var form = layui.form;
+				form.render();
+				//监听指定开关
+				form.on('switch(switchTest)', function(data){
+					console.log(data.elem.checked)
+				})
+				
+//			  	form.on('switch(switchTest)', function(data){
+//			    	layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+//			      	offset: '6px'
+//			    	});
+//			    	layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+//			  	});
+			});		
 			
 			//使用范围
 			$("#userRange").on("click",function(){
@@ -109,11 +75,10 @@
 	                    layer.close(index);
 	                },
 	                end: function() {
-	                    form.render();
+//	                    form.render();
 	                }
 	            });
         	});
 		</script>
 	</body>
-
 </html>
