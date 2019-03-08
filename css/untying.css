@@ -46,8 +46,8 @@
 
 }
 .schoolCard p.cardName span {
-	padding: 8px 20px;
+	padding: 7px 20px;
     background: rgba(255,255,255,.5);
-    margin-right: -13px;
+    margin-right: -14px;
     font-size: 0.8rem;
 }

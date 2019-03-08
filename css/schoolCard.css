@@ -17,7 +17,7 @@
 #certify .swiper-container {
 	width: 100%;
     padding-top: 1rem;
-    padding-bottom: 1.25rem;
+    padding-bottom: 1.3rem;
 }
 
 #certify .swiper-slide {
@@ -71,7 +71,7 @@
 .transitCard p.cardNum {
 	/*font-size: 2.2rem;
 	margin: 30px auto 15px;*/
-	font-size: 1.3rem;
+	font-size: 1.2rem;
     margin: 2rem auto 1.8rem;
     text-align: center;
 }

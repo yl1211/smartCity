@@ -38,45 +38,60 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="transitCard">
-                                <p class="title">
-                                    <!--  <img src="../../img/sy_gjc.png"> -->
-                                    北京大学</p>
-                                <p class="cardNum">李明 <span>2013 1811 131</span></p>
-                                <p class="cardName"><span>校园卡</span></p>
+                                 <p class="title">
+                                       <!--  <img src="../../img/sy_gjc.png"> -->
+                                        北京大学</p>
+                                    <p class="cardNum">
+                                        <span class="carname">黎明</span>
+                                        <span  class="num">2011 1811 907</span>
+                                    </p>
+                                    <p class="cardName"><span>校园卡</span></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="transitCard">
-                                <p class="title">
-                                    <!-- <img src="../../img/sy_gjc.png"> -->清华大学</p>
-                                <p class="cardNum">天一 <span>2013 1811 132</span></p>
-                                <p class="cardName"><span>校园卡</span></p>
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title">
+                                     <!-- <img src="../../img/sy_gjc.png"> -->清华大学</p>
+                                    <p class="cardNum">
+                                        <span class="carname">赵晨</span>
+                                        <span  class="num">2012 1811 795</span>
+                                    </p>
+                                    <p class="cardName"><span>校园卡</span></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="transitCard">
-                                <p class="title">
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title">
                                     <!-- <img src="../../img/sy_gjc.png"> -->洛阳理工</p>
-                                <p class="cardNum">小花 <span>2013 1811 133</span></p>
-                                <p class="cardName"><span>校园卡</span></p>
+                                    <p class="cardNum">
+                                        <span class="carname">阳光</span>
+                                        <span  class="num">2013 1811 753</span>
+                                    </p>
+                                    <p class="cardName"><span>校园卡</span></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="transitCard">
-                                <p class="title">
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title">
                                     <!-- <img src="../../img/sy_gjc.png"> -->河南广播电视大学</p>
-                                <p class="cardNum">小欧 <span>2013 1811 134</span></p>
-                                <p class="cardName"><span>校园卡</span></p>
+                                    <p class="cardNum">
+                                        <span class="carname">四月天气</span>
+                                        <span  class="num">2014 1811 268</span>
+                                    </p>
+                                    <p class="cardName"><span>校园卡</span></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="transitCard">
-                                <p class="title">
+                            <div class="swiper-slide">
+                                <div class="transitCard">
+                                    <p class="title">
                                     <!-- <img src="../../img/sy_gjc.png"> -->广西壮族大学</p>
-                                <p class="cardNum">小美 <span>2013 1811 135</span></p>
-                                <p class="cardName"><span>校园卡</span></p>
+                                    <p class="cardNum">
+                                        <span class="carname">小花花</span>
+                                        <span  class="num">2016 1811 356</span>
+                                    </p>
+                                    <p class="cardName"><span>校园卡</span></p>
+                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -266,6 +281,16 @@
                 var $this = this.slides.eq(this.activeIndex);
                 // console.log(this.slides.eq(this.activeIndex).find(".cardNum span").text());
                 $("#cardMsg").val($this.find(".cardNum span").text());
+
+
+                 // var $this = this.slides.eq(this.activeIndex);
+                    // console.log(this.slides.eq(this.activeIndex).find(".cardNum .num").text());//获取选中卡的id
+                    // console.log(this.slides.eq(this.activeIndex).find(".title ").text());//获取选中卡的学校名称
+                    // console.log(this.slides.eq(this.activeIndex).find(".cardNum .carname").text());//获取选中卡的名字
+                    // var codeId=$this.find(".cardNum .num").text();
+                    // var schoolname=$this.find(".title").text();
+                    // var name=$this.find(".cardNum .carname").text();
+                    // $("#cardMsg").val(codeId,schoolname,name);
             }
         }
     });
@@ -430,14 +455,17 @@
     });
     // 解绑
     $("#untying").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+        var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+         // console.log(codeId)
         //window.location.href = "transactionDetails.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
+        localStorage.setItem("codeId",codeId);
+        // localStorage.setItem("schoolname",schoolname);
         layer.open({
             type: 2,
             closeBtn: 0,
             title: false,
-            content: "untying.html?codeId=" + codeId,
+            content: "untying.html?codeId=" +codeId,
+            // content: "untying.html?codeId=" +codeId+"schoolname="+schoolname,
             area: ['100%', '100%'],
             yes: function (index) {
                 layer.close(index);
@@ -449,13 +477,16 @@
     });
     // 挂失
     $("#cardLoss").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+        var codeId = $("#cardMsg").val().replace(/\s*/g,"");//传递卡号
+        // var name = $("#cardMsg").val($this.find(".cardNum").text()).replace(/^[\u4e00-\u9fa5]+$/,"")//传递用户名称
         //window.location.href = "serviceRange.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
+        localStorage.setItem("codeId",codeId );
+        // localStorage.setItem("name",name);
         layer.open({
             type: 2,
             closeBtn: 0,
             title: false,
+            // content: "cardLoss.html?codeId="+codeId+"name="+name,
             content: "cardLoss.html?codeId=" + codeId,
             area: ['100%', '100%'],
             yes: function (index) {

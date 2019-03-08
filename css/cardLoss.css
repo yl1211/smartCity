@@ -1,6 +1,7 @@
 .file-title {
 	text-align: center;
 	line-height: 3rem;
+	font-size: 1.1rem;
 }
 
 .back {
@@ -17,13 +18,13 @@
 	font-size: 1rem;
 }
 .loss {
-	margin-top: 1rem;
+	margin: 2rem 0 1rem;
 	text-align: center;
 }
 
 .loss img {
-	height: 9rem;
-	width: 9rem;
+	height: 4rem;
+	width: 3.8rem;
 }
 
 .lossBox {
@@ -32,21 +33,27 @@
 }
 
 .lossBox p {
-	padding: 1rem 0rem;
-	border-bottom: 1px solid gray;
+    padding: 1rem 0rem 0.3rem;
+    border-bottom: 1px solid #eceaea;
+    font-size: 0.86rem;
+    color: #000;
+
 }
 
 .lossBox span {
-	color: gray;
+	color:#c0bdbd;
 	float: right;
+    font-weight:500; 
 }
 
 .warn {
-	margin-top: 1rem;
-	color: gray;
+	margin-top: 0.6rem;
+/*	color: gray;*/
+	color:#c0bdbd;
+	font-size: 0.86rem;
 }
 .lossBtn{
-	margin-top: 1rem;
+	margin-top: 2rem;
 	width: 100%;
 	background-color: rgb(0,95,166);
 	margin-bottom: 240px;
