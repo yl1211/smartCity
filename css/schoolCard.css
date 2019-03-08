@@ -6,9 +6,9 @@
 }
 
 .transitTitle {
-	font-size: 0.9rem;
+	font-size: 1rem;
 	height: 3rem;
-	line-height: 3.5rem;
+	line-height: 3rem;
 	text-align: center;
 	color: #000;
 }
@@ -34,6 +34,7 @@
 	text-align: center;
 	background-color: rgba(153, 153, 153, 0);
 	margin-left: -6px;
+	color: #489CF5;
 }
 
 .add {
@@ -52,7 +53,7 @@
 	background-color: rgba(92, 209, 222, 1);
 	border-radius: 10px;
 	box-shadow: 0px 5px 16px #979b9e;
-	padding: 1.1rem;
+	padding: 1.1rem 0;
 	color: #fff;
 	text-align: right;
 	font-size: 0.9rem;
@@ -60,6 +61,7 @@
 
 .transitCard p.title {
 	text-align: left;
+	margin-left: 1.1rem;
 }
 
 .transitCard p.title img {
@@ -74,6 +76,10 @@
 	font-size: 1.2rem;
     margin: 2rem auto 1.8rem;
     text-align: center;
+  display: inline-block;
+  white-space: nowrap; 
+  width: 100%; 
+  overflow: hidden;
 }
 
 .transitCard p.cardName {
@@ -82,7 +88,7 @@
 .transitCard p.cardName span {
 	padding: 4px 10px;
 	background: rgba(255, 255, 255, .5);
-	margin-right: -1.1rem;
+	/*margin-right: -1.1rem;*/
 	font-size: 0.8rem;
 }
 
