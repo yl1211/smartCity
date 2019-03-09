@@ -60,6 +60,10 @@
 .cardContent span{
 	float: right;
 	color: darkgray;
+	font-size: 14px;
+}
+.cardContent .layui-row{
+	border-bottom: 1px solid darkgray;
 }
 .layui-row{
 	line-height: 3rem;

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/noReceive.css" />
+		<title>充值交易明细详情</title>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row listContent">
+				<h2 class="listTitle">
+                    <a href="javascript:;" class="back">
+	                	<i class="layui-icon layui-icon-left"></i>
+	                	返回
+	            	</a>
+                    交易明细
+                </h2>
+				<!--未领款内容-->
+				<div class="layui-row contentBox" id="content">
+					<form class="layui-form" action="">
+				<div class="layui-col-xs10 layui-col-xs-offset1 dealContent">
+					<p class="dealing">充值</p>
+					<p class="receiveMoney"></p>
+				</div>
+				<div class="layui-col-xs10 layui-col-xs-offset1 cardContent">
+					<div class="layui-row">
+						<div class="layui-col-xs6">
+							<div class="payType">充值方式</div>
+						</div>
+						<div class="layui-col-xs6">
+							<span class="type">农信E支付</span>
+						</div>
+					</div>
+					<div class="layui-row">
+						<div class="layui-col-xs6">
+							<div class="payType">城市云卡卡号</div>
+						</div>
+						<div class="layui-col-xs6">
+							<span class="type">8329 8475 0223 9005</span>
+						</div>
+					</div>
+					<div class="layui-row">
+						<div class="layui-col-xs6">
+							<div class="payType">创建时间</div>
+						</div>
+						<div class="layui-col-xs6">
+							<span class="type">2018-13-23  12:22:33</span>
+						</div>
+					</div>
+					<div class="layui-row">
+						<div class="layui-col-xs6">
+							<div class="payType_1">备注</div>
+						</div>
+						<div class="layui-col-xs6">
+							<span class="type">123</span>
+						</div>
+					</div>
+				</div>
+			</form>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script>
+			var money = localStorage.getItem('money');
+			console.log(money)
+			if (money > 0) {
+				$('.payType_1').html('备注')
+			} else{
+				$('.payType_1').html('线路')
+			}
+			$('.receiveMoney').html(money)
+			layui.use(['laytpl', 'layer', 'form'], function() {
+				var form = layui.form;
+				var laytpl = layui.laytpl;
+				var layer = layui.layer;
+				//返回按钮
+		        $(".back").on("click", function () {
+		            var index = parent.layer.getFrameIndex(window.name); 
+		            parent.layer.close(index); 
+		        })
+//				
+				// $.ajax({
+				// 	url: '',
+				// 	type: 'post',
+				// 	data: {
+				// 	},
+				// 	dataType: 'json',
+				// 	success: function (data) {
+				// 		console.log(data);
+				// 	}
+			});
+		</script>
+	</body>
+
+</html>
