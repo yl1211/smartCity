@@ -117,7 +117,7 @@
 		  // 请求首页相关功能列表
 		  
 			$.ajax({
-				url: 'http://192.168.112.45:8080/gateway/appfunction/getAllAppFunction',
+				url: 'http://1.192.121.127:12613/gateway/appfunction/getAllAppFunction',
 				type: 'post',
 				data: {},
 				dataType: 'json',
@@ -130,6 +130,28 @@
                             }
                             // new Array(16).join('data') + cardNum.slice(15);
                           $("#appView").append(appStr+"<div class='layui-col-xs3 imgmore'><a href='../home/more.html'><div class='img-txt '><img src='../../img/sy_more.png' alt=''><h3>更多</h3></div></a></div>");
+					
+				}
+			});
+
+
+			// 请求最新一条动态
+		  
+			$.ajax({
+				url: 'http://1.192.121.127:12613/gateway/notice/getNewOneNotice',
+				type: 'post',
+				data: {},
+				dataType: 'json',
+				success: function (data) {
+					console.log(data);
+					var NoticeView = '';
+					var notes = data.data;
+                          for (var i = 0; i < 2; i++) {        	
+							  NoticeView += "<div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='"+notes[i].noticeImg+"' alt=''></div><div class='layui-col-xs10 noticeTitle'><p class='newstop'>"+notes[i].title+"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id="+notes[i].id+"'><h2 class='newsTitle'>"+notesnew[i].description+"</h2></a><div class='time'><small>"+notes[i].createTime+"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='' alt=''  width='100%'></div></div>"  
+
+                            }
+
+                          $("#smartCityNoticeView").append(NoticeView);
 					
 				}
 			});
