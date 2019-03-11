@@ -56,6 +56,7 @@
     <script src="../../js/jquery-3.3.1.min.js"></script>
     <script src="../../layui/layui.js"></script>
     <script src="../../js/jquery.selector-px.js"></script>
+    <script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
     <script id="seachContent" type="text/html">
         {{#layui.each(d.value,function(index, item) {}}
         <div class="layui-row seachContentBox">
@@ -77,56 +78,19 @@
     </script>
     <script>
         //获取日期时间段
-        function fun_date(time){
-            var date1 = new Date();
-//          time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
-			if (date1.getMonth()+1 < 10  && date1.getDate() < 10) {
-				var month = "0"+(date1.getMonth()+1);
-            	var day = "0"+date1.getDate();
-            	var time1 = date1.getFullYear()+"-"+month+"-"+day;
-			} else if(date1.getMonth()+1 < 10  && date1.getDate() >= 10){
-				var month = "0"+(date2.getMonth()+1);
-            	var time1 = date2.getFullYear()+"-"+months+"-"+date2.getDate();
-			}else if (date1.getMonth()+1 >= 10  && date1.getDate() < 10) {
-				var day = "0"+date1.getDate();
-            	var time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+day;
-			}else{
-				time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
-			}
-			
-			
-            var date2 = new Date(date1);
-            date2.setDate(date1.getDate()+time);
-//          var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate();
-            if (date2.getMonth()+1 < 10 && date2.getDate() < 10) {
-            	var months = "0"+(date2.getMonth()+1);
-            	var days = "0"+date2.getDate();
-            	var time2 = date2.getFullYear()+"-"+months+"-"+days;
-            } else if (date2.getMonth()+1 < 10 && date2.getDate() >= 10) {
-            	var months = "0"+(date2.getMonth()+1);
-            	var time2 = date2.getFullYear()+"-"+months+"-"+date2.getDate();
-            }else if (date2.getMonth()+1 >= 10 && date2.getDate() < 10) {
-            	var days = "0"+date2.getDate();
-            	var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+days;
-            }else{
-            	var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate();
-            }
-            if (!time) {
-                return time1;
-            } else {
-                return time2;
-            }
-        }
-        var layid = getQueryString("layid");
-        //获取url参数
-         function getQueryString(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) {
-                return decodeURIComponent(r[2]);
-            }
-            return '';
-        }
+       	function fun_date(time) {
+	        var date1 = new Date(),
+	            time1 = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();//time1表示当前时间
+	        var date2 = new Date(date1);
+	        date2.setDate(date1.getDate() + time);
+	        var time2 = date2.getFullYear() + "-" + (date2.getMonth() + 1) + "-" + date2.getDate();
+	        if (!time) {
+	            return time1;
+	        } else {
+	            return time2;
+	        }
+	    }
+        var layid = $.getQueryString("layid");
         layui.use(['form', 'layer', 'element', 'laytpl'],function() {
             var form = layui.form,
             layer = layui.layer,
