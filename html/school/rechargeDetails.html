@@ -7,32 +7,25 @@
 		<link rel="stylesheet" href="../../layui/css/layui.css">
 		<link rel="stylesheet" href="../../css/base.css">
 		<link rel="stylesheet" href="../../css/noReceive.css" />
-		<title>校园卡交易明细详情</title>
+		<title>充值交易明细详情</title>
 	</head>
 
 	<body>
 		<div class="layui-fluid">
 			<div class="layui-row listContent">
 				<h2 class="listTitle">
-                    <a href="javascript:history.back(-1)" class="back">
-                        <i class="layui-icon layui-icon-left"></i> 返回
-                    </a>
+                    <a href="javascript:;" class="back">
+	                	<i class="layui-icon layui-icon-left"></i>
+	                	返回
+	            	</a>
                     交易明细
                 </h2>
 				<!--未领款内容-->
 				<div class="layui-row contentBox" id="content">
-					<!---->
-				</div>
-			</div>
-		</div>
-		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="../../layui/layui.js"></script>
-		<script id="receiveContent" type="text/html">
-			{{# layui.each(d.appList, function(index, item){ }}
-			<form class="layui-form" action="">
+					<form class="layui-form" action="">
 				<div class="layui-col-xs10 layui-col-xs-offset1 dealContent">
 					<p class="dealing">充值</p>
-					<p class="receiveMoney">{{ item.receiveMoney }}</p>
+					<p class="receiveMoney"></p>
 				</div>
 				<div class="layui-col-xs10 layui-col-xs-offset1 cardContent">
 					<div class="layui-row">
@@ -40,7 +33,7 @@
 							<div class="payType">充值方式</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type">{{ item.receiveType }}</span>
+							<span class="type">农信E支付</span>
 						</div>
 					</div>
 					<div class="layui-row">
@@ -48,7 +41,7 @@
 							<div class="payType">城市云卡卡号</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type">{{ item.receiveNum }}</span>
+							<span class="type">8329 8475 0223 9005</span>
 						</div>
 					</div>
 					<div class="layui-row">
@@ -56,37 +49,43 @@
 							<div class="payType">创建时间</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type">{{ item.receiveTime }}</span>
+							<span class="type">2018-13-23  12:22:33</span>
 						</div>
 					</div>
 					<div class="layui-row">
 						<div class="layui-col-xs6">
-							<div class="payType">备注</div>
+							<div class="payType_1">备注</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type">{{ item.receiveLine }}</span>
+							<span class="type">123</span>
 						</div>
 					</div>
 				</div>
 			</form>
-			<!--无数据时-->
-			{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
-		</script>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
 		<script>
+			var money = localStorage.getItem('money');
+			console.log(money)
+			if (money > 0) {
+				$('.payType_1').html('备注')
+			} else{
+				$('.payType_1').html('线路')
+			}
+			$('.receiveMoney').html(money)
 			layui.use(['laytpl', 'layer', 'form'], function() {
 				var form = layui.form;
 				var laytpl = layui.laytpl;
 				var layer = layui.layer;
-				var receiveData = { //数据
-					"title": "应用模板引擎",
-					"appList": [{
-						"receiveMoney": "+100",
-						"receiveType": "农信E支付",
-						"receiveNum": "201401014102",
-						"receiveTime": "2018-02-03",
-						"receiveLine": "198路"
-					}]
-				}
+				//返回按钮
+		        $(".back").on("click", function () {
+		            var index = parent.layer.getFrameIndex(window.name); 
+		            parent.layer.close(index); 
+		        })
+//				
 				// $.ajax({
 				// 	url: '',
 				// 	type: 'post',
@@ -96,35 +95,6 @@
 				// 	success: function (data) {
 				// 		console.log(data);
 				// 	}
-				var getAppTpl = receiveContent.innerHTML,
-					appView = document.getElementById('content');
-				laytpl(getAppTpl).render(receiveData, function(html) {
-					appView.innerHTML = html;
-				});
-
-				//监听提交
-				form.on('submit(demo1)', function(data) {
-					$.ajax({
-						url: '',
-						type: 'post',
-						data: {
-							data: data.field
-						},
-						dataType: 'json',
-						success: function(data) {
-							console.log(data);
-							if(data) {
-								setTimeout(function() {
-									window.location.href = "receiveSuccess.html";
-								}, 3000);
-							}
-						}
-						//当请求接口出现错误的时候执行error
-						/*	error:function(XMLHttpRequest){
-								window.location.href = "receiveError.html";
-							}*/
-					});
-				});
 			});
 		</script>
 	</body>

@@ -209,9 +209,20 @@
                 });
                 
             });
-            $('.seachContentBox').on('click', function(e) {
-			  var money = $(this).find(".detailsMoney").html();
-			  console.log("*********",$(this).index() + money)
+            $('.seachContent').on('click','.seachContentBox',function(){
+				var money = $(this).find(".detailsMoney").html();
+				console.log("*********",$(this).index() + money);
+				localStorage.setItem('money',money);
+				layer.open({
+		            type: 2,
+		            closeBtn: 0,
+		            title: false,
+		            content: 'rechargeDetails.html?money=' + money,
+		            area: ['100%', '100%'],
+		            yes: function (index) {
+		                layer.close(index);
+		            },
+		        });
 			});
         }); 
     </script>
