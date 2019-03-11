@@ -82,28 +82,57 @@
 	var content = localStorage.getItem('content');   //学校名称
 	var userid = localStorage.getItem('userid');     //用户id
 	var dpcode = "11001";                            //机构代码
-	var partnerCode = "10003";                          //商户号
-	var industryType = "d31bcda74acd4499b96efc6d46a8eb98"; //机构类型
+	// var partnerCode = "10003";                          //商户号
+	var industryType = "school"; //机构类型
 	var username = $("input[name='username']").val();   //姓名
 	var cardId = $("input[name='cardId']").val();       //身份证号
 	var number = $("input[name='number']").val();       //学号/工号
 	console.log(codeId);
 	console.log(userid);
 	// $('.schoolName').html(content);
-	layui.use(['form', 'jquery', 'layer'], function () {
+	layui.use(['form', 'jquery', 'layer', 'element'], function () {
 		var form = layui.form;
 		var $ = layui.$;
+		var layer = layui.layer;
+		var element = layui.element;
 
+		// 判断身份证格式是否正确
+		$('#id-card').blur(function () {
+			var idcard = $('#id-card').val();
+			var Rega = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+			if (!Rega.test(idcard)) {
+				layer.msg('请输入正确的身份证格式！');
+				return false;
+			}
+		});
 
-		//判断用户在该学校是否已绑定卡片
-		$(function () {
+		form.on('submit(demo1)', function (data) {
+			// $.ajax({
+			// 	url: '',
+			// 	type: 'post',
+			// 	data: {
+			// 		data: data.field
+			// 	},
+			// 	dataType: 'json',
+			// 	success: function (data) {
+			// 		console.log(data);
+			// 		if (data) {
+			// 			setTimeout(function () {
+			// 				window.location.href = "addSuccess.html";
+			// 			}, 3000);
+			// 		}
+			// 	}
+			// });
+
+			alert("哈哈哈");
+
 			$.ajax({
 				url: "http://1.192.121.127:12613/gateway/merchant/openMerchant",
 				type: "post",
 				data: {
 					dpcode: dpcode,
 					industryTyp: industryType,
-					partnerCode: partnerCode,
+					// partnerCode: partnerCode,
 					userid: userid,
 					username: username,
 					outid: number
@@ -112,52 +141,13 @@
 				success: function (res) {
 					if (res.code === "0000") {
 						console.log(res.msg);
-						console.log(res.data.realname);
 
 					} else {
-						// console.log(res.msg);
-						// layer.msg('请前去实名认证！');
-						// setTimeout(function () {
-						// 	window.location.href = "../login/nameAuthenticate.html";
-						// }, 1000)
-
+						console.log(res.msg);
 					}
 				}
 			});
 		});
-
-
-
-		form.on('submit(demo1)', function (data) {
-			$.ajax({
-				url: '',
-				type: 'post',
-				data: {
-					data: data.field
-				},
-				dataType: 'json',
-				success: function (data) {
-					console.log(data);
-					if (data) {
-						setTimeout(function () {
-							window.location.href = "addSuccess.html";
-						}, 3000);
-					}
-				}
-			});
-		});
-	});
-</script>
-
-<script>
-	// 判断身份证格式是否正确
-	$('#id-card').blur(function () {
-		var idcard = $('#id-card').val();
-		var Rega = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-		if (!Rega.test(idcard)) {
-			layer.msg('请输入正确的身份证格式！');
-			return false;
-		}
 	});
 </script>
 

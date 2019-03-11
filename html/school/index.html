@@ -281,16 +281,6 @@
                 var $this = this.slides.eq(this.activeIndex);
                 // console.log(this.slides.eq(this.activeIndex).find(".cardNum span").text());
                 $("#cardMsg").val($this.find(".cardNum span").text());
-
-
-                 // var $this = this.slides.eq(this.activeIndex);
-                    // console.log(this.slides.eq(this.activeIndex).find(".cardNum .num").text());//获取选中卡的id
-                    // console.log(this.slides.eq(this.activeIndex).find(".title ").text());//获取选中卡的学校名称
-                    // console.log(this.slides.eq(this.activeIndex).find(".cardNum .carname").text());//获取选中卡的名字
-                    // var codeId=$this.find(".cardNum .num").text();
-                    // var schoolname=$this.find(".title").text();
-                    // var name=$this.find(".cardNum .carname").text();
-                    // $("#cardMsg").val(codeId,schoolname,name);
             }
         }
     });
@@ -300,15 +290,14 @@
 
     // 添加学校
     $(".addschool").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        //window.location.href = "myTransitCard.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
+        // var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+        // localStorage.setItem("codeId", codeId);
         localStorage.setItem("userid", userid);
         layer.open({
             type: 2,
             closeBtn: 0,
             title: false,
-            content: "addschool.html?codeId=" + codeId + "userid=" + userid,
+            content: "addschool.html?userid=" + userid,
             area: ['100%', '100%'],
             yes: function (index) {
                 layer.close(index);
