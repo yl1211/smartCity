@@ -21,29 +21,35 @@
 						解绑
 				</h2>
 				<div class="layui-row untyingBox" id="untyingBox">
-					<!--<div class="layui-col-xs10 layui-col-xs-offset1 schoolCard">
-						<p class="title"><img src="../../img/sc_logo.png">郑州大学</p>
-						<p class="cardNum">2014 034 980</p>
-						<p class="cardName"><span>校园卡</span></p>
-					</div>-->
+					<div class="layui-col-xs10 layui-col-xs-offset1 schoolCard">
+						<p class="title">
+							<img src="../../img/sc_logo.png">
+						    <span></span>
+					    </p>
+						<p class="cardNum">
+							<span></span>
+						</p>
+						<p class="cardName"><span>员工卡</span></p>
+					</div>
 				</div>
 			</div>
 		</div>
 		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="../../layui/layui.js"></script>
 		<!--引用模板引擎-->
-		<script id="cardContent" type="text/html">
-			{{# layui.each(d.appList, function(index, item){ }}
-			<div class="layui-col-xs12  schoolCard">
-				<p class="title"><img src="{{ item.cardImg }}">{{ item.schoolName }}</p>
-				<p class="cardNum">{{ item.cardNum }}</p>
-				<p class="cardName"><span>{{ item.cardType }}</span></p>
-			</div>
-			{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
-		</script>
+		
 		<script>
-			var codeId = localStorage.getItem('codeId');
-        	console.log(codeId)
+			//从上个界面获取的数据
+	            var codeId = localStorage.getItem('codeId');// 获取上个界面传过来的卡号
+			    var company=localStorage.getItem('company');// 获取上个界面传过来的学校
+			// var id=localStorage.setItem('id')
+         		// console.log(id)
+        		console.log(company);
+        		console.log(codeId);
+        		$('.cardNum span').html(codeId);
+        		$('.title').html(company);
+
+
 			layui.use(['laytpl', 'layer'], function() {
 				var laytpl = layui.laytpl;
 				var layer = layui.layer;
@@ -53,42 +59,9 @@
 	                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 	                parent.layer.close(index); //再执行关闭
 	            });
-				var appData = { //数据
-					"title": "应用模板引擎",
-					"appList": [{
-							"cardImg": "../../img/sc_logo.png",
-							"schoolName": "郑州大学",
-							"cardNum": "2015 181 132",
-							"cardType": "校园卡"
-						},
-						{
-							"cardImg": "../../img/sc_logo.png",
-							"schoolName": "河南大学",
-							"cardNum": "2013 181 132",
-							"cardType": "校园卡"
-						},
-						{
-							"cardImg": "../../img/sc_logo.png",
-							"schoolName": "清华大学",
-							"cardNum": "2012 181 132",
-							"cardType": "校园卡"
-						}
-					]
-				}
-				// $.ajax({
-				// 	url: '',
-				// 	type: 'post',
-				// 	data: {
-				// 	},
-				// 	dataType: 'json',
-				// 	success: function (data) {
-				// 		console.log(data);
-				// 	}
-				var getAppTpl = cardContent.innerHTML,
-					appView = document.getElementById('untyingBox');
-				laytpl(getAppTpl).render(appData, function(html) {
-					appView.innerHTML = html;
-				});
+
+           
+
 				//解绑弹窗
 				$(".schoolCard").on('click', function() {
 				    var cardnum=$(this).find("P").eq(1).text();
@@ -96,13 +69,35 @@
 					layer.msg('确定解绑卡号:</br>'+cardnum, {
 					btn: ['确定', '取消'],
 					yes: function(index) {
-						layer.close(index);
-						layer.msg('已解绑');
+							$.ajax({
+										url: "http://1.192.121.127:12613/gateway/merchant/delMerchant",
+										type: 'post',
+										data: {
+											// id:id
+										},
+										dataType: 'json',
+										success: function (data) {
+											// console.log(data);
+											// if(data.code == "0000") {
+											// 		layer.close(index);
+									  //            layer.msg('已解绑');
+															
+											// 	}else {
+												    // layer.close(index);
+											// 	    layer.msg('解绑失败！');
+											// 	}
+
+					                      }
+					                      
+					            });
 					}
+				
+
 				});
 				
 			});
-			});
+			
+	    });
 		</script>
 	</body>
 

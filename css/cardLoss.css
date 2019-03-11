@@ -1,7 +1,7 @@
 .file-title {
 	text-align: center;
 	line-height: 3rem;
-	font-size: 1.1rem;
+	font-size: 1.08rem;
 }
 
 .back {
@@ -54,7 +54,16 @@
 }
 .lossBtn{
 	margin-top: 2rem;
-	width: 100%;
+	width: 98%;
 	background-color: rgb(0,95,166);
 	margin-bottom: 240px;
+}
+.layui-btn {
+
+    height: 35px;
+    line-height: 35px;
+    font-size: 0.86rem;
+    border: none;
+    border-radius: 5px;
+   
 }

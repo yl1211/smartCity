@@ -277,214 +277,226 @@
         },
         on: {
             transitionEnd: function () {
-                // console.log(this.slides.eq(this.activeIndex).html());
+                // // console.log(this.slides.eq(this.activeIndex).html());
+                // var $this = this.slides.eq(this.activeIndex);
+                // // console.log(this.slides.eq(this.activeIndex).find(".cardNum span").text());
+                // $("#cardMsg").val($this.find(".cardNum span").text());
+
+
                 var $this = this.slides.eq(this.activeIndex);
-                // console.log(this.slides.eq(this.activeIndex).find(".cardNum span").text());
-                $("#cardMsg").val($this.find(".cardNum span").text());
-            }
+                    console.log(this.slides.eq(this.activeIndex).find(".cardNum .num").text());//获取选中卡的卡号
+                    console.log(this.slides.eq(this.activeIndex).find(".title").text());//获取选中卡的学校名称
+                    console.log(this.slides.eq(this.activeIndex).find(".cardNum .carname").text());//获取选持卡人的名字
+                    var codeId=$this.find(".cardNum .num").text();
+                    var schoolname=$this.find(".title").text();
+                    var name=$this.find(".cardNum .carname").text();
+                    $("#cardMsg").val(codeId,schoolname,name);
+   
+
+                    //卡片信息
+                    
+
+                    // 添加学校
+                    $(".addschool").on("click", function () {
+                        // var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+                        // localStorage.setItem("codeId", codeId);
+                        localStorage.setItem("userid", userid);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "addschool.html?userid=" + userid,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+
+
+                    // 扫一扫
+                    $("#scan").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+                        //window.location.href = "myTransitCard.html?codeId="+codeId;
+                        localStorage.setItem("codeId", codeId);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "scan.html?codeId=" + codeId,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+                    // 电子钱包
+                    $("#cardBalance").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+                        //window.location.href = "cardBalance.html?codeId="+codeId;
+                        localStorage.setItem("codeId", codeId);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "cardBalance.html?codeId=" + codeId,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+                    // 充值
+                    $("#schoolRecharge").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+                        //window.location.href = "transitRecharge.html?codeId="+codeId;
+                        localStorage.setItem("codeId", codeId);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "schoolRecharge.html?codeId=" + codeId,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+                    // 交易明细
+                    $("#schooltransactionDetails").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+                        //window.location.href = "transactionDetails.html?codeId="+codeId;
+                        localStorage.setItem("codeId", codeId);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "schooltransactionDetails.html?codeId=" + codeId,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+                    //校园缴费
+                    $("#schoolpay").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+                        //window.location.href = "serviceRange.html?codeId="+codeId;
+                        localStorage.setItem("codeId", codeId);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "schoolpay.html?codeId=" + codeId,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+                    // 考勤记录
+                    $("#attendanceRecord").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+                        //window.location.href = "cardBalance.html?codeId="+codeId;
+                        localStorage.setItem("codeId", codeId);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "attendanceRecord.html?codeId=" + codeId,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+                    // 门禁记录
+                    $("#accessControl").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+                        //window.location.href = "transitRecharge.html?codeId="+codeId;
+                        localStorage.setItem("codeId", codeId);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "accessControl.html?codeId=" + codeId,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+                    // 解绑
+                    $("#untying").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+                         // console.log(codeId)
+                        //window.location.href = "transactionDetails.html?codeId="+codeId;
+                        localStorage.setItem("codeId",codeId);
+                        localStorage.setItem("schoolname",schoolname);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            // content: "untying.html?codeId=" +codeId,
+                            content: "untying.html?codeId="+codeId+"schoolname="+schoolname,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+                    // 挂失
+                    $("#cardLoss").on("click", function () {
+                        var codeId = $("#cardMsg").val().replace(/\s*/g,"");//传递卡号
+                        // var name = $("#cardMsg").val($this.find(".cardNum").text()).replace(/^[\u4e00-\u9fa5]+$/,"")//传递用户名称
+                        //window.location.href = "serviceRange.html?codeId="+codeId;
+                         localStorage.setItem("codeId",codeId );
+                         localStorage.setItem("name",name);
+                        layer.open({
+                            type: 2,
+                            closeBtn: 0,
+                            title: false,
+                            content: "cardLoss.html?codeId="+codeId+"name="+name,
+                            // content: "cardLoss.html?codeId=" + codeId,
+                            area: ['100%', '100%'],
+                            yes: function (index) {
+                                layer.close(index);
+                            },
+                            end: function () {
+                                form.render();
+                            }
+                        });
+                    });
+
+           }
         }
-    });
-
-    //卡片信息
-    
-
-    // 添加学校
-    $(".addschool").on("click", function () {
-        // var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        // localStorage.setItem("codeId", codeId);
-        localStorage.setItem("userid", userid);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "addschool.html?userid=" + userid,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-
-
-    // 扫一扫
-    $("#scan").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        //window.location.href = "myTransitCard.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "scan.html?codeId=" + codeId,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-    // 电子钱包
-    $("#cardBalance").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        //window.location.href = "cardBalance.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "cardBalance.html?codeId=" + codeId,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-    // 充值
-    $("#schoolRecharge").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        //window.location.href = "transitRecharge.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "schoolRecharge.html?codeId=" + codeId,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-    // 交易明细
-    $("#schooltransactionDetails").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        //window.location.href = "transactionDetails.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "schooltransactionDetails.html?codeId=" + codeId,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-    //校园缴费
-    $("#schoolpay").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        //window.location.href = "serviceRange.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "schoolpay.html?codeId=" + codeId,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-    // 考勤记录
-    $("#attendanceRecord").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        //window.location.href = "cardBalance.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "attendanceRecord.html?codeId=" + codeId,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-    // 门禁记录
-    $("#accessControl").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-        //window.location.href = "transitRecharge.html?codeId="+codeId;
-        localStorage.setItem("codeId", codeId);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "accessControl.html?codeId=" + codeId,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-    // 解绑
-    $("#untying").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g,"");
-         // console.log(codeId)
-        //window.location.href = "transactionDetails.html?codeId="+codeId;
-        localStorage.setItem("codeId",codeId);
-        // localStorage.setItem("schoolname",schoolname);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            content: "untying.html?codeId=" +codeId,
-            // content: "untying.html?codeId=" +codeId+"schoolname="+schoolname,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
-    });
-    // 挂失
-    $("#cardLoss").on("click", function () {
-        var codeId = $("#cardMsg").val().replace(/\s*/g,"");//传递卡号
-        // var name = $("#cardMsg").val($this.find(".cardNum").text()).replace(/^[\u4e00-\u9fa5]+$/,"")//传递用户名称
-        //window.location.href = "serviceRange.html?codeId="+codeId;
-        localStorage.setItem("codeId",codeId );
-        // localStorage.setItem("name",name);
-        layer.open({
-            type: 2,
-            closeBtn: 0,
-            title: false,
-            // content: "cardLoss.html?codeId="+codeId+"name="+name,
-            content: "cardLoss.html?codeId=" + codeId,
-            area: ['100%', '100%'],
-            yes: function (index) {
-                layer.close(index);
-            },
-            end: function () {
-                form.render();
-            }
-        });
     });
 </script>
 

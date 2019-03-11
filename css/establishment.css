@@ -1,12 +1,12 @@
 .transitContent {
-	margin: 0 -15px;
+	/*margin: 0 -15px;*/
 	padding: 0rem 1rem;
 	color: #000;
 	background-color: #fff;
 }
 
 .transitTitle {
-	font-size: 1.25rem;
+	font-size: 1rem;
 	height: 3rem;
 	line-height: 3rem;
 	text-align: center;
@@ -16,8 +16,8 @@
 
 #certify .swiper-container {
 	width: 100%;
-	padding-top: 50px;
-	padding-bottom: 50px;
+    padding-top: 1rem;
+    padding-bottom: 1.3rem;
 }
 
 #certify .swiper-slide {
@@ -30,8 +30,11 @@
 	position: absolute;
 	left: 1rem;
 	font-size: 1rem;
+	line-height: 3rem;
 	text-align: center;
 	background-color: rgba(153, 153, 153, 0);
+	margin-left: -6px;
+	color: #489CF5;
 }
 
 .add {
@@ -39,6 +42,7 @@
 	right: 1rem;
 	font-size: 1rem;
 	text-align: center;
+	line-height: 3rem;
 	color: #489CF5;
 	background-color: rgba(153, 153, 153, 0);
 }
@@ -48,15 +52,16 @@
     margin-bottom: 15px; */
 	background-color: rgba(92, 209, 222, 1);
 	border-radius: 10px;
-	box-shadow: 0px 20px 30px rgba(58, 165, 216, 0.349019607843137);
-	padding: 10px;
+	box-shadow: 0px 5px 16px #979b9e;
+	padding: 1.1rem 0;
 	color: #fff;
 	text-align: right;
-	font-size: 1.1rem;
+	font-size: 0.9rem;
 }
 
 .transitCard p.title {
 	text-align: left;
+	margin-left: 1.1rem;
 }
 
 .transitCard p.title img {
@@ -68,29 +73,38 @@
 .transitCard p.cardNum {
 	/*font-size: 2.2rem;
 	margin: 30px auto 15px;*/
-	font-size: 1.9rem;
-    margin: 30px auto 15px;
+	font-size: 1.2rem;
+    margin: 2rem auto 1.8rem;
     text-align: center;
+  display: inline-block;
+  white-space: nowrap; 
+  width: 100%; 
+  overflow: hidden;
 }
 
+.transitCard p.cardName {
+	margin-bottom: 0.2rem;
+}
 .transitCard p.cardName span {
 	padding: 4px 10px;
 	background: rgba(255, 255, 255, .5);
-	margin-right: -10px;
-	font-size: 1rem;
+	/*margin-right: -1.1rem;*/
+	font-size: 0.8rem;
 }
 
-.transitContentBox {}
+.transitContentBox {
+	padding:0 4px;
+}
 
 .transitContentBox>.layui-col-xs6 {
-	padding: 5px;
+	padding: 4px;
 }
 
 .contentOne {
-	height: 102px;
-	line-height: 102px;
+	height: 5.4rem;
+	line-height: 5.4rem;
 	background-color: #fff;
-	border-radius: 10px;
+	border-radius: 4px;
 }
 
 .contentOne>div:first-child {
@@ -103,10 +117,10 @@
 }
 
 .contentOne>div:last-child {
-	font-size: 1.15rem;
-	font-weight: 700;
+	font-size: 1rem;
+	/*font-weight: 700;*/
 	font-style: normal;
-	color: #666;
+	color: #000;
 }
 
 .myTransitCard {
@@ -366,7 +380,6 @@
 	height: auto;
 	text-align: center;
 	border-bottom: 1px solid #999;
-	padding: 1rem 0rem;
 }
 
 .CardBox-line {
@@ -383,18 +396,25 @@
 	width: 10px;
 	height: 10px;
 }
-.back {
+.add {
     position: absolute;
-    left: .3rem;
-    top: 0px;
-    line-height: 3rem;
+    right: 1rem;
     font-size: 1rem;
     text-align: center;
-    color: rgba(72, 156, 245, 1);
+    color: #489CF5;
     background-color: rgba(153, 153, 153, 0);
 }
-.file-title {
-    text-align: center;
-    line-height: 3rem;
-    font-size: 1rem;
+.layui-icon{
+	float: left;
+	color:#489CF5;
+}
+.comeback{
+	float: left;
+	color:#489CF5;
+}
+.layui-fluid {
+    padding: 0;
+}
+.num{
+	font-size: 1.3rem;
 }

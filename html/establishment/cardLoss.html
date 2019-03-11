@@ -24,8 +24,8 @@
 					<img src="../../img/cardLoss.png">
 				</div>
 				<div class="layui-row lossBox" id="lossBox">
-					<!--<p class="lossNum">学号<span class="number">201401104404</span></p>
-					<p class="lossName">姓名<span class="name">张三</span></p>-->
+					<p class="lossNum">学号<span class="number">201401104404</span></p>
+					<p class="lossName">姓名<span class="name">张三</span></p>
 				</div>
 				<p class="warn">若遗失，请及时挂失，挂失后及时补卡！</p>
 				<button class="layui-btn lossBtn" lay-submit="" lay-filter="demo1">立即挂失</button>
@@ -33,17 +33,20 @@
 		</div>
 		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="../../layui/layui.js"></script>
-		<!--引用模板引擎-->
-		<script id="lossContent" type="text/html">
-			{{# layui.each(d.appList, function(index, item){ }}
-			<p class="lossNum">学号<span class="number">{{ item.number }}</span></p>
-			<p class="lossName">姓名<span class="name">{{ item.name }}</span></p>
-			<!--无数据时-->
-			{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
-		</script>
+
 		<script>
 			var codeId = localStorage.getItem('codeId');
-        	console.log(codeId)
+			var name = localStorage.getItem('name');
+			// var id = localStorage.getItem('id');
+			// var name = localStorage.getItem('name');
+			// var codeId = localStorage.getItem('codeId');
+			// var name = localStorage.getItem('name');
+        		console.log(codeId)
+        		console.log(name)
+        		$('.number').html(name);
+        		$('.name').html(codeId);
+
+
 			layui.use(['laytpl', 'layer'], function() {
 				var laytpl = layui.laytpl;
 				var layer = layui.layer;
@@ -53,27 +56,7 @@
 	                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 	                parent.layer.close(index); //再执行关闭
 	            });
-				var recordData = { //数据
-					"title": "应用模板引擎",
-					"appList": [{
-						"number": "20191828238",
-						"name": "张三"
-					}]
-				}
-				// $.ajax({
-				// 	url: '',
-				// 	type: 'post',
-				// 	data: {
-				// 	},
-				// 	dataType: 'json',
-				// 	success: function (data) {
-				// 		console.log(data);
-				// 	}
-				var getAppTpl = lossContent.innerHTML,
-					appView = document.getElementById('lossBox');
-				laytpl(getAppTpl).render(recordData, function(html) {
-					appView.innerHTML = html;
-				});
+				
 			});
 		</script>
 		<!--弹窗-->
@@ -82,8 +65,27 @@
 				layer.msg('确定挂失？', {
 					btn: ['确定', '取消'],
 					yes: function(index) {
-						layer.close(index);
-						layer.msg('已挂失');
+							$.ajax({
+									url: "http://1.192.121.127:12613/gateway/merchant/reportLoss",
+									type: 'post',
+									data: {
+										// id:id,
+										
+									},
+									dataType: 'json',
+									success: function (data) {
+										// console.log(data);
+										// if(data.code == "0000") {
+									        // layer.close(index);
+						           //          layer.msg('已挂失');
+														
+										// 	}else {
+											    // layer.close(index);
+										// 	    layer.msg('挂失失败！');
+										// 	}
+
+				                      }
+				            });
 					}
 				});
 			});

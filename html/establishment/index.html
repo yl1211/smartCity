@@ -38,35 +38,50 @@
 							<div class="swiper-slide">
 								<div class="transitCard">
 									<p class="title">广西农信城市云卡</p>
-                                    <p class="cardNum">2013  1811  131</p>
+                                    <p class="cardNum">
+                                        <span class="carname">藩桦</span>
+                                        <span  class="num">2011 1811 907</span>
+                                    </p>
                                     <p class="cardName"><span>员工卡</span></p>
 								</div>
 							</div>
 							<div class="swiper-slide">
 								<div class="transitCard">
 									<p class="title">广西农信城市云卡</p>
-                                    <p class="cardNum">2013  1811  132</p>
+                                    <p class="cardNum">
+                                        <span class="carname">黎明</span>
+                                        <span  class="num">2011 1811 907</span>
+                                    </p>
                                     <p class="cardName"><span>员工卡</span></p>
 								</div>
 							</div>
 							<div class="swiper-slide">
 								<div class="transitCard">
 									<p class="title">广西农信城市云卡</p>
-                                    <p class="cardNum">2013  1811  133</p>
+                                    <p class="cardNum">
+                                        <span class="carname">刘希</span>
+                                        <span  class="num">2012 1812 907</span>
+                                    </p>
                                     <p class="cardName"><span>员工卡</span></p>
 								</div>
 							</div>
 							<div class="swiper-slide">
 								<div class="transitCard">
 									<p class="title">广西农信城市云卡</p>
-                                    <p class="cardNum">2013  1811  134</p>
+                                   <p class="cardNum">
+                                        <span class="carname">小明</span>
+                                        <span  class="num">2013 1813 907</span>
+                                    </p>
                                     <p class="cardName"><span>员工卡</span></p>
 								</div>
 							</div>
 							<div class="swiper-slide">
 								<div class="transitCard">
 									<p class="title">广西农信城市云卡</p>
-                                    <p class="cardNum">2013  1811  136</p>
+                                    <p class="cardNum">
+                                        <span class="carname">小花花</span>
+                                        <span  class="num">2014 1814 907</span>
+                                    </p>
                                     <p class="cardName"><span>员工卡</span></p>
 								</div>
 							</div>
@@ -211,53 +226,34 @@
 
 
 			});
-		/*var certifySwiper = new Swiper('#certify .swiper-container', {
-		    watchSlidesProgress: true,
-		    slidesPerView: 'auto',
-		    centeredSlides: true,
-		    loop: true,
-		    loopedSlides: 5,
-		    autoplay: false,
-		    pagination: {
-		        el: '.swiper-pagination',
-		        //clickable :true,
-		    },
-		    on: {
-		        progress: function(progress) {
-		            for (i = 0; i < this.slides.length; i++) {
-		                var slide = this.slides.eq(i);
-		                var slideProgress = this.slides[i].progress;
-		                modify = 1;
-		                if (Math.abs(slideProgress) > 1) {
-		                    modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
-		                }
-		                translate = slideProgress * modify * 260 + 'px';
-		                scale = 1 - Math.abs(slideProgress) / 5;
-		                zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
-		                slide.transform('translateX(' + translate + ') scale(' + scale + ')');
-		                slide.css('zIndex', zIndex);
-		                slide.css('opacity', 1);
-		                if (Math.abs(slideProgress) > 3) {
-		                    slide.css('opacity', 0);
-		                }
-		            }
-		        },
-		        setTransition: function(transition) {
-		            for (var i = 0; i < this.slides.length; i++) {
-		                var slide = this.slides.eq(i)
-		                slide.transition(transition);
-		            }
-		        },
-		        slideChangeTransitionEnd: function(){
-		            console.log(this);
-		            console.log(this.slides.eq(this.activeIndex).html());
-		            var $this = this.slides.eq(this.activeIndex);
-		            console.log(this.slides.eq(this.activeIndex).find(".cardNum").text())
-		          //alert(this.activeIndex);//切换结束时，告诉我现在是第几个slide
-		        }
-		    }
+		
+ //判断是否实名认证
+    var userid ="2c9180836955c5c901695605f3a20000";
+    $(function () {
+        $.ajax({
+            url: "http://1.192.121.127:12613/gateway/merchant/ifAuthentic",
+            type: "post",
+            data: {
+                userid:userid
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.code === "0000") {
+                    console.log(res.msg);
+                    
+                } else {
+                    console.log(res.msg);
+                    layer.msg('请前去实名认证！');
+                   setTimeout(function(){
+                        window.location.href = "../login/nameAuthenticate.html";
+                   },1000)
+                   
+                }
+            }
+        });
+    });
 
-		})*/
+    //轮播图
 		var swiper = new Swiper('#certify .swiper-container', {
 			effect: 'coverflow',
 			grabCursor: true,
@@ -273,12 +269,20 @@
 			},
 			on: {
 				transitionEnd: function() {
-					console.log(this.slides.eq(this.activeIndex).html());
+					// console.log(this.slides.eq(this.activeIndex).html());
 					var $this = this.slides.eq(this.activeIndex);
-					console.log(this.slides.eq(this.activeIndex).find(".cardNum").text());
-					$("#cardMsg").val($this.find(".cardNum").text());
 
-//					console.log(this.slides.eq(this.activeIndex).html());
+					console.log(this.slides.eq(this.activeIndex).find(".title ").text());//获取选中公司的名称
+					console.log(this.slides.eq(this.activeIndex).find(".num").text());//获取选中卡的卡号
+					console.log(this.slides.eq(this.activeIndex).find(".carname").text());//获取选持卡人的名字
+
+					// $("#cardMsg").val($this.find(".cardNum").text());           
+                    var codeId=$this.find(".num").text();
+                    var company=$this.find(".title").text();
+                    var name=$this.find(".carname").text();
+                    $("#cardMsg").val(codeId,company,name);
+
+
 //                  var $this = this.slides.eq(this.activeIndex);
 ////                  console.log(this.slides.eq(this.activeIndex).find(".mmm").text());
 //                  $("#cardMsg").val($this.find(".mmm").text());                   
@@ -286,199 +290,206 @@
 //			        var nnn = data.replace(/\s/g,'').replace(/(\d{4})\d+(\d{4})$/, "**** **** **** $2");
 ////					console.log(nnn)
 //					$('.cardNum').html(nnn)
-				}
-			}
-		});
-		//添加企业
-		$('.addenterprise').on('click',function(){
-			var codeId = $("#cardMsg").val().replace(/\s*/g,"");
-            //window.location.href = "myTransitCard.html?codeId="+codeId;
-            localStorage.setItem("codeId",codeId);
-            layer.open({
-                type: 2,
-                closeBtn: 0,
-                title: false,
-                content: "addenterprise.html?codeId="+codeId,
-                area: ['100%', '100%'],
-                yes: function(index) {
-                    layer.close(index);
-                },
-                end: function() {
-                    form.render();
-                }
-            });
-		})
-		// 付款码
-		$("#PaymentCode").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "myTransitCard.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "PaymentCard.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
-		// 扫一扫
-		$("#sweep").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "myTransitCard.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "myTransitCard.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
-		// 余额
-		$("#transitBalance").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "cardBalance.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "cardBalance.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
-		// 充值
-		$("#transitRecharge").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "transitRecharge.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "transitRecharge.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
-		// 交易明细
-		$("#transactionDetails").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "transactionDetails.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "transactionDetails.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
-		// 门禁记录
-		$("#serviceRange").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "serviceRange.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "accessControl.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
-		// 考勤记录
-		$("#attendanceRecord").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "myTransitCard.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "Attendancerecords.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
-		// 解绑
-		$("#untying").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "myTransitCard.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "untying.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
-		// 挂失
-		$("#cardLoss").on("click", function() {
-			var codeId = $("#cardMsg").val().replace(/\s*/g, "");
-			//window.location.href = "myTransitCard.html?codeId="+codeId;
-			localStorage.setItem("codeId",codeId);
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "cardLoss.html?codeId=" + codeId,
-				area: ['100%', '100%'],
-				yes: function(index) {
-					layer.close(index);
-				},
-				end: function() {
-					form.render();
-				}
-			});
-		});
+
+					//添加企业
+					$('.addenterprise').on('click',function(){
+						var codeId = $("#cardMsg").val().replace(/\s*/g,"");
+			            //window.location.href = "myTransitCard.html?codeId="+codeId;
+			            localStorage.setItem("codeId",codeId);
+			            layer.open({
+			                type: 2,
+			                closeBtn: 0,
+			                title: false,
+			                content: "addenterprise.html?codeId="+codeId,
+			                area: ['100%', '100%'],
+			                yes: function(index) {
+			                    layer.close(index);
+			                },
+			                end: function() {
+			                    form.render();
+			                }
+			            });
+					})
+					// 付款码
+					$("#PaymentCode").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "myTransitCard.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							content: "PaymentCard.html?codeId=" + codeId,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+					// 扫一扫
+					$("#sweep").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "myTransitCard.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							content: "myTransitCard.html?codeId=" + codeId,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+					// 余额
+					$("#transitBalance").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "cardBalance.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							content: "cardBalance.html?codeId=" + codeId,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+					// 充值
+					$("#transitRecharge").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "transitRecharge.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							content: "transitRecharge.html?codeId=" + codeId,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+					// 交易明细
+					$("#transactionDetails").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "transactionDetails.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							content: "transactionDetails.html?codeId=" + codeId,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+					// 门禁记录
+					$("#serviceRange").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "serviceRange.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							content: "accessControl.html?codeId=" + codeId,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+					// 考勤记录
+					$("#attendanceRecord").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "myTransitCard.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							content: "Attendancerecords.html?codeId=" + codeId,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+					// 解绑
+					$("#untying").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "myTransitCard.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						localStorage.setItem("company",company);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							// content: "untying.html?codeId=" + codeId,
+							content: "untying.html?codeId="+codeId+"company="+company,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+					// 挂失
+					$("#cardLoss").on("click", function() {
+						var codeId = $("#cardMsg").val().replace(/\s*/g, "");
+						//window.location.href = "myTransitCard.html?codeId="+codeId;
+						localStorage.setItem("codeId",codeId);
+						localStorage.setItem("name",name);
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							// content: "cardLoss.html?codeId=" + codeId,
+							 content: "cardLoss.html?codeId="+codeId+"name="+name,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+							end: function() {
+								form.render();
+							}
+						});
+					});
+
+
+			 }
+		}
+	});
 	</script>
 
 </html>

@@ -83,7 +83,7 @@
 }
 
 .transitCard p.cardName {
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.2rem;
 }
 .transitCard p.cardName span {
 	padding: 4px 10px;
@@ -414,4 +414,7 @@
 }
 .layui-fluid {
     padding: 0;
+}
+.num{
+	font-size: 1.3rem;
 }
