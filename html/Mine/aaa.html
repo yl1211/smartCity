@@ -143,7 +143,7 @@
                             <div class="layui-col-xs9">
                                 <p class="detailsType">银联充值777</p>
                                 <p class="detailsTime">2019-01-10 13:11:23</p>
-                                <p class="detailsNum">订单编号: <span>2012361285436521692</span></p>
+                                <p class="detailsNum">线路: <span>198</span></p>
                             </div>
                             <div class="layui-col-xs3">
                                 <p class="detailsMoney">-700.00</p>
@@ -154,7 +154,7 @@
                             <div class="layui-col-xs9">
                                 <p class="detailsType">银联充值888</p>
                                 <p class="detailsTime">2019-01-10 13:11:23</p>
-                                <p class="detailsNum">订单编号: <span>2012361285436521692</span></p>
+                                <p class="detailsNum">线路: <span>211</span></p>
                             </div>
                             <div class="layui-col-xs3">
                                 <p class="detailsMoney">-800.00</p>
@@ -165,7 +165,7 @@
                             <div class="layui-col-xs9">
                                 <p class="detailsType">银联充值999</p>
                                 <p class="detailsTime">2019-01-10 13:11:23</p>
-                                <p class="detailsNum">订单编号: <span>2012361285436521692</span></p>
+                                <p class="detailsNum">线路: <span>985</span></p>
                             </div>
                             <div class="layui-col-xs3">
                                 <p class="detailsMoney">-900.00</p>
@@ -228,13 +228,16 @@
         });
         $('.seachContentBox').on('click', function(e) {
 			var money = $(this).find(".detailsMoney").html();
+			var route = $(this).find('.detailsNum span').html();
 			console.log("*********",$(this).index() + money);
+			console.log("*********",$(this).index() + route);
 			localStorage.setItem('money',money);
+			localStorage.setItem('route',route);
 			layer.open({
                 type: 2,
                 closeBtn: 0,
                 title: false,
-                content: 'rechargeDetails.html?money=' + money,
+                content: 'rechargeDetails.html?money=' + money + '&route='+route,
                 area: ['100%', '100%'],
                 yes: function (index) {
                     layer.close(index);

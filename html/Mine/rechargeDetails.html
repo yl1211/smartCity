@@ -57,7 +57,7 @@
 							<div class="payType_1">备注</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type">123</span>
+							<span class="type route">123</span>
 						</div>
 					</div>
 				</div>
@@ -68,12 +68,15 @@
 		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="../../layui/layui.js"></script>
 		<script>
-			var money = localStorage.getItem('money');
+			var money = localStorage.getItem('money');//金额
+			var route = localStorage.getItem('route');//路线
 			console.log(money)
+			console.log(route)
 			if (money > 0) {
 				$('.payType_1').html('备注')
 			} else{
-				$('.payType_1').html('线路')
+				$('.payType_1').html('线路');
+				$('.route').html(route)
 			}
 			$('.receiveMoney').html(money)
 			layui.use(['laytpl', 'layer', 'form'], function() {
