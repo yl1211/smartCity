@@ -59,7 +59,7 @@
 		<div class="layui-col-xs4">
 			<a href="javascript:;">
 				<div class="img-txt">
-					<img src="../../img/sy_msg.png" alt="">
+					<img src="../../img/sy_msg2.png" alt="">
 					<h3>消息</h3>
 				</div>
 			</a>
@@ -154,6 +154,15 @@
 					//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
 
                   // var pageNum=page.num;
+
+                  /*时间戳转换*/
+						function timestampToTime(timestamp) {
+							var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+							Y = date.getFullYear() + '-';
+							M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+							D = date.getDate() + ' ';
+							return Y+M+D;
+						}
 					$.ajax({
 					url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList?pageNum='+ page.num + "&size=" + page.size, 
 					type: 'post',
@@ -166,7 +175,7 @@
                          mescroll.endSuccess(data.length);
 					      var appStr = '';
                           for (var i = 0; i <data.length; i++) {        	
-							  appStr += "<li><div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='"+data[i].noticeImg+"' alt=''></div><div class='layui-col-xs10 noticeTitle'><p class='newstop'>"+data[i].title+"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id="+data[i].id+"'><h2 class='newsTitle'>"+data[i].description+"</h2></a><div class='time'><small>"+data[i].createTime+"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='' alt=''  width='100%'></div></div></li>"  
+							  appStr += "<li><div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='"+data[i].noticeImg+"' alt=''></div><div class='layui-col-xs10 noticeTitle'><p class='newstop'>"+data[i].title+"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id="+data[i].id+"'><h2 class='newsTitle'>"+data[i].description+"</h2></a><div class='time'><small>"+timestampToTime(data[i].createTime)+"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='' alt=''  width='100%'></div></div></li>"  
 
                             }
                             // new Array(16).join('data') + cardNum.slice(15);

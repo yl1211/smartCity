@@ -48,37 +48,12 @@
 		</div>
 		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="../../layui/layui.js"></script>
-		<!--引用模板引擎-->
-		<script id="appContent" type="text/html">
-			{{# layui.each(d.appList, function(index, item){ }}
-			<h3>{{ item.newsTitle }}</h3>
-			<p class="newsTime">{{ item.newsTime }}</p>
-			<div class="layui-row contentImg">
-				<img src="{{ item.newsImgone }}" />
-				<img src="{{ item.newsImgtwo }}" />
-				<img src="{{ item.newsImgthree }}" />
-			</div>
-			<div class="layui-row contentArticle ">
-				{{ item.newsArticle }}
-			</div>
-			<!--无数据时-->
-			{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
-		</script>
+
 		<script>
 			layui.use(['laytpl', 'layer'], function() {
 						var laytpl = layui.laytpl;
 						var layer = layui.layer;
-						// var appData = { //数据
-						// 	"title": "应用模板引擎",
-						// 	"appList": [{
-						// 		"newsTitle": "最美南宁，豪华游船带您夜游邕江！抢豪华游船票开始啦！",
-						// 		"newsTime": "2019-02-01",
-						// 		"newsImgone": "../../img/card.png",
-						// 		"newsImgtwo": "../../img/nd_example.jpg",
-						// 		"newsImgthree": "../../img/nd_sur.png",
-						// 		"newsArticle": "抛不完相思血泪抛红豆，开不完春柳春花满画楼，睡不稳纱窗风雨黄昏后，忘不了新愁与旧愁，展不开的眉头，捱不明的更漏，恰便似遮不住的青山隐隐，流不断的绿水幽幽……"
-						// 	}]
-						// }
+					
 						/*时间戳转换*/
 						function timestampToTime(timestamp) {
 							var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -108,10 +83,7 @@
 								$("#newsBox").append(newDetail)
 							}
 						})
-						// var getAppTpl = appContent.innerHTML,
-						// 	appView = document.getElementById('newsBox');
-						// laytpl(getAppTpl).render(appData, function(html) {
-						// 	appView.innerHTML = html;
+						
 						 });	
 		</script>
 	</body>

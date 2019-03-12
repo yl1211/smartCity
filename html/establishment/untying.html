@@ -60,32 +60,72 @@
 	                parent.layer.close(index); //再执行关闭
 	            });
 
+
+
+        		//获取url的token参数
+					function getParams() {
+					    //获取url中"?"符后的字串
+					    var url = location.search;
+					    var params = new Object();
+					    if (url.indexOf("?") != -1) {
+					        var str = url.substr(1);
+					        strs = str.split("&");
+					        for (var i = 0; i < strs.length; i++) {
+					            var strs = strs[i].split("=");
+					            params[strs[0]] = encodeURIComponent(strs[1]);
+					        }
+					    }
+					    return params;
+					}
+                 
+
+
+                 var authorization = "";//授权令牌
            
 
 				//解绑弹窗
 				$(".schoolCard").on('click', function() {
+				    //从参数里获得authorization
+					var params = getParams();
+					authorization = params["authorization"];
+
+					var id="2c918083696f493c01696fcc8b3d000"; 
 				    var cardnum=$(this).find("P").eq(1).text();
-				   /* alert(cardnum);*/
+				    console.log(codeId);
 					layer.msg('确定解绑卡号:</br>'+cardnum, {
 					btn: ['确定', '取消'],
 					yes: function(index) {
+						
 							$.ajax({
-										url: "http://1.192.121.127:12613/gateway/merchant/delMerchant",
-										type: 'post',
-										data: {
-											// id:id
-										},
-										dataType: 'json',
-										success: function (data) {
-											// console.log(data);
-											// if(data.code == "0000") {
-											// 		layer.close(index);
-									  //            layer.msg('已解绑');
-															
-											// 	}else {
-												    // layer.close(index);
-											// 	    layer.msg('解绑失败！');
-											// 	}
+									url: "http://1.192.121.127:12613/gateway/merchant/delMerchant?authorization="+authorization,
+									type: 'post',
+									data: {
+										// authorization:authorization,
+										id:id
+									},
+									dataType: 'json',
+									success: function (data) {
+										console.log(data);
+										if(data.code == "0000") {
+												layer.close(index); //关闭二次弹窗
+								                layer.msg('已解绑');   //显示解绑提示
+
+
+								                setTimeout(function(){        //解绑后隐藏卡片信息
+								                	$("#untyingBox").hide();
+
+								                	// window.location.href="index.html";
+
+
+								                },800);  
+
+								               
+														
+											}else {
+											    layer.close(index);
+											    layer.msg('解绑失败！');
+											}
+
 
 					                      }
 					                      

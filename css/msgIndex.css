@@ -24,6 +24,7 @@
 }
 .lastestNews{
 	margin-bottom:0.5rem;
+    padding: 0 1rem 0 0rem;
 }
 .line{
 	height: 100px;
@@ -76,4 +77,7 @@
 .time {
     margin: 0.9rem 0 -1rem;
     margin-left: 4px;
+}
+.newsTitle{
+    height:2.2rem;
 }

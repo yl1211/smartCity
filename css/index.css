@@ -64,7 +64,7 @@
 
 /* 最新动态 */
 .lastestNews {
-	padding: 0 1rem;
+	padding: 0 1rem ;
 /*    margin-bottom:4rem;*/
     background-color: #fff;
     /*padding-bottom:4rem;*/
@@ -103,6 +103,7 @@
 }
 .noticeTxt {
 	margin-right:1.5rem;
+/*	height: 3.75rem;*/
 
 }
 .noticeimg img {
