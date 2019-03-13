@@ -61,28 +61,75 @@
 		</script>
 		<!--弹窗-->
 		<script type="text/javascript">
+
+
+			//获取url的token参数
+					function getParams() {
+					    //获取url中"?"符后的字串
+					    var url = location.search;
+					    var params = new Object();
+					    if (url.indexOf("?") != -1) {
+					        var str = url.substr(1);
+					        strs = str.split("&");
+					        for (var i = 0; i < strs.length; i++) {
+					            var strs = strs[i].split("=");
+					            params[strs[0]] = encodeURIComponent(strs[1]);
+					        }
+					    }
+					    return params;
+					}
+                 
+
+
+                 var authorization = "";//授权令牌
+                 var customerid="";
+				 var partnerCode="";
+				 var dpcode="";
+
+
 			$(".lossBtn").on('click', function() {
+
+				//从参数里获得authorization
+					var params = getParams();
+					authorization = params["authorization"];
+					customerid = params["customerid"];
+					partnerCode = params["partnerCode"];
+					dpcode=params["dpcode"];
+
+
+
 				layer.msg('确定挂失？', {
 					btn: ['确定', '取消'],
 					yes: function(index) {
 							$.ajax({
-									url: "http://1.192.121.127:12613/gateway/merchant/reportLoss",
+									url: "http://1.192.121.127:12613/gateway/merchant/reportLoss?authorization="+authorization,
 									type: 'post',
 									data: {
-										// id:id,
-										
+										authorization:authorization,
+										customerid:customerid,
+										partnerCode:partnerCode,
+										dpcode:dpcode,
 									},
 									dataType: 'json',
 									success: function (data) {
-										// console.log(data);
-										// if(data.code == "0000") {
-									        // layer.close(index);
-						           //          layer.msg('已挂失');
+										console.log(data);
+										if(data.code == "0000") {
+									        layer.close(index); //关闭二次弹窗
+								            layer.msg('已解绑');   //显示解绑提示
+								            
+						                    setTimeout(function(){        //解绑后隐藏卡片信息
+								                	$("#untyingBox").hide();
+
+								                	// window.location.href="index.html";
+
+
+								                },800);  
+
 														
-										// 	}else {
-											    // layer.close(index);
-										// 	    layer.msg('挂失失败！');
-										// 	}
+											}else {
+											    layer.close(index);
+											    layer.msg('挂失失败！');
+											}
 
 				                      }
 				            });

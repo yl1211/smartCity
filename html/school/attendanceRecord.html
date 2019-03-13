@@ -20,7 +20,7 @@
 			<div class="layui-row contentBox">
 				<input type="text" class="layui-input" id="start" placeholder="yyyy-MM-dd"> 至
 				<input type="text" class="layui-input" id="end" placeholder="yyyy-MM-dd">
-				<button class="layui-btn queryBtn" lay-submit="" lay-filter="demo1">查询</button>
+				<button class="layui-btn queryBtn" lay-submit=""   id="search" lay-filter="demo1">查询</button>
 				<div class="layui-row recordBox" id="recordBox">
 					<!--<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>
 					<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>
@@ -91,6 +91,7 @@
 					var start = laydate.render({
 						elem: '#start',
 						type: 'date',
+						calendar: true,
 						/*max: nowTime,*/
 						btns: ['clear', 'now', 'confirm'],
 						done: function(value, date) {
@@ -98,12 +99,20 @@
 								year: date.year,
 								month: date.month - 1,
 								date: date.date
+
+
+								
 							};
+
+                            $("#start").val(value);
+                            search();
+							// alert(value);
 						}
 					});
 					var end = laydate.render({
 						elem: '#end',
 						type: 'date',
+						calendar: true,
 						done: function(value, date) {
 							start.config.max = {
 								year: date.year,
@@ -114,10 +123,37 @@
 								year: date.year,
 								month: date.month - 2,
 								date: date.date
+
 							};
+                             $("#end").val(value);
+                            search();
+							// alert(value);
 						}
 					});
 				});
+			
+			$('#search').on('click', function(){
+					var start = $("#start").val(value);
+					var end = $("#end").val(value);
+					alert(start);
+					
+					// $.ajax({
+					// 	type: "POST",
+					// 	url: "DefaultUpdate.aspx",
+					// 	data: { 
+
+					// 		 },
+
+					// 	success: function (smsg) {
+					// 		alert("修改成功！");
+					// 		window.location.href = "Default2.aspx";
+					// 	},
+					// 	error: function (smsg) {
+					// 		alert('修改失败！');
+					// 	}
+					// })
+              })     
+
 			</script>
 	</body>
 
