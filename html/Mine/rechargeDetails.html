@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="../../layui/css/layui.css">
 		<link rel="stylesheet" href="../../css/base.css">
 		<link rel="stylesheet" href="../../css/noReceive.css" />
-		<title>充值交易明细详情</title>
+		<title>消费交易明细详情</title>
 	</head>
 
 	<body>
@@ -24,16 +24,16 @@
 				<div class="layui-row contentBox" id="content">
 					<form class="layui-form" action="">
 				<div class="layui-col-xs10 layui-col-xs-offset1 dealContent">
-					<p class="dealing">充值</p>
+					<p class="dealing">消费</p>
 					<p class="receiveMoney"></p>
 				</div>
 				<div class="layui-col-xs10 layui-col-xs-offset1 cardContent">
 					<div class="layui-row">
 						<div class="layui-col-xs6">
-							<div class="payType">充值方式</div>
+							<div class="payType">付款方式</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type">农信E支付</span>
+							<span class="type way"></span>
 						</div>
 					</div>
 					<div class="layui-row">
@@ -41,7 +41,7 @@
 							<div class="payType">城市云卡卡号</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type">8329 8475 0223 9005</span>
+							<span class="type cardNum"></span>
 						</div>
 					</div>
 					<div class="layui-row">
@@ -49,15 +49,15 @@
 							<div class="payType">创建时间</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type">2018-13-23  12:22:33</span>
+							<span class="type time"></span>
 						</div>
 					</div>
 					<div class="layui-row">
 						<div class="layui-col-xs6">
-							<div class="payType_1">备注</div>
+							<div class="payType_1">线路</div>
 						</div>
 						<div class="layui-col-xs6">
-							<span class="type route">123</span>
+							<span class="type route"></span>
 						</div>
 					</div>
 				</div>
@@ -70,15 +70,17 @@
 		<script>
 			var money = localStorage.getItem('money');//金额
 			var route = localStorage.getItem('route');//路线
+			var billId = localStorage.getItem('billId');//账单id
 			console.log(money)
 			console.log(route)
-			if (money > 0) {
-				$('.payType_1').html('备注')
-			} else{
-				$('.payType_1').html('线路');
-				$('.route').html(route)
-			}
-			$('.receiveMoney').html(money)
+			console.log(billId)
+//			if (money > 0) {
+//				$('.payType_1').html('备注')
+//			} else{
+//				$('.payType_1').html('线路');
+//				$('.route').html(route)
+//			}
+//			$('.receiveMoney').html(money)
 			layui.use(['laytpl', 'layer', 'form'], function() {
 				var form = layui.form;
 				var laytpl = layui.laytpl;
@@ -87,17 +89,46 @@
 		        $(".back").on("click", function () {
 		            var index = parent.layer.getFrameIndex(window.name); 
 		            parent.layer.close(index); 
-		        })
-//				
-				// $.ajax({
-				// 	url: '',
-				// 	type: 'post',
-				// 	data: {
-				// 	},
-				// 	dataType: 'json',
-				// 	success: function (data) {
-				// 		console.log(data);
-				// 	}
+		        })	
+		        //时间戳转换
+				function getMyDate(str){  
+		            var oDate = new Date(str),  
+		            oYear = oDate.getFullYear(),  
+		            oMonth = oDate.getMonth()+1,  
+		            oDay = oDate.getDate(),  
+		            oHour = oDate.getHours(),  
+		            oMin = oDate.getMinutes(),  
+		            oSen = oDate.getSeconds(),  
+		            oTime = getzf(oMonth) +'-'+ getzf(oDay) +'- '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);
+		            return oTime;  
+		        }; 
+		        function getzf(num){  
+		          	if(parseInt(num) < 10){  
+		              	num = '0'+num;  
+		          	}  
+		          	return num;  
+		      	};     
+				$.ajax({
+					type:"post",
+					url:"http://1.192.121.127:12613/gateway/bill/consumptionDetail",
+					data:{
+						id:billId
+					},
+					async:true,
+					dataType: 'json',
+					success:function(success){
+						console.log(success);
+						var data = success.data;
+						if (success.data.way == null) {
+							$('.way').html('消费')
+						} else{
+							$('.way').html(success.data.way)
+						}
+						$('.cardNum').html(success.data.cardNum);
+						$('.time').html(getMyDate(success.data.paytime));
+						$('.receiveMoney').html('-' + success.data.money)
+					}
+				});
 			});
 		</script>
 	</body>

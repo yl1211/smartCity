@@ -28,13 +28,13 @@
                     <button class="layui-btn layui-btn-primary month dayChoose">按日选择<img src="../../img/zhuanhuan.png" class="zhuanhuan"></button>
                 </div>
                 <div class="layui-col-xs2">
-                    <button class="layui-btn layui-btn-primary week">近7天</button>
+                    <button class="layui-btn layui-btn-primary week">近1天</button>
                 </div>
                 <div class="layui-col-xs2">
-                    <button class="layui-btn layui-btn-primary oneMonth">近1个月</button>
+                    <button class="layui-btn layui-btn-primary oneMonth">近7天</button>
                 </div>
                 <div class="layui-col-xs2">
-                    <button class="layui-btn layui-btn-primary threeMonth">近3个月</button>
+                    <button class="layui-btn layui-btn-primary threeMonth">近1个月</button>
                 </div>
             </div>
             <!-- 按月选择/近7天/近1个月/近三个月end -->
@@ -57,39 +57,30 @@
     <script src="../../layui/layui.js"></script>
     <script src="../../js/jquery.selector-px.js"></script>
     <script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
-    <script id="seachContent" type="text/html">
-        {{#layui.each(d.value,function(index, item) {}}
-        <div class="layui-row seachContentBox">
-            <div class="layui-col-xs9">
-                <p class="detailsType">{{ item.detailsType }}</p>
-                <p class="detailsTime">{{ item.detailsTime }}</p>
-                <p class="detailsNum">订单编号: <span>{{ item.detailsNum }}</span></p>
-            </div>
-            <div class="layui-col-xs3">
-                <p class="detailsMoney">{{ item.detailsMoney }}</p>
-                {{# if(item.detailsStatus == '已领款'){ }}
-                    <p class="detailsStatus" style="color: #4889EF;">{{ item.detailsStatus }}</p>
-                {{# }else{ }}
-                    <p class="detailsStatus">{{ item.detailsStatus }}</p>
-                {{# } }}
-            </div>
-        </div>
-        {{# }); }}
-    </script>
     <script>
         //获取日期时间段
-       	function fun_date(time) {
-	        var date1 = new Date(),
-	            time1 = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();//time1表示当前时间
-	        var date2 = new Date(date1);
-	        date2.setDate(date1.getDate() + time);
-	        var time2 = date2.getFullYear() + "-" + (date2.getMonth() + 1) + "-" + date2.getDate();
-	        if (!time) {
-	            return time1;
-	        } else {
-	            return time2;
-	        }
-	    }
+//     	function fun_date(time) {
+//	        var date1 = new Date(),
+//	            time1 = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();//time1表示当前时间
+//	        var date2 = new Date(date1);
+//	        date2.setDate(date1.getDate() + time);
+//	        var time2 = date2.getFullYear() + "-" + (date2.getMonth() + 1) + "-" + date2.getDate();
+//	        if (!time) {
+//	            return time1;
+//	        } else {
+//	            return time2;
+//	        }
+//	    }
+		function fun_date(num) {
+		    var date = new Date();
+		    date = num ? new Date(date.getTime() + num * 24 * 60 * 60 * 1000) : date;
+		    var year = date.getFullYear();
+		    var month = date.getMonth() + 1;
+		    var day = date.getDate();
+		    month = month < 10 ? '0' + month : month;
+		    day = day < 10 ? '0' + day : day;
+		    return year + month + day;
+		}
         var layid = $.getQueryString("layid");
         layui.use(['form', 'layer', 'element', 'laytpl'],function() {
             var form = layui.form,
@@ -116,11 +107,7 @@
                 startYear: startYear,
                 endYear: endYear,
                 timeBoo: false,
-                afterAction: function (d1, d2, d3) {
-                	
-//                  var sDate = new Date((d1 + '-' + d2 + '-' + d3).replace(/\-/g, "\/")),
-//                      eDate = new Date($('.seachTimeEnd').val().replace(/\-/g, "\/"));
-						
+                afterAction: function (d1, d2, d3) {						
                     if (d1 == undefined) {
                     	d1 = 1919
                     } else{
@@ -144,6 +131,7 @@
                      return false;
                     }else{
                         $('.seachTime').val(d1 + '-' + d2 + '-' + d3);
+                        $('.seachTime').attr('data_start',d1 + d2 + d3)
                     }
                 }
             });
@@ -154,8 +142,6 @@
                 endYear: endYear,
                 timeBoo: false,
                 afterAction: function (d1, d2, d3) {
-//                  var sDate = new Date($('.seachTime').val().replace(/\-/g, "\/")),
-//                      eDate = new Date((d1 + '-' + d2 + '-' + d3).replace(/\-/g, "\/"));
                     if (d1 == undefined) {
                     	d1 = 1919
                     } else{
@@ -178,63 +164,67 @@
                      return false;
                     }else{
                         $('.seachTimeEnd').val(d1 + '-' + d2 + '-' + d3);
+                        $('.seachTimeEnd').attr('data_end',d1 + d2 + d3)
                     }
                 }
             });
-            //近七天按钮
+            //近1天按钮
             $("button.week").on("click",function(){
-				var tip = fun_date(-7)+' 至 '+fun_date()
-                layer.confirm(tip, {
-				  	btn: ['确定','取消'] 
-				}, function(){
-				  	window.location.href = 'aaa.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date()+ "&layid=" + layid;
-				}, function(){
-				});
+				var tip =  fun_date();
+	            localStorage.setItem('endTime', fun_date());
+	            console.log(fun_date())
+	            layer.confirm(tip, {
+	                btn: ['确定', '取消']
+	            }, function () {
+	                layer.open({
+	                    type: 2,
+	                    closeBtn: 0,
+	                    title: false,
+	                    content: 'aaa.html?startTime=' + fun_date() + '&endTime=' + fun_date() + "&layid=" + layid,
+	                    area: ['100%', '100%'],
+	                    yes: function (index) {
+	                        layer.close(index);
+	                    },
+	                });
+	            }, function () {
+	            });
             });
             //近一个月按钮
             $("button.oneMonth").on("click",function(){
-				var tip = fun_date(-30)+' 至 '+fun_date()
-                layer.confirm(tip, {
-				  	btn: ['确定','取消'] 
-				}, function(){
-				  	window.location.href = 'aaa.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date()+ "&layid=" + layid;
-				}, function(){
-				});
+				var tip = fun_date(-7) + ' 至 ' + fun_date()
+	            localStorage.setItem('startTime', fun_date(-7));
+	            localStorage.setItem('endTime', fun_date());
+	            layer.confirm(tip, {
+	                btn: ['确定', '取消']
+	            }, function () {
+	                window.location.href = 'aaa.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date()+ "&layid=" + layid;
+	            }, function () {
+	            });
             });
             //近三个月按钮
             $("button.threeMonth").on("click",function(){
-				var tip = fun_date(-90)+' 至 '+fun_date()
-                layer.confirm(tip, {
-				  	btn: ['确定','取消'] 
-				}, function(){
-				  	window.location.href = 'aaa.html?startTime=' + fun_date(-90) + '&endTime=' + fun_date()+ "&layid=" + layid;
-				}, function(){
-				});
+				var tip = fun_date(-30) + ' 至 ' + fun_date()
+	            localStorage.setItem('startTime', fun_date(-30));
+	            localStorage.setItem('endTime', fun_date());
+	            layer.confirm(tip, {
+	                btn: ['确定', '取消']
+	            }, function () {
+	                window.location.href = 'aaa.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date()+ "&layid=" + layid;
+	            }, function () {
+	            });
             });
 
             $(".timeTrue").on("click",function(){
                 //根据时间请求充值消费记录接口
-                var timeBlock = $(".seachTime").val(),
-                	timeBlock2 = $(".seachTimeEnd").val();
+                var data_start = $(".seachTime").attr('data_start');
+                var data_end = $(".seachTimeEnd").attr('data_end');
+                localStorage.setItem('startTime',data_start);
+            	localStorage.setItem('endTime', data_end);
                 if (!timeBlock) {
                     layer.msg("请选择开始时间!");
                 } else if (!timeBlock2) {
                     layer.msg("请选择截止时间!");
                 }else{
-                     /*$.ajax({
-                        url: '',
-                        type: 'post',
-                        data: {
-                            data: timeBlock
-                        },
-                        dataType: 'json',
-                        success: function (data) {
-                            console.log(data);
-                        },
-                        error: function(){
-                            layer.msg("请求数据失败!");
-                        }
-                    });*/
                    window.location.href = 'aaa.html?startTime=' + timeBlock + "&endTime=" + timeBlock2 + "&layid=" + layid;
                 }
                
