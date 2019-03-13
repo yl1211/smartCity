@@ -6,9 +6,11 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="../../layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/mescroll.min.css">
+	    <link rel="stylesheet" href="../../css/mescroll-option.css">
 		<link rel="stylesheet" href="../../css/base.css" />
 		<link rel="stylesheet" href="../../css/attendanceRecord.css" />
-		<title>考勤记录</title>
+		<title>企业考勤记录</title>
 	</head>
 
 	<body>
@@ -20,15 +22,20 @@
 			<div class="layui-row contentBox">
 				<input type="text" class="layui-input" id="start" placeholder="yyyy-MM-dd"> 至
 				<input type="text" class="layui-input" id="end" placeholder="yyyy-MM-dd">
-				<button class="layui-btn queryBtn" lay-submit="" lay-filter="demo1">查询</button>
-				<div class="layui-row recordBox" id="recordBox">
-					<!--<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>
-					<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>
-					<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>-->
-				</div>
+				<button class="layui-btn queryBtn" lay-submit=""   id="search" lay-filter="demo1">查询</button>
+				<div id="mescroll" class="mescroll">
+					<div class="layui-row recordBox" id="recordBox">
+						<!--<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">南门</span></p>
+						<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">南门</span></p>
+						<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">南门</span></p>-->
+					</div>
+			    </div>
 			</div>
 			<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 			<script type="text/javascript" src="../../layui/layui.js"></script>
+			<script src="../../js/mescroll.min.js"></script>
+			<script src="../../js/mescroll-option.js" ></script>
+			<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 			<!--引用模板引擎-->
 			<script id="recordContent" type="text/html">
 				{{# layui.each(d.appList, function(index, item){ }}
@@ -87,23 +94,27 @@
 					var laydate = layui.laydate;
 					var nowTime = new Date().valueOf();
 					var max = null;
-
+                    //开始时间
 					var start = laydate.render({
 						elem: '#start',
 						type: 'date',
+						calendar: true,
 						/*max: nowTime,*/
 						btns: ['clear', 'now', 'confirm'],
 						done: function(value, date) {
 							end.config.min = {
 								year: date.year,
 								month: date.month - 1,
-								date: date.date
-							};
+								date: date.date								
+							};                            
+							// alert(start);
 						}
 					});
+					//结束时间
 					var end = laydate.render({
 						elem: '#end',
 						type: 'date',
+						calendar: true,
 						done: function(value, date) {
 							start.config.max = {
 								year: date.year,
@@ -115,9 +126,151 @@
 								month: date.month - 2,
 								date: date.date
 							};
+							// alert(end);
 						}
 					});
 				});
+
+				//获取url的token参数
+					function getParams() {
+					    //获取url中"?"符后的字串
+					    var url = location.search;
+					    var params = new Object();
+					    if (url.indexOf("?") != -1) {
+					        var str = url.substr(1);
+					        strs = str.split("&");
+					        for (var i = 0; i < strs.length; i++) {
+					            var strs = strs[i].split("=");
+					            params[strs[0]] = encodeURIComponent(strs[1]);
+					        }
+					    }
+					    return params;
+					}
+    
+                 var authorization = "";//授权令牌
+                 var customerid="";
+				 var partnerCode="";
+				 var dpcode="";
+		// 点击查询按钮查询
+
+				$('#search').on('click', function(start,end){
+
+				// 下拉刷新的上拉加载
+						//创建MeScroll对象
+						var mescroll = initMeScroll("mescroll", {
+							down:{
+								auto:false,//是否在初始化完毕之后自动执行下拉回调callback; 默认true
+								callback: downCallback, //下拉刷新的回调
+							},
+							up: {
+								auto:true,//初始化完毕,是否自动触发上拉加载的回调
+								isBoth: true, //上拉加载时,如果滑动到列表顶部是否可以同时触发下拉刷新;默认false,两者不可同时触发; 这里为了演示改为true,不必等列表加载完毕才可下拉;
+								isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+								page: {
+					                    num: 0,
+					                    size: 3,
+					                    time: null
+					                },
+								callback: upCallback, //上拉加载的回调
+								toTop:{ //配置回到顶部按钮
+									src : "../../img/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+									//offset : 1000
+								}
+							}
+						});
+						
+						/*下拉刷新的回调 */
+						function downCallback(page,start,end){
+							//从参数里获得authorization
+							var params = getParams();
+							authorization = params["authorization"];
+							customerid = params["customerid"];
+							partnerCode = params["partnerCode"];
+							dpcode=params["dpcode"];
+
+							var start = $("#start").val();//获取开始时间
+							var end = $("#end").val();//获取结束时间
+							// alert(start);
+							var page=1;
+
+							$.ajax({
+								url: 'http://1.192.121.127:12613/gateway/merchant/accessRecordListRespList?authorization='+authorization,
+								type: 'post',
+								data: {
+									beginIndex:page,
+									authorization:authorization,
+									customerid:customerid,
+									partnerCode:partnerCode,
+									dpcode:dpcode,
+									beginDate:start,
+									endDate:end,
+								},
+								dataType: 'json',
+								success: function (data) {
+									console.log(data);
+
+				                  mescroll.endSuccess(); //无参. 注意结束下拉刷新是无参的
+									
+								},
+								error: function(data) {
+										//联网失败的回调,隐藏下拉刷新的状态
+										mescroll.endErr();
+									}
+							});
+								
+						}
+						
+						/*上拉加载的回调 page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+						function upCallback(page,start,end){
+
+							//从参数里获得authorization
+							var params = getParams();
+							authorization = params["authorization"];
+							customerid = params["customerid"];
+							partnerCode = params["partnerCode"];
+							dpcode=params["dpcode"];
+
+							var start = $("#start").val();//获取开始时间
+							var end = $("#end").val();//获取结束时间
+							// alert(start);
+							// var page=1;
+
+						   $.ajax({
+									url: 'http://1.192.121.127:12613/gateway/merchant/accessRecordListRespList?authorization='+authorization+ "pageNum="+ page.num + "&size=" + page.size, 
+									type: 'post',
+									data: {
+										// beginIndex:page,
+										authorization:authorization,
+										customerid:customerid,
+										partnerCode:partnerCode,
+										dpcode:dpcode,
+										beginDate:start,
+										endDate:end,
+
+									},
+									dataType: 'json',
+									success: function (data) {
+										console.log(data);
+										 // var jsondata = eval('(' + data + ')');
+				                         var data = data.data;
+				                         mescroll.endSuccess(data.length);
+									      var recordStr = '';
+				                          for (var i = 0; i <data.length; i++) {        	
+											  recordStr += "<p class='recordTime'>"+data[i].recordTime+"<span class='recordAddress'>"+data[i].Address+"</span></p>"  
+				                            }
+				                            // new Array(16).join('data') + cardNum.slice(15);
+				                          $("#recordBox").append(record);
+
+									},
+									error: function(e) {
+											//联网失败的回调,隐藏下拉刷新的状态
+											mescroll.endErr();
+									}
+							   });
+								
+				        }
+                 })     
+
 			</script>
 	</body>
 
