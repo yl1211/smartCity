@@ -58,19 +58,6 @@
     <script src="../../js/jquery.selector-px.js"></script>
     <script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
     <script>
-        //获取日期时间段
-//     	function fun_date(time) {
-//	        var date1 = new Date(),
-//	            time1 = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();//time1表示当前时间
-//	        var date2 = new Date(date1);
-//	        date2.setDate(date1.getDate() + time);
-//	        var time2 = date2.getFullYear() + "-" + (date2.getMonth() + 1) + "-" + date2.getDate();
-//	        if (!time) {
-//	            return time1;
-//	        } else {
-//	            return time2;
-//	        }
-//	    }
 		function fun_date(num) {
 		    var date = new Date();
 		    date = num ? new Date(date.getTime() + num * 24 * 60 * 60 * 1000) : date;
@@ -107,22 +94,7 @@
                 startYear: startYear,
                 endYear: endYear,
                 timeBoo: false,
-                afterAction: function (d1, d2, d3) {						
-                    if (d1 == undefined) {
-                    	d1 = 1919
-                    } else{
-                    	d1 = d1
-                    }
-                    if (d2 == undefined) {
-                    	d2 = "0"+1
-                    } else{
-                    	d2 = d2
-                    }
-                    if (d3 == undefined) {
-                    	d3 = "0"+1
-                    } else{
-                    	d3 = d3
-                    }
+                afterAction: function (d1, d2, d3) {	
                     var sDate = new Date(d1 + '-' + d2 + '-' + d3);
 					var eDate = new Date($('.seachTimeEnd').val().replace(/\-/g, "\/"));
                     
@@ -142,21 +114,6 @@
                 endYear: endYear,
                 timeBoo: false,
                 afterAction: function (d1, d2, d3) {
-                    if (d1 == undefined) {
-                    	d1 = 1919
-                    } else{
-                    	d1 = d1
-                    }
-                    if (d2 == undefined) {
-                    	d2 = "0"+1
-                    } else{
-                    	d2 = d2
-                    }
-                    if (d3 == undefined) {
-                    	d3 = "0"+1
-                    } else{
-                    	d3 = d3
-                    }
                     var sDate = new Date($('.seachTime').val().replace(/\-/g, "\/"));
 					var eDate = new Date(d1 + '-' + d2 + '-' + d3);
                     if(sDate > eDate){
@@ -172,7 +129,6 @@
             $("button.week").on("click",function(){
 				var tip =  fun_date();
 	            localStorage.setItem('endTime', fun_date());
-	            console.log(fun_date())
 	            layer.confirm(tip, {
 	                btn: ['确定', '取消']
 	            }, function () {
@@ -216,6 +172,8 @@
 
             $(".timeTrue").on("click",function(){
                 //根据时间请求充值消费记录接口
+                var timeBlock = $(".seachTime").val();
+                var timeBlock2 = $(".seachTimeEnd").val();
                 var data_start = $(".seachTime").attr('data_start');
                 var data_end = $(".seachTimeEnd").attr('data_end');
                 localStorage.setItem('startTime',data_start);
@@ -225,9 +183,8 @@
                 } else if (!timeBlock2) {
                     layer.msg("请选择截止时间!");
                 }else{
-                   window.location.href = 'aaa.html?startTime=' + timeBlock + "&endTime=" + timeBlock2 + "&layid=" + layid;
-                }
-               
+                   window.location.href = 'aaa.html?startTime=' + data_start + "&endTime=" + data_end + "&layid=" + layid;
+                }              
             })
         });
     </script>

@@ -81,18 +81,13 @@
         </div>
     </div>
     <!-- 交易明细end -->
-
 </div>
-<!-- 隐藏域 -->
-<input type="hidden" id="hiddenData" value="">
-<input type="hidden" id="hiddenData2" value="">
 </body>
 <script src="../../js/jquery-3.3.1.min.js"></script>
 <script src="../../layui/layui.js"></script>
 <script src="../../js/jquery.selector-px.js"></script>
 <script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
 <script>
-
     layui.use(['form', 'layer', 'element', 'laytpl'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -101,23 +96,16 @@
 
         var layid = $.getQueryString("layid");
         element.tabChange('test1', layid);
-
-
         element.on('tab(test1)', function (data) {
             layid = this.getAttribute('lay-id');
         });
-
-
         //返回按钮
         $(".ofenBack").on("click",
             function () {
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
             });
-
-
         $(".seachTime").click(function () {
-            console.log($(this).attr("index"));
             layer.open({
                 type: 2,
                 closeBtn: 0,
@@ -138,7 +126,6 @@
             oHour = oDate.getHours(),  
             oMin = oDate.getMinutes(),  
             oSen = oDate.getSeconds(),  
-//          oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);
             oTime = getzf(oMonth) +'月'+ getzf(oDay) +'日 '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);
             return oTime;  
         }; 
@@ -149,9 +136,7 @@
           	return num;  
       	};        
         var newStratDate = localStorage.getItem('startTime')
-        var newEndDate = localStorage.getItem('endTime')
-        console.log('选择时间后的开始时间********',newStratDate)
-        console.log('选择时间后的结束时间********',newEndDate)        
+        var newEndDate = localStorage.getItem('endTime')        
         //获取当月第一天和最后一天
         var newDay = new Date();  
 		var year = newDay.getFullYear();  
@@ -173,7 +158,6 @@
 	        	async:true,
 	        	dataType: 'json',
 	        	success:function(success){
-	        		console.log(success);
 					var data = success.data;
 					var html_all = '';
 					for (var i=0;i<success.data.length;i++) {
@@ -218,7 +202,6 @@
 	        	async:true,
 	        	dataType: 'json',
 	        	success:function(success){
-	        		console.log(success);
 					var data = success.data;
 					var html_cz = '';
 					for (var i=0;i<success.data.length;i++) {
@@ -284,7 +267,6 @@
 	        	async:true,
 	        	dataType: 'json',
 	        	success:function(success){
-	        		console.log(success);
 					var data = success.data;
 					var html_all = '';
 					for (var i=0;i<success.data.length;i++) {
@@ -329,7 +311,6 @@
 	        	async:true,
 	        	dataType: 'json',
 	        	success:function(success){
-	        		console.log(success);
 					var data = success.data;
 					var html_cz = '';
 					for (var i=0;i<success.data.length;i++) {
@@ -393,8 +374,6 @@
 			localStorage.setItem('money',money);
 			localStorage.setItem('route',route);
 			localStorage.setItem('billId',billId);
-			
-			console.log("***********",data_flag)
 			if (data_flag == 0) {
 				layer.open({
 	                type: 2,

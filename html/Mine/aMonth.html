@@ -53,30 +53,16 @@
 <script src="../../js/jquery.selector-px.js"></script>
 <script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
 <script>
-    //获取日期时间段
-//  function fun_date(time) {
-//      var date1 = new Date();       
-//      var time1 = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();//time1表示当前时间
-//      var date2 = new Date(date1);
-//      date2.setDate(date1.getDate() + time);
-//      var time2 = date2.getFullYear() + "-" + (date2.getMonth() + 1) + "-" + date2.getDate();
-//      if (!time) {
-//          return time1;
-//      } else {
-//          return time2;
-//      }
-//  }
-
-function fun_date(num) {
-    var date = new Date();
-    date = num ? new Date(date.getTime() + num * 24 * 60 * 60 * 1000) : date;
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-    month = month < 10 ? '0' + month : month;
-    day = day < 10 ? '0' + day : day;
-    return year + month + day;
-}
+	function fun_date(num) {
+	    var date = new Date();
+	    date = num ? new Date(date.getTime() + num * 24 * 60 * 60 * 1000) : date;
+	    var year = date.getFullYear();
+	    var month = date.getMonth() + 1;
+	    var day = date.getDate();
+	    month = month < 10 ? '0' + month : month;
+	    day = day < 10 ? '0' + day : day;
+	    return year + month + day;
+	}
 
     var layid = $.getQueryString("layid");
     layui.use(['form', 'layer', 'element', 'laytpl'], function () {
@@ -118,17 +104,14 @@ function fun_date(num) {
                 $('.seachTime').val(data1 + data2 );
                 $('.seachTime').attr('data_year',data1)
                 $('.seachTime').attr('data_month',data2)
-                console.log($('.seachTime').val())
             }
         })
 		
         //近1天按钮
         $("button.week").on("click", function () {       	
             var tip =  fun_date();      
-            console.log('*********',tip)
             localStorage.setItem('startTime', fun_date());
             localStorage.setItem('endTime', fun_date());
-            console.log(fun_date())
             layer.confirm(tip, {
                 btn: ['确定', '取消']
             }, function () {
@@ -176,9 +159,7 @@ function fun_date(num) {
             var month = $('.seachTime').attr('data_month');
             var day = new Date(year,month,0); 
 			var firstdate = timeBlock + '01' ; 
-			var lastdate = timeBlock +  day.getDate();  
-			console.log('**********',firstdate)
-			console.log('**********',lastdate)
+			var lastdate = timeBlock +  day.getDate(); 
 			localStorage.setItem('startTime',firstdate);
             localStorage.setItem('endTime', lastdate);
             if (!timeBlock) {
