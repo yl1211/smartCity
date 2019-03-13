@@ -89,15 +89,44 @@
 		</script>
 		<script type="text/javascript">
 		
+			//获取url的token参数
+					function getParams() {
+					    //获取url中"?"符后的字串
+					    var url = location.search;
+					    var params = new Object();
+					    if (url.indexOf("?") != -1) {
+					        var str = url.substr(1);
+					        strs = str.split("&");
+					        for (var i = 0; i < strs.length; i++) {
+					            var strs = strs[i].split("=");
+					            params[strs[0]] = encodeURIComponent(strs[1]);
+					        }
+					    }
+					    return params;
+					}
+                 
+
+
+                 var authorization = "";//授权令牌
+
+		
+	
 	// 进入程序就请求接口
-	// $(document).ready(function(e){	
-  
+	$(document).ready(function(e){	
+
+		        //从参数里获得authorization
+					var params = getParams();
+					authorization = params["authorization"];
+        
 
 				    //输出省
 				  $.ajax({
-                    url:"http://172.20.10.2:8080/gateway/appregion/getProvinceRegionList", 
+                    // url:"http://1.192.121.127:12613/gateway/appregion/getProvinceRegionList?authorization="+authorization, 
+                    url:"http://1.192.121.127:12613/gateway/appregion/getProvinceRegionList", 
                     type:'post',
-                    // data:{area:area},
+                    data:{
+                    	// authorization:authorization,
+                    },
                     dataType:"json",
                     // contentType:"application/json",
                     success:function(data){
@@ -113,20 +142,26 @@
                  
              });  
      
-		 // });
+     });
 
-				//输出城市列表
-				  $("#selectPro").change(function(){
+			//输出城市列表
+		  $("#selectPro").change(function(){
+
+		  	//从参数里获得authorization
+					var params = getParams();
+					authorization = params["authorization"];
 
 				   var Pro = $('#selectPro option:selected').val(); 
 				   var Proid=$("#selectPro").val()
 				   if(!Pro==''){
 					
 
-					 $.ajax({
-                    url:"http://172.20.10.2:8080/gateway/appregion/getRegionList", 
+				$.ajax({
+                    // url:"http://1.192.121.127:12613/gateway/appregion/getRegionList?authorization="+authorization, 
+                    url:"http://1.192.121.127:12613/gateway/appregion/getRegionList", 
                     type:'post',
                     data:{
+                    	// authorization:authorization,
                     	id:Proid
                     },
                     dataType:"json",
@@ -149,16 +184,23 @@
              	})
 				//输出区列表
 				$("#selectCity").change(function(){
-				var City = $('#selectCity option:selected').val(); //市选中的值
-				var Cityid=$("#selectCity").val()
+
+					//从参数里获得authorization
+					var params = getParams();
+					authorization = params["authorization"];
+
+					var City = $('#selectCity option:selected').val(); //市选中的值
+					var Cityid=$("#selectCity").val()
 					if(!City==''){
 					 
 
 
-					 $.ajax({
-                    url:"http://172.20.10.2:8080/gateway/appregion/getRegionList", 
+				$.ajax({
+                    // url:"http://1.192.121.127:12613/gateway/appregion/getRegionList?authorization="+authorization,
+                    url:"http://1.192.121.127:12613/gateway/appregion/getRegionList", 
                     type:'post',
                     data:{
+                    	// authorization:authorization,
                     	id:Cityid
                     },
                     dataType:"json",
@@ -191,6 +233,11 @@
 
 
     $("#next").on("click",function(){
+
+	           //从参数里获得authorization
+				var params = getParams();
+				authorization = params["authorization"];
+
          	    var Pro = $('#selectPro option:selected').val(); //省选中的值
 				var City = $('#selectCity option:selected').val(); //市选中的值
 				var Area = $('#selectArea option:selected').val(); //区选中的值
@@ -214,8 +261,10 @@
 				$.ajax({
 					type: "post",
 					dataType: "json",
-					url: "http://172.20.10.2:8080/gateway/appregion/editRegion",
+					// url: "http://1.192.121.127:12613/gateway/appregion/editRegion?authorization="+authorization,
+					url: "http://1.192.121.127:12613/gateway/appregion/editRegion",
 					data: {
+						// authorization:authorization,
 						regionId: Areaid
 					},
 					success: function(data) {
@@ -228,7 +277,7 @@
 				                type: 2,
 				                closeBtn: 0,
 				                title: false,
-				                content: "mine.html?codeId="+codeId,
+				                content: "nameAuthenticate.html?codeId="+codeId,
 				                area: ['100%', '100%'],
 				                yes: function(index) {
 				                    layer.close(index);
