@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="../../layui/css/layui.css">
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/schooltransitIndex.css">
+    <style type="text/css">
+    	.dropload-noData {
+		    text-align: center;
+		    margin: 10px 0;
+		}
+    </style>
 </head>
 <body style="background:#fff;">
 <div class="layui-fluid">
@@ -31,7 +37,7 @@
                 <li lay-id="333">消费</li>
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item allDetail layui-show">
+                <div class="layui-tab-item allDetail layui-show" id="content_1">
                     <div class="layui-row seachDetail">
                         <div class="layui-col-xs2">本月</div>
                         <div class="layui-col-xs2 layui-col-xs-offset8">
@@ -45,7 +51,7 @@
                                             
                     </div>
                 </div>
-                <div class="layui-tab-item rechargeDetail">
+                <div class="layui-tab-item rechargeDetail" id="content_2">
                     <div class="layui-row seachDetail">
                         <div class="layui-col-xs2">
                             本月
@@ -61,7 +67,7 @@
                         
                     </div>
                 </div>
-                <div class="layui-tab-item consumeDetail">
+                <div class="layui-tab-item consumeDetail" id="content_3">
                     <div class="layui-row seachDetail">
                         <div class="layui-col-xs2">
                             本月
@@ -87,6 +93,7 @@
 <script src="../../layui/layui.js"></script>
 <script src="../../js/jquery.selector-px.js"></script>
 <script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/dropload.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
     layui.use(['form', 'layer', 'element', 'laytpl'], function () {
         var form = layui.form,
@@ -100,11 +107,11 @@
             layid = this.getAttribute('lay-id');
         });
         //返回按钮
-        $(".ofenBack").on("click",
-            function () {
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(index);
-            });
+        $(".ofenBack").on("click",function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+        //点击小日历跳转按月选择页面
         $(".seachTime").click(function () {
             layer.open({
                 type: 2,
@@ -145,227 +152,334 @@
 		month =  month < 10 ? '0' + month : month;
 		var firstdate = year +  month + '01' ; 
 		var lastdate = year +  month +  day.getDate();  
+		//查询当前月份得账单
 		if (newStratDate == null) {
 			//全部接口
-			$.ajax({
-				type:"post",
-				url:"http://1.192.121.127:12613/gateway/bill/allList",
-				data:{
-					startDate:firstdate,
-					endDate:lastdate,
-					pageNum:1
-				},
-	        	async:true,
-	        	dataType: 'json',
-	        	success:function(success){
-					var data = success.data;
-					var html_all = '';
-					for (var i=0;i<success.data.length;i++) {
-						html_all += '<div class="layui-row seachContentBox">';	
-		                html_all += '<div class="layui-col-xs9">'; 
-		                if (data[i].way == null) {
-		                	html_all += '<p class="detailsType">消费</p>';  
-		                } else{
-		                	html_all += '<p class="detailsType">'+ data[i].way +'</p>';  
-		                }		                                             
-		                html_all += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';   
-		                if (data[i].flag == 0) {
-		                	html_all += '<p class="detailsNum">订单编号: <span>'+ data[i].outTradeNo +'</span></p>';    
-		                } else{
-		                	html_all += '<p class="detailsNum">线路: <span>198</span></p>';    
-		                }
-		               	           
-		                html_all += '</div>';          
-		                html_all += '<div class="layui-col-xs3">';     
-		                if (data[i].flag == 0) {
-		                	 html_all += '<p class="detailsMoney">'+ '+' + data[i].money +'</p>';     
-		                } else{
-		                	 html_all += '<p class="detailsMoney">'+ '-' + data[i].money +'</p>';     
-		                }
-		                        
-		                html_all += '<p class="detailsStatus">待领取</p>';                
-		                html_all += '</div>';            
-		                html_all += '</div>';        
-					}
-					$('.seachContent_1').html(html_all)
-	        	}
-			});
+    		var page = 0;
+			$('#content_1').dropload({
+				scrollArea : window,
+        		loadDownFn : function(me){
+        			page++;
+        			$.ajax({
+						type:"post",
+						url:"http://1.192.121.127:12613/gateway/bill/allList",
+						data:{
+							startDate:firstdate,
+							endDate:lastdate,
+							pageNum:page
+						},
+			        	async:true,
+			        	dataType: 'json',
+			        	success:function(success){
+			        		console.log(success.data)
+							var data = success.data;
+							var arrLen = success.data.length
+							var html_all = '';
+							if(arrLen > 0){
+								for (var i=0;i<success.data.length;i++) {
+									html_all += '<div class="layui-row seachContentBox">';	
+					                html_all += '<div class="layui-col-xs9">'; 
+					                if (data[i].way == null) {
+					                	html_all += '<p class="detailsType">消费</p>';  
+					                } else{
+					                	html_all += '<p class="detailsType">'+ data[i].way +'</p>';  
+					                }		                                             
+					                html_all += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';   
+					                if (data[i].flag == 0) {
+					                	html_all += '<p class="detailsNum">订单编号: <span>'+ data[i].outTradeNo +'</span></p>';    
+					                } else{
+					                	html_all += '<p class="detailsNum">线路: <span>198</span></p>';    
+					                }					               	           
+					                html_all += '</div>';          
+					                html_all += '<div class="layui-col-xs3">';     
+					                if (data[i].flag == 0) {
+					                	 html_all += '<p class="detailsMoney">'+ '+' + data[i].money +'</p>';     
+					                } else{
+					                	 html_all += '<p class="detailsMoney">'+ '-' + data[i].money +'</p>';     
+					                }					                        
+					                html_all += '<p class="detailsStatus">待领取</p>';                
+					                html_all += '</div>';            
+					                html_all += '</div>';        
+								}
+							}else{
+		                        // 锁定
+		                        me.lock();
+		                        // 无数据
+		                        me.noData();
+							}
+							// 为了测试，延迟1秒加载
+		                    setTimeout(function(){
+		                        // 插入数据到页面，放到最后面
+		                        $('.seachContent_1').append(html_all)
+		                        // 每次数据插入，必须重置
+		                        me.resetload();
+		                    },1000);	
+							
+			        	}
+					});
+        		}
+			})
+					
 			//充值接口
-			$.ajax({
-	        	type:"post",
-	        	url:"http://1.192.121.127:12613/gateway/bill/rechargeList",
-	        	data:{
-					startDate:firstdate,
-					endDate:lastdate,
-					pageNum:1
-				},
-	        	async:true,
-	        	dataType: 'json',
-	        	success:function(success){
-					var data = success.data;
-					var html_cz = '';
-					for (var i=0;i<success.data.length;i++) {
-						html_cz += '<div class="layui-row seachContentBox">';	
-		                html_cz += '<div class="layui-col-xs9">';       
-		                html_cz += '<p class="detailsType">'+ data[i].way +'</p>';                               
-		                html_cz += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';               
-		               	html_cz += '<p class="detailsNum">订单编号: <span>'+ data[i].outTradeNo +'</span></p>';               
-		                html_cz += '</div>';          
-		                html_cz += '<div class="layui-col-xs3">';          
-		                html_cz += '<p class="detailsMoney">'+ '+' + data[i].money +'</p>';              
-		                html_cz += '<p class="detailsStatus">待领取</p>';                
-		                html_cz += '</div>';            
-		                html_cz += '</div>';        
-					}
-					$('.seachContent_2').html(html_cz)
-	        	}
-	        });
+			var pages = 0
+			$('#content_2').dropload({
+				scrollArea : window,
+        		loadDownFn : function(me){
+        			pages++;
+        			$.ajax({
+			        	type:"post",
+			        	url:"http://1.192.121.127:12613/gateway/bill/rechargeList",
+			        	data:{
+							startDate:firstdate,
+							endDate:lastdate,
+							pageNum:pages
+						},
+			        	async:true,
+			        	dataType: 'json',
+			        	success:function(success){
+			        		console.log(success)
+							var data = success.data;
+							var html_cz = '';
+							var arrLen_1 = success.data.length;
+							if (arrLen_1>0) {
+								for (var i=0;i<success.data.length;i++) {
+									html_cz += '<div class="layui-row seachContentBox">';	
+					                html_cz += '<div class="layui-col-xs9">';       
+					                html_cz += '<p class="detailsType">'+ data[i].way +'</p>';                               
+					                html_cz += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';               
+					               	html_cz += '<p class="detailsNum">订单编号: <span>'+ data[i].outTradeNo +'</span></p>';               
+					                html_cz += '</div>';          
+					                html_cz += '<div class="layui-col-xs3">';          
+					                html_cz += '<p class="detailsMoney">'+ '+' + data[i].money +'</p>';              
+					                html_cz += '<p class="detailsStatus">待领取</p>';                
+					                html_cz += '</div>';            
+					                html_cz += '</div>';        
+								}
+							} else{
+		                        me.lock();
+		                        me.noData();
+							}
+		                    setTimeout(function(){
+		                        $('.seachContent_2').append(html_cz)
+		                        me.resetload();
+		                    },1000);															
+			        	}
+			        });
+        		}
+			})
+					
 	        //消费接口
-			$.ajax({
-				type:"post",
-				url:"http://1.192.121.127:12613/gateway/bill/consumptionList",
-				data:{
-					startDate:firstdate,
-					endDate:lastdate,
-					pageNum:1
-				},
-				async:true,
-				dataType: 'json',
-				success:function(success){
-					var data = success.data;
-					var html_xf = '';
-					for (var i=0;i<success.data.length;i++) {
-						html_xf += '<div class="layui-row seachContentBox">';	
-		                html_xf += '<div class="layui-col-xs9">';       
-		                if (data[i].way == null) {
-		                	html_xf += '<p class="detailsType">消费</p>';  
-		                } else{
-		                	html_xf += '<p class="detailsType">'+ data[i].way +'</p>';  
-		                }	                              
-		                html_xf += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';               
-		               	html_xf += '<p class="detailsNum">线路: <span>198</span></p>';               
-		                html_xf += '</div>';          
-		                html_xf += '<div class="layui-col-xs3">';          
-		                html_xf += '<p class="detailsMoney">'+ '-' + data[i].money +'</p>';              
-		                html_xf += '<p class="detailsStatus">待领取</p>';                
-		                html_xf += '</div>';            
-		                html_xf += '</div>';        
-					}
-					$('.seachContent_3').html(html_xf)
+	        var page_3 = 0;
+	        $('#content_3').dropload({
+				scrollArea : window,
+				loadDownFn : function(me){
+					page_3++;
+					$.ajax({
+						type:"post",
+						url:"http://1.192.121.127:12613/gateway/bill/consumptionList",
+						data:{
+							startDate:firstdate,
+							endDate:lastdate,
+							pageNum:page_3
+						},
+						async:true,
+						dataType: 'json',
+						success:function(success){
+							console.log(success.data)
+							var data = success.data;
+							var html_xf = '';
+							var arrLen_2 = success.data.length;
+							if (arrLen_2>0) {
+								for (var i=0;i<success.data.length;i++) {
+									html_xf += '<div class="layui-row seachContentBox">';	
+					                html_xf += '<div class="layui-col-xs9">';       
+					                if (data[i].way == null) {
+					                	html_xf += '<p class="detailsType">消费</p>';  
+					                } else{
+					                	html_xf += '<p class="detailsType">'+ data[i].way +'</p>';  
+					                }	                              
+					                html_xf += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';               
+					               	html_xf += '<p class="detailsNum">线路: <span>198</span></p>';               
+					                html_xf += '</div>';          
+					                html_xf += '<div class="layui-col-xs3">';          
+					                html_xf += '<p class="detailsMoney">'+ '-' + data[i].money +'</p>';              
+					                html_xf += '<p class="detailsStatus">待领取</p>';                
+					                html_xf += '</div>';            
+					                html_xf += '</div>';        
+								}
+							} else{
+		                        me.lock();
+		                        me.noData();
+							}
+		                    setTimeout(function(){
+		                        $('.seachContent_3').append(html_xf)
+		                        me.resetload();
+		                    },1000);
+						}
+					});
 				}
-			});
-		} else{
+			})					
+		} else{//查询选择得时间段得账单
 			//全部接口
-			$.ajax({
-				type:"post",
-				url:"http://1.192.121.127:12613/gateway/bill/allList",
-				data:{
-					startDate:newStratDate,
-					endDate:newEndDate,
-					pageNum:1
-				},
-	        	async:true,
-	        	dataType: 'json',
-	        	success:function(success){
-					var data = success.data;
-					var html_all = '';
-					for (var i=0;i<success.data.length;i++) {
-						html_all += '<div class="layui-row seachContentBox">';	
-		                html_all += '<div class="layui-col-xs9">'; 
-		                if (data[i].way == null) {
-		                	html_all += '<p class="detailsType">消费</p>';  
-		                } else{
-		                	html_all += '<p class="detailsType">'+ data[i].way +'</p>';  
-		                }		                                             
-		                html_all += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';
-		                if (data[i].flag == 0) {
-		                	html_all += '<p class="detailsNum">订单编号: <span>'+ data[i].outTradeNo +'</span></p>';    
-		                } else{
-		                	html_all += '<p class="detailsNum">线路: <span>198</span></p>';    
-		                }
-		               	           
-		                html_all += '</div>';          
-		                html_all += '<div class="layui-col-xs3">';     
-		                if (data[i].flag == 0) {
-		                	 html_all += '<p class="detailsMoney">'+ '+' + data[i].money +'</p>';     
-		                } else{
-		                	 html_all += '<p class="detailsMoney">'+ '-' + data[i].money +'</p>';     
-		                }
-		                        
-		                html_all += '<p class="detailsStatus">待领取</p>';                
-		                html_all += '</div>';            
-		                html_all += '</div>';        
-					}
-					$('.seachContent_1').html(html_all)
-	        	}
-			});
+			var page = 0;
+			$('#content_1').dropload({
+				scrollArea : window,
+        		loadDownFn : function(me){
+        			page++;
+        			$.ajax({
+						type:"post",
+						url:"http://1.192.121.127:12613/gateway/bill/allList",
+						data:{
+							startDate:newStratDate,
+							endDate:newEndDate,
+							pageNum:page
+						},
+			        	async:true,
+			        	dataType: 'json',
+			        	success:function(success){
+			        		console.log(success.data)
+							var data = success.data;
+							var arrLen = success.data.length
+							var html_all = '';
+							if(arrLen > 0){
+								for (var i=0;i<success.data.length;i++) {
+									html_all += '<div class="layui-row seachContentBox">';	
+					                html_all += '<div class="layui-col-xs9">'; 
+					                if (data[i].way == null) {
+					                	html_all += '<p class="detailsType">消费</p>';  
+					                } else{
+					                	html_all += '<p class="detailsType">'+ data[i].way +'</p>';  
+					                }		                                             
+					                html_all += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';   
+					                if (data[i].flag == 0) {
+					                	html_all += '<p class="detailsNum">订单编号: <span>'+ data[i].outTradeNo +'</span></p>';    
+					                } else{
+					                	html_all += '<p class="detailsNum">线路: <span>198</span></p>';    
+					                }					               	           
+					                html_all += '</div>';          
+					                html_all += '<div class="layui-col-xs3">';     
+					                if (data[i].flag == 0) {
+					                	 html_all += '<p class="detailsMoney">'+ '+' + data[i].money +'</p>';     
+					                } else{
+					                	 html_all += '<p class="detailsMoney">'+ '-' + data[i].money +'</p>';     
+					                }					                        
+					                html_all += '<p class="detailsStatus">待领取</p>';                
+					                html_all += '</div>';            
+					                html_all += '</div>';        
+								}
+							}else{
+		                        me.lock();
+		                        me.noData();
+							}
+		                    setTimeout(function(){
+		                        $('.seachContent_1').append(html_all)
+		                        me.resetload();
+		                    },1000);	
+							
+			        	}
+					});
+        		}
+			})
 			//充值接口
-			$.ajax({
-	        	type:"post",
-	        	url:"http://1.192.121.127:12613/gateway/bill/rechargeList",
-	        	data:{
-					startDate:newStratDate,
-					endDate:newEndDate,
-					pageNum:1
-				},
-	        	async:true,
-	        	dataType: 'json',
-	        	success:function(success){
-					var data = success.data;
-					var html_cz = '';
-					for (var i=0;i<success.data.length;i++) {
-						html_cz += '<div class="layui-row seachContentBox">';	
-		                html_cz += '<div class="layui-col-xs9">';       
-		                html_cz += '<p class="detailsType">'+ data[i].way +'</p>';                               
-		                html_cz += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';               
-		               	html_cz += '<p class="detailsNum">订单编号: <span>'+ data[i].outTradeNo +'</span></p>';               
-		                html_cz += '</div>';          
-		                html_cz += '<div class="layui-col-xs3">';          
-		                html_cz += '<p class="detailsMoney">'+ '+' + data[i].money +'</p>';              
-		                html_cz += '<p class="detailsStatus">待领取</p>';                
-		                html_cz += '</div>';            
-		                html_cz += '</div>';        
-					}
-					$('.seachContent_2').html(html_cz)
-	        	}
-	        });
+			var pages = 0
+			$('#content_2').dropload({
+				scrollArea : window,
+        		loadDownFn : function(me){
+        			pages++;
+        			$.ajax({
+			        	type:"post",
+			        	url:"http://1.192.121.127:12613/gateway/bill/rechargeList",
+			        	data:{
+							startDate:newStratDate,
+							endDate:newEndDate,
+							pageNum:pages
+						},
+			        	async:true,
+			        	dataType: 'json',
+			        	success:function(success){
+			        		console.log(success)
+							var data = success.data;
+							var html_cz = '';
+							var arrLen_1 = success.data.length;
+							if (arrLen_1>0) {
+								for (var i=0;i<success.data.length;i++) {
+									html_cz += '<div class="layui-row seachContentBox">';	
+					                html_cz += '<div class="layui-col-xs9">';       
+					                html_cz += '<p class="detailsType">'+ data[i].way +'</p>';                               
+					                html_cz += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';               
+					               	html_cz += '<p class="detailsNum">订单编号: <span>'+ data[i].outTradeNo +'</span></p>';               
+					                html_cz += '</div>';          
+					                html_cz += '<div class="layui-col-xs3">';          
+					                html_cz += '<p class="detailsMoney">'+ '+' + data[i].money +'</p>';              
+					                html_cz += '<p class="detailsStatus">待领取</p>';                
+					                html_cz += '</div>';            
+					                html_cz += '</div>';        
+								}
+							} else{
+		                        me.lock();
+		                        me.noData();
+							}
+		                    setTimeout(function(){
+		                        $('.seachContent_2').append(html_cz)
+		                        me.resetload();
+		                    },1000);															
+			        	}
+			        });
+        		}
+			})
 	        //消费接口
-			$.ajax({
-				type:"post",
-				url:"http://1.192.121.127:12613/gateway/bill/consumptionList",
-				data:{
-					startDate:newStratDate,
-					endDate:newEndDate,
-					pageNum:1
-				},
-				async:true,
-				dataType: 'json',
-				success:function(success){
-					var data = success.data;
-					var html_xf = '';
-					for (var i=0;i<success.data.length;i++) {
-						html_xf += '<div class="layui-row seachContentBox">';	
-		                html_xf += '<div class="layui-col-xs9">';       
-		                if (data[i].way == null) {
-		                	html_xf += '<p class="detailsType">消费</p>';  
-		                } else{
-		                	html_xf += '<p class="detailsType">'+ data[i].way +'</p>';  
-		                }		                              
-		                html_xf += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';               
-		               	html_xf += '<p class="detailsNum">线路: <span>198</span></p>';               
-		                html_xf += '</div>';          
-		                html_xf += '<div class="layui-col-xs3">';          
-		                html_xf += '<p class="detailsMoney">'+ '-' + data[i].money +'</p>';              
-		                html_xf += '<p class="detailsStatus">待领取</p>';                
-		                html_xf += '</div>';            
-		                html_xf += '</div>';        
-					}
-					$('.seachContent_3').html(html_xf)
+	        var page_3 = 0;
+	        $('#content_3').dropload({
+				scrollArea : window,
+				loadDownFn : function(me){
+					page_3++;
+					$.ajax({
+						type:"post",
+						url:"http://1.192.121.127:12613/gateway/bill/consumptionList",
+						data:{
+							startDate:newStratDate,
+							endDate:newEndDate,
+							pageNum:page_3
+						},
+						async:true,
+						dataType: 'json',
+						success:function(success){
+							console.log(success.data)
+							var data = success.data;
+							var html_xf = '';
+							var arrLen_2 = success.data.length;
+							if (arrLen_2>0) {
+								for (var i=0;i<success.data.length;i++) {
+									html_xf += '<div class="layui-row seachContentBox">';	
+					                html_xf += '<div class="layui-col-xs9">';       
+					                if (data[i].way == null) {
+					                	html_xf += '<p class="detailsType">消费</p>';  
+					                } else{
+					                	html_xf += '<p class="detailsType">'+ data[i].way +'</p>';  
+					                }	                              
+					                html_xf += '<p class="detailsTime" value="'+ data[i].id +'" data_flag="'+ data[i].flag +'">'+ getMyDate(data[i].paytime) +'</p>';               
+					               	html_xf += '<p class="detailsNum">线路: <span>198</span></p>';               
+					                html_xf += '</div>';          
+					                html_xf += '<div class="layui-col-xs3">';          
+					                html_xf += '<p class="detailsMoney">'+ '-' + data[i].money +'</p>';              
+					                html_xf += '<p class="detailsStatus">待领取</p>';                
+					                html_xf += '</div>';            
+					                html_xf += '</div>';        
+								}
+							} else{
+		                        me.lock();
+		                        me.noData();
+							}
+		                    setTimeout(function(){
+		                        $('.seachContent_3').append(html_xf)
+		                        me.resetload();
+		                    },1000);
+						}
+					});
 				}
-			});
-		}
-       
-		//消费
+			})
+		}      
+		//消费或充值详情
 		$('.seachContent').on('click','.seachContentBox',function(){
 			var money = $(this).find(".detailsMoney").html();
 			var route = $(this).find('.detailsNum span').html();
