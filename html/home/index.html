@@ -75,21 +75,45 @@
 	
 	
 	<script>
+
+//获取url的token参数
+			function getParams() {
+			    //获取url中"?"符后的字串
+			    var url = location.search;
+			    var params = new Object();
+			    if (url.indexOf("?") != -1) {
+			        var str = url.substr(1);
+			        strs = str.split("&");
+			        for (var i = 0; i < strs.length; i++) {
+			            var strs = strs[i].split("=");
+			            params[strs[0]] = encodeURIComponent(strs[1]);
+			        }
+			    }
+			    return params;
+			}
+         
+
+         var authorization = "";//授权令牌
 		//刷新页面时的一些初始化设置
-		$(function(){
+	$(function(){
 			$(".footer").find(".img-txt").eq(0).find("img").attr("src","../../img/sy_index2.png").siblings("h3").css("color","#005FA6");
 		})
 		layui.use('laytpl', function(){
 		  var laytpl = layui.laytpl;
-		 
 
+
+//从参数里获得authorization
+		var params = getParams();
+		authorization = params["authorization"];
 
 		  // 请求首页相关功能列表
-		  
 			$.ajax({
+				url: 'http://1.192.121.127:12613/gateway/appfunction/getAllAppFunction?authorization='+authorization,
 				url: 'http://1.192.121.127:12613/gateway/appfunction/getAllAppFunction',
 				type: 'post',
-				data: {},
+				data: {
+					// authorization:authorization,
+				},
 				dataType: 'json',
 				success: function (data) {
 					console.log(data);
@@ -97,14 +121,11 @@
 					var url='http://1.192.121.127:12613/gateway/';
                           for (var i = 0; i < 7; i++) {        	
 							  appStr += "<div class='layui-col-xs3'><a href='../msgCenter/news.html'><div class='img-txt'><img src='"+url+""+data.data[i].icon+"' alt=''><h3>"+data.data[i].name+"</h3></div></a></div>"  
-
                             }
-                            // new Array(16).join('data') + cardNum.slice(15);
-                          $("#appView").append(appStr+"<div class='layui-col-xs3 imgmore'><a href='../home/more.html'><div class='img-txt '><img src='../../img/sy_more.png' alt=''><h3>更多</h3></div></a></div>");
-					
+                            
+                          $("#appView").append(appStr+"<div class='layui-col-xs3 imgmore'><a href='../home/more.html'><div class='img-txt '><img src='../../img/sy_more.png' alt=''><h3>更多</h3></div></a></div>");					
 				}
 			});
-
        /*时间戳转换*/
 				function timestampToTime(timestamp) {
 					var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -116,9 +137,12 @@
 			// 请求最新一条动态
 		  
 			$.ajax({
+				url: 'http://1.192.121.127:12613/gateway/notice/getNewOneNotice?authorization='+authorization,
 				url: 'http://1.192.121.127:12613/gateway/notice/getNewOneNotice',
 				type: 'post',
-				data: {},
+				data: {
+                    // authorization:authorization,
+				},
 				dataType: 'json',
 				success: function (data) {
 					console.log(data);

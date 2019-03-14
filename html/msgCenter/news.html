@@ -80,6 +80,25 @@
 	<script src="../../js/mescroll-option.js" ></script>
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<script type="text/javascript" >
+		//获取url的token参数
+			function getParams() {
+			    //获取url中"?"符后的字串
+			    var url = location.search;
+			    var params = new Object();
+			    if (url.indexOf("?") != -1) {
+			        var str = url.substr(1);
+			        strs = str.split("&");
+			        for (var i = 0; i < strs.length; i++) {
+			            var strs = strs[i].split("=");
+			            params[strs[0]] = encodeURIComponent(strs[1]);
+			        }
+			    }
+			    return params;
+			}
+         
+
+         var authorization = "";//授权令牌
+
 		$(function(){
 			//创建MeScroll对象
 			var mescroll = initMeScroll("mescroll", {
@@ -112,11 +131,20 @@
 				//加载轮播数据..
 				//...
 				//加载列表数据
+
+				  //从参数里获得authorization
+					var params = getParams();
+					authorization = params["authorization"];
                 
+
 				$.ajax({
+					// url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList?authorization='+authorization,
 					url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList',
 					type: 'post',
-					data: {pageNum:page},
+					data: {
+						// authorization:authorization,
+						pageNum:page,
+					},
 					dataType: 'json',
 					success: function (data) {
 						console.log(data);
@@ -163,10 +191,18 @@
 							D = date.getDate() + ' ';
 							return Y+M+D;
 						}
+
+						 //从参数里获得authorization
+					var params = getParams();
+					authorization = params["authorization"];
+
 					$.ajax({
+					// url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList?pageNum='+ page.num + "&size=" + page.size+ "authorization=" + authorization, 
 					url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList?pageNum='+ page.num + "&size=" + page.size, 
 					type: 'post',
-					data: {},
+					data: {
+						// authorization:authorization,
+					},
 					dataType: 'json',
 					success: function (data) {
 						console.log(data);

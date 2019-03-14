@@ -25,14 +25,46 @@
 	<!-- end-应用模板引擎 -->
 
 	<script>
+		//获取url的token参数
+			function getParams() {
+			    //获取url中"?"符后的字串
+			    var url = location.search;
+			    var params = new Object();
+			    if (url.indexOf("?") != -1) {
+			        var str = url.substr(1);
+			        strs = str.split("&");
+			        for (var i = 0; i < strs.length; i++) {
+			            var strs = strs[i].split("=");
+			            params[strs[0]] = encodeURIComponent(strs[1]);
+			        }
+			    }
+			    return params;
+			}
+         
+
+         var authorization = "";//授权令牌
+
+
+	$(function(){
+
+
 		//刷新页面时的一些初始化设置
 		layui.use('laytpl', function(){
 		  var laytpl = layui.laytpl;
+
+
+		  //从参数里获得authorization
+		var params = getParams();
+		authorization = params["authorization"];
+
 		  // 请求首页相关功能列表  
 			$.ajax({
 				url: 'http://192.168.112.45:8080/gateway/appfunction/getAllAppFunction',
+				// url: 'http://192.168.112.45:8080/gateway/appfunction/getAllAppFunction?authorization='+authorization,
 				type: 'post',
-				data: {},
+				data: {
+					// authorization:authorization,
+				},
 				dataType: 'json',
 				success: function (data) {
 					console.log(data);
@@ -47,7 +79,7 @@
 				}
 			});
 		}); 
-
+  });
 	</script>
 </body>
 </html>
