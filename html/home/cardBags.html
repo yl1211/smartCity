@@ -48,21 +48,54 @@
 			
 
  <script type="text/javascript">
+ 	//获取url的token参数
+					function getParams() {
+					    //获取url中"?"符后的字串
+					    var url = location.search;
+					    var params = new Object();
+					    if (url.indexOf("?") != -1) {
+					        var str = url.substr(1);
+					        strs = str.split("&");
+					        for (var i = 0; i < strs.length; i++) {
+					            var strs = strs[i].split("=");
+					            params[strs[0]] = encodeURIComponent(strs[1]);
+					        }
+					    }
+					    return params;
+					}
+                 
+
+
+                 var authorization = "";//授权令牌
+
+
 //获取银行卡信息
-	$(function(){  
+	$(function(){
+//从参数里获得authorization
+			var params = getParams();
+			authorization = params["authorization"];
+
 			$.ajax({
-					url: 'http://192.168.112.45:8080/gateway/appcard/appCardList',
+					url: 'http://1.192.121.127:12613/gateway/appcard/appCardList',
+					// url: 'http://1.192.121.127:12613/gateway/appcard/appCardList?authorization='+authorization,
 					type: 'post',
-					data: {},
+					data: {
+						// authorization:authorization,
+					},
 					dataType: 'json',
 					success: function (data) {
 						console.log(data);
 						var cardStr = '';
-                          for (var i = 0; i < data.data.length; i++) {        	
-							  cardStr += "<div class='layui-col-xs12 layui-col-xs-offset1 transitCard'><p class='title'><img src='../../img/logo.jpg'>广西农信信用社</p><p class='cardName'><span>"+data.data[i].type+"</span></p><p class='cardNum'>"+data.data[i].cardnum.replace(/^(\d{4})\d+(\d{4})$/, "$1&nbsp&nbsp&nbsp&nbsp****&nbsp&nbsp&nbsp&nbsp****&nbsp&nbsp&nbsp&nbsp$2")+"</p></div>"  
+                          for (var i = 0; i < data.data.length; i++) { 
+                          	 // new data(16).join('*') + data.data.cardnum.slice(15);
+
+
+							  // cardStr += "<div class='layui-col-xs12 layui-col-xs-offset1 transitCard'><p class='title'><img src='../../img/logo.jpg'>广西农信信用社</p><p class='cardName'><span>"+data.data[i].type+"</span></p><p class='cardNum'>"+data.data[i].cardNum.replace(/\s/g,'').replace(/(\d{4})\d+(\d{4})$/, "**** **** **** $2")+"</p></div>" 
+
+							  cardStr += "<div class='layui-col-xs12 layui-col-xs-offset1 transitCard'><p class='title'><img src='../../img/logo.jpg'>广西农信信用社</p><p class='cardName'><span>"+data.data[i].type+"</span></p><p class='cardNum'>"+data.data[i].cardNum+"</p></div>"  
 
                             }
-                            // new Array(16).join('data') + cardNum.slice(15);
+                           
                           $("#viewContent").append(cardStr);
 
 					        //删除银行卡的弹窗
@@ -98,11 +131,17 @@
 									});
 									//点击解绑时
 									$(".untying").on('click', function(data) {
+										//从参数里获得authorization
+										var params = getParams();
+										authorization = params["authorization"];
+
 										var cardnum = $(".cardNum").html();
 										   $.ajax({
+												// url: 'http://192.168.112.45:8080/gateway/appcard/unBindCard?authorization='+authorization,
 												url: 'http://192.168.112.45:8080/gateway/appcard/unBindCard',
 												type: 'post',
 												data: {
+												// authorization:authorization,
 												 cardnum:cardnum
 												},
 												dataType: 'json',
@@ -122,8 +161,7 @@
 															}
 															//使用js计时器功能
 															setInterval(g,3000);
-														
-
+															
 													}else {
 													   layer.msg('解绑失败！');
 													}
@@ -133,14 +171,9 @@
 													
 												}
 									        })
-
-												
-										
+									
 							        });
 								
-                           
-
-
 					  }
 				})
 	

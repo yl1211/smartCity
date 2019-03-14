@@ -118,7 +118,7 @@
 					callback: upCallback, //上拉加载的回调
 					toTop:{ //配置回到顶部按钮
 						src : "../../img/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
-						//offset : 1000
+						offset :100,
 					}
 				}
 			});
@@ -209,9 +209,10 @@
 						 // var jsondata = eval('(' + data + ')');
                          var data = data.data;
                          mescroll.endSuccess(data.length);
+                         var url='http://1.192.121.127:12613/gateway/';
 					      var appStr = '';
                           for (var i = 0; i <data.length; i++) {        	
-							  appStr += "<li><div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='"+data[i].noticeImg+"' alt=''></div><div class='layui-col-xs10 noticeTitle'><p class='newstop'>"+data[i].title+"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id="+data[i].id+"'><h2 class='newsTitle'>"+data[i].description+"</h2></a><div class='time'><small>"+timestampToTime(data[i].createTime)+"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='' alt=''  width='100%'></div></div></li>"  
+							  appStr += "<li><div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='' alt=''></div><div class='layui-col-xs6 noticeTitle'><p class='newstop'>"+data[i].title+"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id="+data[i].id+"'><h2 class='newsTitle'>"+data[i].description+"</h2></a><div class='time'><small>"+timestampToTime(data[i].createTime)+"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='"+url+""+data.noticeImg+"' alt=''  width='100%'></div></div></li>"  
 
                             }
                             // new Array(16).join('data') + cardNum.slice(15);

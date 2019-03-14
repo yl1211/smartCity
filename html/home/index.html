@@ -108,7 +108,7 @@
 
 		  // 请求首页相关功能列表
 			$.ajax({
-				url: 'http://1.192.121.127:12613/gateway/appfunction/getAllAppFunction?authorization='+authorization,
+				// url: 'http://1.192.121.127:12613/gateway/appfunction/getAllAppFunction?authorization='+authorization,
 				url: 'http://1.192.121.127:12613/gateway/appfunction/getAllAppFunction',
 				type: 'post',
 				data: {
@@ -137,7 +137,7 @@
 			// 请求最新一条动态
 		  
 			$.ajax({
-				url: 'http://1.192.121.127:12613/gateway/notice/getNewOneNotice?authorization='+authorization,
+				// url: 'http://1.192.121.127:12613/gateway/notice/getNewOneNotice?authorization='+authorization,
 				url: 'http://1.192.121.127:12613/gateway/notice/getNewOneNotice',
 				type: 'post',
 				data: {
@@ -148,9 +148,10 @@
 					console.log(data);
 					var NoticeView = '';
 					var data = data.data;
+					var url='http://1.192.121.127:12613/gateway/';
 					
                           // for (var i = 0; i <data.length; i++) {        	
-							  NoticeView +="<div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='"+data.noticeImg+"' alt=''></div><div class='layui-col-xs10 noticeTitle'><p class='newstop'>"+data.title+"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id="+data.id+"'><h2 class='newsTitle'>"+data.description+"</h2></a><div class='time'><small>"+timestampToTime(data.createTime)+"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='' alt=''  width='100%'></div></div>"  
+							  NoticeView +="<div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='' alt=''></div><div class='layui-col-xs10 noticeTitle'><p class='newstop'>"+data.title+"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id="+data.id+"'><h2 class='newsTitle'>"+data.description+"</h2></a><div class='time'><small>"+timestampToTime(data.createTime)+"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='"+url+""+data.noticeImg+"' alt=''  width='100%'></div></div>"  
 
                             // }
 

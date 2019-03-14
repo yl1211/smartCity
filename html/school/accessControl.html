@@ -190,14 +190,15 @@
 							var page=1;
 
 							$.ajax({
-								url: 'http://1.192.121.127:12613/gateway/merchant/accessRecordListRespList?authorization='+authorization,
+								// url: 'http://1.192.121.127:12613/gateway/merchant/accessRecordListRespList?authorization='+authorization,
+								url: 'http://1.192.121.127:12613/gateway/merchant/accessRecordListRespList',
 								type: 'post',
 								data: {
 									beginIndex:page,
-									authorization:authorization,
-									customerid:customerid,
-									partnerCode:partnerCode,
-									dpcode:dpcode,
+									// authorization:authorization,
+									// customerid:customerid,
+									// partnerCode:partnerCode,
+									// dpcode:dpcode,
 									beginDate:start,
 									endDate:end,
 								},
@@ -232,14 +233,15 @@
 							// var page=1;
 
 						   $.ajax({
-									url: 'http://1.192.121.127:12613/gateway/merchant/accessRecordListRespList?authorization='+authorization+ "pageNum="+ page.num + "&size=" + page.size, 
+									// url: 'http://1.192.121.127:12613/gateway/merchant/accessRecordListRespList?authorization='+authorization+ "pageNum="+ page.num + "&size=" + page.size, 
+									url: 'http://1.192.121.127:12613/gateway/merchant/accessRecordListRespList?pageNum='+ page.num + "&size=" + page.size, 
 									type: 'post',
 									data: {
 										// beginIndex:page,
-										authorization:authorization,
-										customerid:customerid,
-										partnerCode:partnerCode,
-										dpcode:dpcode,
+										// authorization:authorization,
+										// customerid:customerid,
+										// partnerCode:partnerCode,
+										// dpcode:dpcode,
 										beginDate:start,
 										endDate:end,
 

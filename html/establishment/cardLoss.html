@@ -102,13 +102,14 @@
 					btn: ['确定', '取消'],
 					yes: function(index) {
 							$.ajax({
-									url: "http://1.192.121.127:12613/gateway/merchant/reportLoss?authorization="+authorization,
+									// url: "http://1.192.121.127:12613/gateway/merchant/reportLoss?authorization="+authorization,
+									url: "http://1.192.121.127:12613/gateway/merchant/reportLoss",
 									type: 'post',
 									data: {
-										authorization:authorization,
-										customerid:customerid,
-										partnerCode:partnerCode,
-										dpcode:dpcode,
+										// authorization:authorization,
+										// customerid:customerid,
+										// partnerCode:partnerCode,
+										// dpcode:dpcode,
 									},
 									dataType: 'json',
 									success: function (data) {

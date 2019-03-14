@@ -65,8 +65,28 @@
             
         
         });
+//获取url的token参数
+					function getParams() {
+					    //获取url中"?"符后的字串
+					    var url = location.search;
+					    var params = new Object();
+					    if (url.indexOf("?") != -1) {
+					        var str = url.substr(1);
+					        strs = str.split("&");
+					        for (var i = 0; i < strs.length; i++) {
+					            var strs = strs[i].split("=");
+					            params[strs[0]] = encodeURIComponent(strs[1]);
+					        }
+					    }
+					    return params;
+					}        
+
+                 var authorization = "";//授权令牌
 
 		$("#formDemo").on("click",function(){
+				//从参数里获得authorization
+					var params = getParams();
+					authorization = params["authorization"];
 			  				   
 		           var account = $("#account").val();
 				   var username = $("#username").val(); 
@@ -125,10 +145,12 @@
 			     else{
 
 			 	  $.ajax({
+                    // url:"http://192.168.112.45:8080/gateway/appcard/addUsedCard?authorization="+authorization, 
                     url:"http://192.168.112.45:8080/gateway/appcard/addUsedCard", 
                     type:'post',
                     dataType:"json",
                     data:{
+                    	// authorization:authorization,
                     	cardnum:account,
                     	certno:idcard,
                     	deviceid:deviceId,
@@ -152,10 +174,10 @@
 
 			     }	
 		  });
-		</script>
 
-		<!--验证银行卡号-->
-		<script>
+
+		// 验证银行卡号
+
 			function formatBankNo(BankNo) {
 				if(BankNo.value == "") return;
 				var account = new String(BankNo.value);
@@ -184,8 +206,7 @@
 				}
 				if(account != BankNo.value) BankNo.value = account;
 			}
-		</script>
-		<script>
+
 			/*获取验证码*/
 			var isPhone = 1;
 
@@ -195,12 +216,19 @@
 					resetCode(); //倒计时
 		//向后台传送手机号获取验证码
 		      // function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
+
+		      //从参数里获得authorization
+				var params = getParams();
+				authorization = params["authorization"];
+
 		        var phone =$("#phone").val();
 		        var deviceId =123; 
 					$.ajax({
+                    // url:"http://192.168.112.45:8080/gateway/appsms/smsAuthForBindingCard?authorization="+authorization,
                     url:"http://192.168.112.45:8080/gateway/appsms/smsAuthForBindingCard", 
                     type:'post',
                     data:{
+                    	// authorization:authorization,
                     	deviceId:deviceId,
                     	phonenum:phone
                     },
