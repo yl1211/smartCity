@@ -1,0 +1,1 @@
+var globalurl = "http://192.168.112.45:8080/gateway/"; 
