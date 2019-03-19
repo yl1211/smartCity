@@ -162,7 +162,7 @@
         			page++;
         			$.ajax({
 						type:"post",
-						url:"http://192.168.112.45:8080/gateway/bill/allList",
+						url:globalurl + "/bill/allList",
 						data:{
 							startDate:firstdate,
 							endDate:lastdate,
@@ -228,7 +228,7 @@
         			pages++;
         			$.ajax({
 			        	type:"post",
-			        	url:"http://192.168.112.45:8080/gateway/bill/rechargeList",
+			        	url:globalurl + "/bill/rechargeList",
 			        	data:{
 							startDate:firstdate,
 							endDate:lastdate,
@@ -276,7 +276,7 @@
 					page_3++;
 					$.ajax({
 						type:"post",
-						url:"http://192.168.112.45:8080/gateway/bill/consumptionList",
+						url:globalurl + "/bill/consumptionList",
 						data:{
 							startDate:firstdate,
 							endDate:lastdate,
@@ -328,7 +328,7 @@
         			page++;
         			$.ajax({
 						type:"post",
-						url:"http://192.168.112.45:8080/gateway/bill/allList",
+						url:globalurl + "/bill/allList",
 						data:{
 							startDate:newStratDate,
 							endDate:newEndDate,
@@ -388,7 +388,7 @@
         			pages++;
         			$.ajax({
 			        	type:"post",
-			        	url:"http://192.168.112.45:8080/gateway/bill/rechargeList",
+			        	url:globalurl + "/bill/rechargeList",
 			        	data:{
 							startDate:newStratDate,
 							endDate:newEndDate,
@@ -435,7 +435,7 @@
 					page_3++;
 					$.ajax({
 						type:"post",
-						url:"http://192.168.112.45:8080/gateway/bill/consumptionList",
+						url:globalurl + "/bill/consumptionList",
 						data:{
 							startDate:newStratDate,
 							endDate:newEndDate,

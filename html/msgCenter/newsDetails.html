@@ -96,8 +96,8 @@
 			authorization = params["authorization"];
 			$.ajax({
 				type: "post",
-				// url:globalurl + "notice/getNoticeDetail?id="+id+"authorization="+authorization,
-				url: globalurl + "notice/getNoticeDetail?id=" + id,
+				// url:globalurl + "/notice/getNoticeDetail?id="+id+"authorization="+authorization,
+				url: globalurl + "/notice/getNoticeDetail?id=" + id,
 				async: false,
 				data: {
 					// authorization:authorization,

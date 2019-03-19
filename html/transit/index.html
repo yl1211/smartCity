@@ -308,7 +308,6 @@
         // 交易明细
         $("#transactionDetails").on("click",function(){
             var codeId = $("#cardMsg").val().replace(/\s*/g,"");
-            //window.location.href = "transactionDetails.html?codeId="+codeId;
             localStorage.setItem("codeId",codeId);
             layer.open({
                 type: 2,

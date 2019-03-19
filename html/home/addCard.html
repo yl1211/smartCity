@@ -153,8 +153,8 @@
 			else {
 
 				$.ajax({
-					// url:globalurl + "appcard/addUsedCard?authorization="+authorization, 
-					url: globalurl + "appcard/addUsedCard",
+					// url:globalurl + "/appcard/addUsedCard?authorization="+authorization, 
+					url: globalurl + "/appcard/addUsedCard",
 					type: 'post',
 					dataType: "json",
 					data: {
@@ -232,8 +232,8 @@
 				var phone = $("#phone").val();
 				var deviceId = 123;
 				$.ajax({
-					// url:globalurl + "appsms/smsAuthForBindingCard?authorization="+authorization,
-					url: globalurl + "appsms/smsAuthForBindingCard",
+					// url:globalurl + "/appsms/smsAuthForBindingCard?authorization="+authorization,
+					url: globalurl + "/appsms/smsAuthForBindingCard",
 					type: 'post',
 					data: {
 						// authorization:authorization,

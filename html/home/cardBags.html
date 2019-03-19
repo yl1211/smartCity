@@ -77,8 +77,8 @@
 			authorization = params["authorization"];
 
 			$.ajax({
-				url: globalurl + 'appcard/appCardList',
-				// url: globalurl + 'appcard/appCardList?authorization='+authorization,
+				url: globalurl + '/appCardList',
+				// url: globalurl + '/appcard/appCardList?authorization='+authorization,
 				type: 'post',
 				data: {
 					// authorization:authorization,
@@ -138,8 +138,8 @@
 
 						var cardnum = $(".cardNum").html();
 						$.ajax({
-							// url: globalurl + 'appcard/unBindCard?authorization='+authorization,
-							url: globalurl + 'appcard/unBindCard',
+							// url: globalurl + '/appcard/unBindCard?authorization='+authorization,
+							url: globalurl + '/appcard/unBindCard',
 							type: 'post',
 							data: {
 								// authorization:authorization,
