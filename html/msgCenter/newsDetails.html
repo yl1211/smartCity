@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="../../layui/css/layui.css">
-		<link rel="stylesheet" href="../../css/base.css">
-		<link rel="stylesheet" href="../../css/newsDetails.css" />
-		<title>资讯详情</title>
-		<style>
-			.w-e-toolbar,.w-e-text-container{
-				border: none!important;
-			}
-			.newTitle{
-				font-size: 1.2rem;
-				font-weight: bold;
-			}
-		</style>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<link rel="stylesheet" href="../../css/base.css">
+	<link rel="stylesheet" href="../../css/newsDetails.css" />
+	<title>资讯详情</title>
+	<style>
+		.w-e-toolbar,
+		.w-e-text-container {
+			border: none !important;
+		}
 
-	<body>
-		<div class="layui-fluid">
-			<div class="layui-row content">
-				<div class="layui-row contentHeader">
-					<h2 class="title">
-                    <a href="javascript:history.back(-1)" class="back">
-                        <i class="layui-icon layui-icon-left">
-                        </i>
-                        返回
-                    </a>
-                    资讯详情
-               </h2>
-				</div>
-				<div class="layui-row contentBox" id="newsBox">
-					<!--<h2>最美南宁，豪华游船带您夜游邕江！抢豪华游船票开始啦！</h2>
+		.newTitle {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row content">
+			<div class="layui-row contentHeader">
+				<h2 class="title">
+					<a href="javascript:history.back(-1)" class="back">
+						<i class="layui-icon layui-icon-left">
+						</i>
+						返回
+					</a>
+					资讯详情
+				</h2>
+			</div>
+			<div class="layui-row contentBox" id="newsBox">
+				<!--<h2>最美南宁，豪华游船带您夜游邕江！抢豪华游船票开始啦！</h2>
 					<p class="newsTime">2018-11-23</p>
 					<div class="layui-row contentImg">
 							<img src="../../img/card.png" />
@@ -43,76 +45,76 @@
 					<div class="layui-row contentArticle ">
 						抛不完相思血泪抛红豆，开不完春柳春花满画楼，睡不稳纱窗风雨黄昏后，忘不了新愁与旧愁，展不开的眉头，捱不明的更漏，恰便似遮不住的青山隐隐，流不断的绿水幽幽……
 					</div>-->
-				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="../../layui/layui.js"></script>
+	</div>
+	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../js/url.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
 
-		<script>
-			//获取url的token参数
-			function getParams() {
-			    //获取url中"?"符后的字串
-			    var url = location.search;
-			    var params = new Object();
-			    if (url.indexOf("?") != -1) {
-			        var str = url.substr(1);
-			        strs = str.split("&");
-			        for (var i = 0; i < strs.length; i++) {
-			            var strs = strs[i].split("=");
-			            params[strs[0]] = encodeURIComponent(strs[1]);
-			        }
-			    }
-			    return params;
+	<script>
+		//获取url的token参数
+		function getParams() {
+			//获取url中"?"符后的字串
+			var url = location.search;
+			var params = new Object();
+			if (url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for (var i = 0; i < strs.length; i++) {
+					var strs = strs[i].split("=");
+					params[strs[0]] = encodeURIComponent(strs[1]);
+				}
 			}
-         
+			return params;
+		}
 
-         var authorization = "";//授权令牌
 
-			layui.use(['laytpl', 'layer'], function() {
-						var laytpl = layui.laytpl;
-						var layer = layui.layer;
-					
-						/*时间戳转换*/
-						function timestampToTime(timestamp) {
-							var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-							Y = date.getFullYear() + '-';
-							M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-							D = date.getDate() + ' ';
-							return Y+M+D;
-						}
-						//获取url中的参数
-						function getUrlParam(name) {
-							var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-							var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-							if (r != null) return unescape(r[2]); return null; //返回参数值
-						}
-						var id = getUrlParam('id'); //公益募捐详情ID  
-						  //从参数里获得authorization
-							var params = getParams();
-							authorization = params["authorization"];
-						$.ajax({
-							type:"post",
-							// url:"http://1.192.121.127:12613/gateway/notice/getNoticeDetail?id="+id+"authorization="+authorization,
-							url:"http://1.192.121.127:12613/gateway/notice/getNoticeDetail?id="+id,
-							async:false,
-							data: {
-								// authorization:authorization,
-							},
-							success: function (result) {
-								// var url='http://1.192.121.127:12613/gateway/';
-								console.log(result)
-								var detail=result.data;
-								var newDetail=
-								    "<h2 class='newTitle'>"+detail.title+"</h2>"+
-									"<p class='newsTime'>"+timestampToTime(detail.createTime)+"</p>"+
-									"<div class='layui-row contentArticle '>"+detail.content+"</div>"
-								$("#newsBox").append(newDetail)
-							}
-						})
-						
-						 });	
-		</script>
-	</body>
+		var authorization = "";//授权令牌
+
+		layui.use(['laytpl', 'layer'], function () {
+			var laytpl = layui.laytpl;
+			var layer = layui.layer;
+
+			/*时间戳转换*/
+			function timestampToTime(timestamp) {
+				var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+				Y = date.getFullYear() + '-';
+				M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+				D = date.getDate() + ' ';
+				return Y + M + D;
+			}
+			//获取url中的参数
+			function getUrlParam(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+				var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+				if (r != null) return unescape(r[2]); return null; //返回参数值
+			}
+			var id = getUrlParam('id'); //公告详情ID  
+			//从参数里获得authorization
+			var params = getParams();
+			authorization = params["authorization"];
+			$.ajax({
+				type: "post",
+				// url:globalurl + "notice/getNoticeDetail?id="+id+"authorization="+authorization,
+				url: globalurl + "notice/getNoticeDetail?id=" + id,
+				async: false,
+				data: {
+					// authorization:authorization,
+				},
+				success: function (result) {
+					console.log(result)
+					var detail = result.data;
+					var newDetail =
+						"<h2 class='newTitle'>" + detail.title + "</h2>" +
+						"<p class='newsTime'>" + timestampToTime(detail.createTime) + "</p>" +
+						"<div class='layui-row contentArticle '>" + detail.content + "</div>"
+					$("#newsBox").append(newDetail)
+				}
+			})
+
+		});	
+	</script>
+</body>
 
 </html>

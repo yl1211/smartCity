@@ -1,235 +1,241 @@
 <!DOCTYPE html>
 <html lang="cn">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>消息中心</title>
-	<link rel="stylesheet" href="../../layui/css/layui.css">
-	<link rel="stylesheet" href="../../css/base.css">
-	<link rel="stylesheet" href="../../css/index.css">
-	<link rel="stylesheet" href="../../css/mescroll.min.css">
-	<link rel="stylesheet" href="../../css/mescroll-option.css">
-	<link rel="stylesheet" href="../../css/msgIndex.css">
-	<style type="text/css">
-
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>消息中心</title>
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/index.css">
+		<link rel="stylesheet" href="../../css/mescroll.min.css">
+		<link rel="stylesheet" href="../../css/mescroll-option.css">
+		<link rel="stylesheet" href="../../css/msgIndex.css">
+		<style type="text/css">
 			/*展示上拉加载的数据列表*/
-			.news-list li{
-				padding:1rem;
+			.news-list li {
+				padding: 1rem;
 			}
 		</style>
-</head>
-<body>
+	</head>
+	<body>
 
-	
-	<div class="layui-fluid">
-		<div class="layui-row transitContent">
-            <h2 class="transitTitle">
-                消息中心
-            </h2>
-            <h2 class="transitlist">
-                公告列表
-            </h2>
-        </div>
-		<!-- end-header -->
-		<!-- App -->
-		<!-- <div class="layui-row appContent" id="appView"></div> -->
-		<!-- end-App -->
-		<!-- lastest news -->
-		<!-- 下拉刷新回调的提示 -->
-		<!-- <p id="downloadTip" class="download-tip">1条新内容</p> -->
-		
-		<div class="layui-row lastestNews">
-			<div id="mescroll" class="mescroll">
-				<ul id="newsList" class="news-list">	
-				</ul>
-		    </div>
-		</div>
-		<!-- end-lastest news -->
-	</div>
-	<!-- footer -->
-	<div class="layui-row footer">
-		<div class="layui-col-xs4">
-			<a href="../home/index.html">
-				<div class="img-txt">
-					<img src="../../img/sy_index.png" alt="">
-					<h3>首页</h3>
+
+		<div class="layui-fluid">
+			<div class="layui-row transitContent">
+				<h2 class="transitTitle">
+					消息中心
+				</h2>
+				<h2 class="transitlist">
+					公告列表
+				</h2>
+			</div>
+			<!-- end-header -->
+			<!-- App -->
+			<!-- <div class="layui-row appContent" id="appView"></div> -->
+			<!-- end-App -->
+			<!-- lastest news -->
+			<!-- 下拉刷新回调的提示 -->
+			<!-- <p id="downloadTip" class="download-tip">1条新内容</p> -->
+
+			<div class="layui-row lastestNews">
+				<div id="mescroll" class="mescroll">
+					<ul id="newsList" class="news-list">
+					</ul>
 				</div>
-			</a>
+			</div>
+			<!-- end-lastest news -->
 		</div>
-		<div class="layui-col-xs4">
-			<a href="javascript:;">
-				<div class="img-txt">
-					<img src="../../img/sy_msg2.png" alt="">
-					<h3>消息</h3>
-				</div>
-			</a>
+		<!-- footer -->
+		<div class="layui-row footer">
+			<div class="layui-col-xs4">
+				<a href="../home/index.html">
+					<div class="img-txt">
+						<img src="../../img/sy_index.png" alt="">
+						<h3>首页</h3>
+					</div>
+				</a>
+			</div>
+			<div class="layui-col-xs4">
+				<a href="javascript:;">
+					<div class="img-txt">
+						<img src="../../img/sy_msg2.png" alt="">
+						<h3>消息</h3>
+					</div>
+				</a>
+			</div>
+			<div class="layui-col-xs4">
+				<a href="javascript:;">
+					<div class="img-txt">
+						<img src="../../img/sy_my.png" alt="">
+						<h3>我的</h3>
+					</div>
+				</a>
+			</div>
 		</div>
-		<div class="layui-col-xs4">
-			<a href="javascript:;">
-				<div class="img-txt">
-					<img src="../../img/sy_my.png" alt="">
-					<h3>我的</h3>
-				</div>
-			</a>
-		</div>
-	</div>
-	<!-- end-footer -->
-	<script src="../../js/jquery-3.3.1.min.js"></script>
-	<script src="../../layui/layui.js"></script>
-	<script src="../../js/mescroll.min.js"></script>
-	<script src="../../js/mescroll-option.js" ></script>
-	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-	<script type="text/javascript" >
-		//获取url的token参数
+		<!-- end-footer -->
+		<script src="../../js/jquery-3.3.1.min.js"></script>
+		<script src="../../js/url.js"></script>
+		<script src="../../layui/layui.js"></script>
+		<script src="../../js/mescroll.min.js"></script>
+		<script src="../../js/mescroll-option.js"></script>
+		<script type="text/javascript">
+			//获取url的token参数
 			function getParams() {
-			    //获取url中"?"符后的字串
-			    var url = location.search;
-			    var params = new Object();
-			    if (url.indexOf("?") != -1) {
-			        var str = url.substr(1);
-			        strs = str.split("&");
-			        for (var i = 0; i < strs.length; i++) {
-			            var strs = strs[i].split("=");
-			            params[strs[0]] = encodeURIComponent(strs[1]);
-			        }
-			    }
-			    return params;
-			}
-         
-
-         var authorization = "";//授权令牌
-
-		$(function(){
-			//创建MeScroll对象
-			var mescroll = initMeScroll("mescroll", {
-				down:{
-					auto:false,//是否在初始化完毕之后自动执行下拉回调callback; 默认true
-					callback: downCallback, //下拉刷新的回调
-				},
-				up: {
-					auto:true,//初始化完毕,是否自动触发上拉加载的回调
-					isBoth: true, //上拉加载时,如果滑动到列表顶部是否可以同时触发下拉刷新;默认false,两者不可同时触发; 这里为了演示改为true,不必等列表加载完毕才可下拉;
-					isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
-					page: {
-		                    num: 0,
-		                    size: 3,
-		                    time: null
-		                },
-					callback: upCallback, //上拉加载的回调
-					toTop:{ //配置回到顶部按钮
-						src : "../../img/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
-						offset :100,
+				//获取url中"?"符后的字串
+				var url = location.search;
+				var params = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					strs = str.split("&");
+					for (var i = 0; i < strs.length; i++) {
+						var strs = strs[i].split("=");
+						params[strs[0]] = encodeURIComponent(strs[1]);
 					}
 				}
-			});
-			
-			/*下拉刷新的回调 */
-			function downCallback(page){
-				var page=1;
-				// alert("page")
-				// console.log(page);
-				//加载轮播数据..
-				//...
-				//加载列表数据
+				return params;
+			}
 
-				  //从参数里获得authorization
+
+			var authorization = ""; //授权令牌
+
+			$(function() {
+				//创建MeScroll对象
+				var mescroll = initMeScroll("mescroll", {
+					down: {
+						auto: false, //是否在初始化完毕之后自动执行下拉回调callback; 默认true
+						callback: downCallback, //下拉刷新的回调
+					},
+					up: {
+						auto: true, //初始化完毕,是否自动触发上拉加载的回调
+						isBoth: true, //上拉加载时,如果滑动到列表顶部是否可以同时触发下拉刷新;默认false,两者不可同时触发; 这里为了演示改为true,不必等列表加载完毕才可下拉;
+						isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+						page: {
+							num: 0,
+							size: 3,
+							time: null
+						},
+						callback: upCallback, //上拉加载的回调
+						toTop: { //配置回到顶部按钮
+							src: "../../img/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+							offset: 100,
+						}
+					}
+				});
+
+				/*下拉刷新的回调 */
+				function downCallback(page) {
+					var page = 1;
+					// alert("page")
+					// console.log(page);
+					//加载轮播数据..
+					//...
+					//加载列表数据
+
+					//从参数里获得authorization
 					var params = getParams();
 					authorization = params["authorization"];
-                
-
-				$.ajax({
-					// url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList?authorization='+authorization,
-					url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList',
-					type: 'post',
-					data: {
-						// authorization:authorization,
-						pageNum:page,
-					},
-					dataType: 'json',
-					success: function (data) {
-						console.log(data);
 
 
-	                  mescroll.endSuccess(); //无参. 注意结束下拉刷新是无参的
-						
-					},
-					error: function(data) {
+					$.ajax({
+						// url: globalurl + 'notice/getNoticeList?authorization='+authorization,
+						url: globalurl + 'notice/getNoticeList',
+						type: 'post',
+						data: {
+							// authorization:authorization,
+							pageNum: page,
+						},
+						dataType: 'json',
+						success: function(data) {
+							console.log(data);
+
+
+							mescroll.endSuccess(); //无参. 注意结束下拉刷新是无参的
+
+						},
+						error: function(data) {
 							//联网失败的回调,隐藏下拉刷新的状态
 							mescroll.endErr();
 						}
-				});
-					
-			}
-			
-			/*上拉加载的回调 page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
-			function upCallback(page){
-				// alert("page")
-				//联网加载数据
-				// getListDataFromNet(page.num, page.size, function(curPageData){
+					});
+
+				}
+
+				/*上拉加载的回调 page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+				function upCallback(page) {
+					// alert("page")
+					//联网加载数据
+					// getListDataFromNet(page.num, page.size, function(curPageData){
 					//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
 					//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
 					// console.log("page.num="+page.num+", page.size="+page.size+", curPageData.length="+curPageData.length);
-					
+
 					//方法一(推荐): 后台接口有返回列表的总页数 totalPage
 					//mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
-					
+
 					//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
 					//mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
-					
+
 					//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
 					//mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
-					
+
 					//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
 
-                  // var pageNum=page.num;
+					// var pageNum=page.num;
 
-                  /*时间戳转换*/
-						function timestampToTime(timestamp) {
-							var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-							Y = date.getFullYear() + '-';
-							M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-							D = date.getDate() + ' ';
-							return Y+M+D;
-						}
+					/*时间戳转换*/
+					function timestampToTime(timestamp) {
+						var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+						Y = date.getFullYear() + '-';
+						M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+						D = date.getDate() + ' ';
+						return Y + M + D;
+					}
 
-						 //从参数里获得authorization
+					//从参数里获得authorization
 					var params = getParams();
 					authorization = params["authorization"];
 
 					$.ajax({
-					// url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList?pageNum='+ page.num + "&size=" + page.size+ "authorization=" + authorization, 
-					url: 'http://1.192.121.127:12613/gateway/notice/getNoticeList?pageNum='+ page.num + "&size=" + page.size, 
-					type: 'post',
-					data: {
-						// authorization:authorization,
-					},
-					dataType: 'json',
-					success: function (data) {
-						console.log(data);
-						 // var jsondata = eval('(' + data + ')');
-                         var data = data.data;
-                         mescroll.endSuccess(data.length);
-                         var url='http://1.192.121.127:12613/gateway/';
-					      var appStr = '';
-                          for (var i = 0; i <data.length; i++) {        	
-							  appStr += "<li><div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='' alt=''></div><div class='layui-col-xs6 noticeTitle'><p class='newstop'>"+data[i].title+"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id="+data[i].id+"'><h2 class='newsTitle'>"+data[i].description+"</h2></a><div class='time'><small>"+timestampToTime(data[i].createTime)+"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='"+url+""+data.noticeImg+"' alt=''  width='100%'></div></div></li>"  
+						// url: globalurl + 'notice/getNoticeList?pageNum='+ page.num + "&size=" + page.size+ "authorization=" + authorization, 
+						url: globalurl + 'notice/getNoticeList?pageNum=' + page.num + "&size=" + page.size,
+						type: 'post',
+						data: {
+							// authorization:authorization,
+						},
+						dataType: 'json',
+						success: function(data) {
+							console.log(data);
+							// var jsondata = eval('(' + data + ')');
+							var data = data.data;
+							mescroll.endSuccess(data.length);
+							var url = globalurl + '';
+							var appStr = '';
+							for (var i = 0; i < data.length; i++) {
+								appStr +=
+									"<li><div class='noticeTitleBox'><div class='layui-col-xs1'><img class='imgNotice' src='' alt=''></div><div class='layui-col-xs6 noticeTitle'><p class='newstop'>" +
+									data[i].title +
+									"</p><small>有新公告</small></div></div><div class='layui-row'><div class='layui-col-xs8 noticeTxt'><a href='newsDetails.html?id=" +
+									data[i].id + "'><h2 class='newsTitle'>" + data[i].description + "</h2></a><div class='time'><small>" +
+									timestampToTime(data[i].createTime) +
+									"</small></div></div><div class='layui-col-xs3 noticeimg'><img class='' src='" + url + "" + data[i].noticeImg +
+									"' alt=''  width='100%'></div></div></li>"
 
-                            }
-                            // new Array(16).join('data') + cardNum.slice(15);
-                          $("#newsList").append(appStr);
+							}
+							// new Array(16).join('data') + cardNum.slice(15);
+							$("#newsList").append(appStr);
 
-					},
-					error: function(e) {
+						},
+						error: function(e) {
 							//联网失败的回调,隐藏下拉刷新的状态
 							mescroll.endErr();
 						}
-				});
-					
-			}
+					});
 
-			
-		});
-	</script>
-</body>
+				}
+
+
+			});
+		</script>
+	</body>
 
 </html>
