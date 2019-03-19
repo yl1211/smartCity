@@ -90,6 +90,7 @@
 </div>
 </body>
 <script src="../../js/jquery-3.3.1.min.js"></script>
+<script src="../../js/url.js"></script>
 <script src="../../layui/layui.js"></script>
 <script src="../../js/jquery.selector-px.js"></script>
 <script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
@@ -151,6 +152,7 @@
 		var day = new Date(year,month,0); 
 		month =  month < 10 ? '0' + month : month;
 		var firstdate = year +  month + '01' ; 
+		console.log(firstdate);
 		var lastdate = year +  month +  day.getDate();  
 		//查询当前月份得账单
 		if (newStratDate == null) {
