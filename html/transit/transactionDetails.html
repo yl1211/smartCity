@@ -40,7 +40,7 @@
                         消费
                     </li>
                 </ul>
-                <div class="layui-tab-content">
+                <div class="layui-tab-content mescroll" id="mescroll">
                     <div class="layui-tab-item allDetail layui-show">
                         <div class="layui-row seachDetail">
                             <div class="layui-col-xs2">
@@ -112,8 +112,10 @@
 </body>
 <script src="../../js/jquery-3.3.1.min.js"></script>
 <script src="../../js/url.js"></script>
+<script src="../../js/getparameter.js"></script>
 <script src="../../layui/layui.js"></script>
 <script src="../../js/jquery.selector-px.js"></script>
+<!-- <script src="../../js/mescroll.min.js"></script> -->
 <script id="seachContent" type="text/html">
         {{#layui.each(d.data,function(index, item) {}}
         <div class="layui-row seachContentBox">
@@ -138,6 +140,16 @@
         {{# }); }}
     </script>
 <script>
+    //获取url里的参数
+    $(document).ready(function () {
+        var a = GetRequest();
+        var order_id = a['order_id'];
+        var uid = a['uid'];
+        console.log(order_id);
+        console.log(uid);
+        // Detail(order_id, uid);
+    })
+
     var codeId = localStorage.getItem('codeId');
     layui.use(['form', 'layer', 'element', 'laytpl'],
         function () {
@@ -157,54 +169,78 @@
             element.on('tab(cardDetails)', function (data) {
                 console.log(data);
             });
-            //请求充值消费记录接口
-            $.ajax({
-                url: globalurl + '/appbus/getBusTransactionDetails',
-                type: 'post',
-                data: {
-                    cardno: '530000010000AFEE',
-                    merCode: '10003',
-                    strdate: '2011-11-11',
-                    enddate: '2018-11-11',
-                    pageno: '1',
-                    txntype: '0'
-                },
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    function elementInit(data) {
-                        var seachContentHtml = $("#seachContent").html();
-                        laytpl(seachContentHtml).render(data, function (html) {
-                            $(".allDetail").find(".seachContent").html(html);
-                        });
-                        // //区分充值记录与消费记录并重新渲染
-                        var newData1 = {}, newData2 = {}, newArr1 = [], newArr2 = [];
-                        newData1.value = newArr1;
-                        newData2.value = newArr2;
-                        for (var i = 0; i < data.data.length; i++) {
-                            if (data.data[i].type == 0) {
-                                newArr1.push(data.data[i]);
 
-                            } else {
-                                newArr2.push(data.data[i]);
+            //下拉加载
+            //创建MeScroll对象
+            // var mescroll = new MeScroll("mescroll", {
+            //     up: {
+            //         callback: upCallback, //上拉加载的回调
+            //         page: {
+            //             num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+            //             size: 10 //每页数据条数,默认10
+            //         },
+            //         htmlNodata: '<p class="upwarp-nodata">-- END --</p>',
+            //         noMoreSize: 5, //如果列表已无数据,可设置列表的总数量要大于5才显示无更多数据;
+            //         toTop: {
+            //             //回到顶部按钮
+            //             src: "../img/mescroll-totop.png", //图片路径,默认null,支持网络图
+            //             offset: 1000 //列表滚动1000px才显示回到顶部按钮	
+            //         }
+            //     }
+            // });
+
+            //请求充值消费记录接口
+            function upCallback(page) {   //上拉加载
+                $.ajax({
+                    url: globalurl + '/appbus/getBusTransactionDetails',
+                    type: 'post',
+                    data: {
+                        cardno: '530000010000AFEE',
+                        merCode: '10003',
+                        strdate: '2011-11-11',
+                        enddate: '2018-11-11',
+                        pageno: '1',
+                        txntype: '0'
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        function elementInit(data) {
+                            var seachContentHtml = $("#seachContent").html();
+                            laytpl(seachContentHtml).render(data, function (html) {
+                                $(".allDetail").find(".seachContent").html(html);
+                            });
+                            mescroll.endByPage(data.data.length, data.data.totalPage);
+                            page++;
+                            // //区分充值记录与消费记录并重新渲染
+                            var newData1 = {}, newData2 = {}, newArr1 = [], newArr2 = [];
+                            newData1.value = newArr1;
+                            newData2.value = newArr2;
+                            for (var i = 0; i < data.data.length; i++) {
+                                if (data.data[i].type == 0) {
+                                    newArr1.push(data.data[i]);
+
+                                } else {
+                                    newArr2.push(data.data[i]);
+                                }
                             }
+                            //渲染充值记录
+                            laytpl(seachContentHtml).render(newData1, function (html) {
+                                $(".rechargeDetail").find(".seachContent").html(html);
+                            });
+                            //渲染消费记录
+                            laytpl(seachContentHtml).render(newData2, function (html) {
+                                $(".consumeDetail").find(".seachContent").html(html);
+                            });
                         }
-                        //渲染充值记录
-                        laytpl(seachContentHtml).render(newData1, function (html) {
-                            $(".rechargeDetail").find(".seachContent").html(html);
-                        });
-                        //渲染消费记录
-                        laytpl(seachContentHtml).render(newData2, function (html) {
-                            $(".consumeDetail").find(".seachContent").html(html);
-                        });
+                        elementInit(data);
+                    },
+                    error: function () {
+                        layer.msg("请求数据失败!");
+                        mescroll.endErr();
                     }
-                    elementInit(data);
-                    me.resetload();
-                },
-                error: function () {
-                    layer.msg("请求数据失败!");
-                }
-            });
+                });
+            }
 
             var res = '';
             $(".seachTime").each(function () {
