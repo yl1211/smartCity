@@ -93,7 +93,7 @@
 <script src="../../js/url.js"></script>
 <script src="../../layui/layui.js"></script>
 <script src="../../js/jquery.selector-px.js"></script>
-<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/getparameter.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/dropload.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
     layui.use(['form', 'layer', 'element', 'laytpl'], function () {
@@ -102,11 +102,11 @@
             element = layui.element,
             laytpl = layui.laytpl;
 
-        var layid = $.getQueryString("layid");
-        element.tabChange('test1', layid);
-        element.on('tab(test1)', function (data) {
-            layid = this.getAttribute('lay-id');
-        });
+        // var layid = $.getQueryString("layid");
+        // element.tabChange('test1', layid);
+        // element.on('tab(test1)', function (data) {
+        //     layid = this.getAttribute('lay-id');
+        // });
         //返回按钮
         $(".ofenBack").on("click",function () {
             var index = parent.layer.getFrameIndex(window.name);
@@ -118,7 +118,7 @@
                 type: 2,
                 closeBtn: 0,
                 title: false,
-                content: 'SelectionMonthly.html?layid=' + layid,
+                content: 'SelectionMonthly.html',
                 area: ['100%', '100%'],
                 yes: function (index) {
                     layer.close(index);

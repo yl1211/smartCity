@@ -76,6 +76,7 @@
 	</div>
 	<!-- end-footer -->
 	<script src="../../js/jquery-3.3.1.min.js"></script>
+	<script src="../../js/jquery.base64.js"></script>
 	<script src="../../js/url.js"></script>
 	<script src="../../layui/layui.js"></script>
 	<script src="../../js/mescroll.min.js"></script>
@@ -98,15 +99,9 @@
 		}
 
 
-		var authorization = ""; //授权令牌
-
 		$(function () {
 			//创建MeScroll对象
 			var mescroll = initMeScroll("mescroll", {
-				down: {
-					auto: false, //是否在初始化完毕之后自动执行下拉回调callback; 默认true
-					callback: downCallback, //下拉刷新的回调
-				},
 				up: {
 					auto: true, //初始化完毕,是否自动触发上拉加载的回调
 					isBoth: true, //上拉加载时,如果滑动到列表顶部是否可以同时触发下拉刷新;默认false,两者不可同时触发; 这里为了演示改为true,不必等列表加载完毕才可下拉;
@@ -124,66 +119,8 @@
 				}
 			});
 
-			/*下拉刷新的回调 */
-			function downCallback(page) {
-				var page = 1;
-				// alert("page")
-				// console.log(page);
-				//加载轮播数据..
-				//...
-				//加载列表数据
-
-				//从参数里获得authorization
-				var params = getParams();
-				authorization = params["authorization"];
-
-
-				$.ajax({
-					// url: globalurl + '/notice/getNoticeList?authorization='+authorization,
-					url: globalurl + '/notice/getNoticeList',
-					type: 'post',
-					data: {
-						// authorization:authorization,
-						pageNum: page,
-					},
-					dataType: 'json',
-					success: function (data) {
-						console.log(data);
-
-
-						mescroll.endSuccess(); //无参. 注意结束下拉刷新是无参的
-
-					},
-					error: function (data) {
-						//联网失败的回调,隐藏下拉刷新的状态
-						mescroll.endErr();
-					}
-				});
-
-			}
-
 			/*上拉加载的回调 page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
 			function upCallback(page) {
-				// alert("page")
-				//联网加载数据
-				// getListDataFromNet(page.num, page.size, function(curPageData){
-				//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
-				//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
-				// console.log("page.num="+page.num+", page.size="+page.size+", curPageData.length="+curPageData.length);
-
-				//方法一(推荐): 后台接口有返回列表的总页数 totalPage
-				//mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
-
-				//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
-				//mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
-
-				//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
-				//mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
-
-				//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
-
-				// var pageNum=page.num;
-
 				/*时间戳转换*/
 				function timestampToTime(timestamp) {
 					var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -198,11 +135,10 @@
 				authorization = params["authorization"];
 
 				$.ajax({
-					// url: globalurl + '/notice/getNoticeList?pageNum='+ page.num + "&size=" + page.size+ "authorization=" + authorization, 
-					url: globalurl + '/notice/getNoticeList?pageNum=' + page.num + "&size=" + page.size,
+					url: globalurl + '/notice/getNoticeList',
 					type: 'post',
 					data: {
-						// authorization:authorization,
+						page:page
 					},
 					dataType: 'json',
 					success: function (data) {

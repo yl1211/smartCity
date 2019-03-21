@@ -32,10 +32,10 @@
 }
 .contentBox p{
 	line-height:2rem;
-	color: gray;
+	/* color: gray; */
 }
 .contentArticle{
-	text-align: center;
+	text-align: left;
 	margin-top: 1rem;
 }
 .layui-fluid{

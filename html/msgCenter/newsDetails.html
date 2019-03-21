@@ -24,7 +24,7 @@
 <body>
 	<div class="layui-fluid">
 		<div class="layui-row content">
-			<div class="layui-row contentHeader">
+			<!-- <div class="layui-row contentHeader">
 				<h2 class="title">
 					<a href="javascript:history.back(-1)" class="back">
 						<i class="layui-icon layui-icon-left">
@@ -33,13 +33,14 @@
 					</a>
 					资讯详情
 				</h2>
-			</div>
+			</div> -->
 			<div class="layui-row contentBox" id="newsBox">
 				<!-- 公告详情内容 -->
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery.base64.js"></script>
 	<script type="text/javascript" src="../../js/url.js"></script>
 	<script type="text/javascript" src="../../js/getparameter.js"></script>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
@@ -49,21 +50,14 @@
 		$(document).ready(function () {
 			var a = GetRequest();
 			var id = a['id'];   //公告id
+			var token = a['token'];   //token值
 			console.log(id);
-			// Detail(id);
+			console.log(token);
 
 			layui.use(['laytpl', 'layer'], function () {
 				var laytpl = layui.laytpl;
 				var layer = layui.layer;
 
-				/*时间戳转换*/
-				function timestampToTime(timestamp) {
-					var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-					Y = date.getFullYear() + '-';
-					M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-					D = date.getDate() + ' ';
-					return Y + M + D;
-				}
 
 				$.ajax({
 					type: "post",
@@ -72,14 +66,22 @@
 					data: {
 						id: id
 					},
-					success: function (result) {
-						console.log(result)
-						var detail = result.data;
+					headers: {
+						"token": token         //此处放置请求到的用户token
+					},
+					success: function (res) {
+						var value = JSON.parse($.base64.decode(res.data, 'GBK'));   //base64解密
+						console.log(value.id);
+						console.log(value.createTime);
+						console.log(value);
+						var a = value.createTime;     //时间串插入分隔符
+						var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
 						var newDetail =
-							"<h2 class='newTitle'>" + detail.title + "</h2>" +
-							"<p class='newsTime'>" + timestampToTime(detail.createTime) + "</p>" +
-							"<div class='layui-row contentArticle '>" + detail.content + "</div>"
-						$("#newsBox").append(newDetail)
+							"<h2 class='newTitle'>" + value.title + "</h2>" +
+							"<p class='newsTime'>" + b + "</p>" +
+							"<div class='layui-row contentArticle '>" + value.content + "</div>"
+						$("#newsBox").append(newDetail);
+						$(".w-e-text").attr('contenteditable', 'false');     //禁用富文本编辑功能
 					}
 				})
 			});
