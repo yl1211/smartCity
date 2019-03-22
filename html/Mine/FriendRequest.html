@@ -1,86 +1,92 @@
 <!DOCTYPE html>
 <html lang="cn">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>好友邀请</title>
-        <link rel="stylesheet" href="../../layui/css/layui.css">
-        <link rel="stylesheet" href="../../css/base.css">
-        <link rel="stylesheet" href="../../css/userRange.css">
-    </head>
-    <body>
-        <div class="layui-fluid">
-            <!-- 顶部返回与标题 -->
-            <div class="layui-row transitContent myTransitCard">
-                <h2 class="transitTitle">
-                    <a href="javascript:;" class="back ofenBack">
-                        <i class="layui-icon layui-icon-left"></i>返回
-                    </a>
-                   	好友邀请
-                   	<!--<a href="" download="二维码" class="range" id="userRange">保存图片</a>-->
-                   	<a class="down range" href="" download="downImg">生成图片</a>
-                </h2>
-            </div>
-            <!-- 展示的二维码 -->
-            <div class="layui-row myTransitCardBox">
-            	<div class="code">
-            		<!--<img class="myTc" src="../../img/transitCode.png" alt="../../img/transitCode.png" id="testImg">-->
-            		<!--<div class="frame_ewm" id="frame_ewm" onclick="getQRCodejs()"></div>-->
-            		<!--<div id="code" style="display: none;"></div>-->
-				    <div id="divOne"></div>
-				    <img id='imgOne'/>
-  
-	                <p class="myTcBtn">
-	                    <span>扫一扫邀请好友</span>
-	                </p>
-            	</div>               
-            </div>
-            <!-- 展示的二维码end -->
-            <!--点击复制链接-->
-            <div class="layui-col-xs12 copy">
-        		<div class="copyTitle">复制链接</div>
-        		<div class="copyLink" id="target">https://www.layui.com/demo/laytpl.html</div>
-        		<button class="layui-btn layui-btn-primary" data-clipboard-action="copy" data-clipboard-target="#target"  id="copy_btn">复制</button>
-            </div>
-        </div>
-    </body>
-    <script src="../../js/jquery-3.3.1.min.js"></script>
-    <script src="../../layui/layui.js"></script>
-    <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
-	<script src="../../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../../js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../../js/reqrcode.js" type="text/javascript" charset="utf-8"></script>
-	<!--<script src="../../js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>-->
-    <script>
-    	var codeId = localStorage.getItem('codeId');
-        console.log(codeId)
-        layui.use(['form', 'layer', 'element', 'laytpl'],
-        function() {
-            var form = layui.form,
-            layer = layui.layer,
-            element = layui.element,
-            laytpl = layui.laytpl;
 
-            //返回按钮
-            $(".ofenBack").on("click",function() {
-                var index = parent.layer.getFrameIndex(window.name); 
-                parent.layer.close(index);
-            });
-        	var clipboard = new Clipboard('#copy_btn'); 
-        	clipboard.on('success', function(e) {    
-	            layer.msg('复制成功')
-	            e.clearSelection();    
-	            console.log(e.clearSelection);    
-	        });   
-        });
-    </script>
-    <script>
-	    //生成的二维码转换成图片
-	    var qrcode= $('#divOne').qrcode('http://blog.csdn.net/u01112701911111111111111').hide(); 
-	   	var canvas=qrcode.find('canvas').get(0);
-	   	$('#imgOne').attr('src',canvas.toDataURL('image/jpg'))
-	</script>
-    <!--<script type="text/javascript">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>好友邀请</title>
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<link rel="stylesheet" href="../../css/base.css">
+	<link rel="stylesheet" href="../../css/userRange.css">
+</head>
+
+<body>
+	<div class="layui-fluid">
+		<!-- 顶部返回与标题 -->
+		<div class="layui-row transitContent myTransitCard">
+			<h2 class="transitTitle">
+				<a href="javascript:;" class="back ofenBack">
+					<i class="layui-icon layui-icon-left"></i>返回
+				</a>
+				好友邀请
+				<!--<a href="" download="二维码" class="range" id="userRange">保存图片</a>-->
+				<a class="down range" href="" download="downImg">生成图片</a>
+			</h2>
+		</div>
+		<!-- 展示的二维码 -->
+		<div class="layui-row myTransitCardBox">
+			<div class="code">
+				<!--<img class="myTc" src="../../img/transitCode.png" alt="../../img/transitCode.png" id="testImg">-->
+				<!--<div class="frame_ewm" id="frame_ewm" onclick="getQRCodejs()"></div>-->
+				<!--<div id="code" style="display: none;"></div>-->
+				<div id="divOne"></div>
+				<img id='imgOne' />
+
+				<p class="myTcBtn">
+					<span>扫一扫邀请好友</span>
+				</p>
+			</div>
+		</div>
+		<!-- 展示的二维码end -->
+		<!--点击复制链接-->
+		<div class="layui-col-xs12 copy">
+			<div class="copyTitle">复制链接</div>
+			<div class="copyLink" id="target">https://www.layui.com/demo/laytpl.html</div>
+			<button class="layui-btn layui-btn-primary" data-clipboard-action="copy" data-clipboard-target="#target"
+				id="copy_btn">复制</button>
+		</div>
+	</div>
+</body>
+<script src="../../js/jquery-3.3.1.min.js"></script>
+<script src="../../js/jquery.base64.js"></script>
+<script src="../../js/url.js"></script>
+<script src="../../js/getparameter.js"></script>
+<script src="../../layui/layui.js"></script>
+<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script src="../../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/reqrcode.js" type="text/javascript" charset="utf-8"></script>
+<!--<script src="../../js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>-->
+<script>
+	var codeId = localStorage.getItem('codeId');
+	console.log(codeId)
+	layui.use(['form', 'layer', 'element', 'laytpl'],
+		function () {
+			var form = layui.form,
+				layer = layui.layer,
+				element = layui.element,
+				laytpl = layui.laytpl;
+
+			//返回按钮
+			$(".ofenBack").on("click", function () {
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
+			});
+			var clipboard = new Clipboard('#copy_btn');
+			clipboard.on('success', function (e) {
+				layer.msg('复制成功')
+				e.clearSelection();
+				console.log(e.clearSelection);
+			});
+		});
+</script>
+<script>
+	//生成的二维码转换成图片
+	var qrcode = $('#divOne').qrcode('http://blog.csdn.net/u01112701911111111111111').hide();
+	var canvas = qrcode.find('canvas').get(0);
+	$('#imgOne').attr('src', canvas.toDataURL('image/jpg'))
+</script>
+<!--<script type="text/javascript">
     	//获取二维码
 			$(function(){
 	            getQRCodejs();
@@ -106,22 +112,22 @@
 				});
 			}
     </script>-->
-    <!--保存图片-->
-    <script>
-		var canvas2 = document.createElement("canvas");
-		let
+<!--保存图片-->
+<script>
+	var canvas2 = document.createElement("canvas");
+	let
 		_canvas = document.querySelector('html');
-		var w = parseInt(window.getComputedStyle(_canvas).width);
-		var h = parseInt(window.getComputedStyle(_canvas).height);
-		canvas2.width = w * 2;
-		canvas2.height = h * 2;
-		canvas2.style.width = w + "px";
-		canvas2.style.height = h + "px";
-		var context = canvas2.getContext("2d");
-		context.scale(2, 2);
-		html2canvas(document.querySelector('html'), { canvas: canvas2 }).then(function(canvas) {
-			document.querySelector(".down").setAttribute('href', canvas.toDataURL());
-		});
-	</script>
-	
+	var w = parseInt(window.getComputedStyle(_canvas).width);
+	var h = parseInt(window.getComputedStyle(_canvas).height);
+	canvas2.width = w * 2;
+	canvas2.height = h * 2;
+	canvas2.style.width = w + "px";
+	canvas2.style.height = h + "px";
+	var context = canvas2.getContext("2d");
+	context.scale(2, 2);
+	html2canvas(document.querySelector('html'), { canvas: canvas2 }).then(function (canvas) {
+		document.querySelector(".down").setAttribute('href', canvas.toDataURL());
+	});
+</script>
+
 </html>

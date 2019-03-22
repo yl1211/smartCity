@@ -36,6 +36,7 @@
 	</div>
 
 	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery.base64.js"></script>
 	<script type="text/javascript" src="../../js/url.js"></script>
 	<script type="text/javascript" src="../../js/getparameter.js"></script>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
@@ -48,9 +49,11 @@
 			// $(document).ready(function () {
 			// 	var a = GetRequest();
 			// 	var id = a['id'];
+			// 	var token = a['token'];
 			// 	console.log(id);
-			// 	// Detail(id);
+			// 	console.log(token);
 			// })
+
 
 			//获取银行卡信息
 			$(function () {
@@ -60,25 +63,25 @@
 					data: {
 
 					},
-					// beforeSend: function (request) {
-					// 	request.setRequestHeader("Authorization", token);
+					// headers: {
+					// 	"token": token         //此处放置请求到的用户token
 					// },
 					dataType: 'json',
-					success: function (data) {
-						console.log(data);
+					success: function (res) {
+						var value = JSON.parse($.base64.decode(res.data));   //base64解密
+						console.log(value);
 						var cardStr = '';
-						for (var i = 0; i < data.data.length; i++) {
-							cardStr += "<div class='layui-col-xs12 layui-col-xs-offset1 transitCard'><p class='title'><img src='../../img/logo.jpg'>广西农信信用社</p><p class='cardName'><span>" + data.data[i].type + "</span></p><p class='cardNum'>" + data.data[i].cardNum + "</p></div>"
+						for (var i = 0; i < value.length; i++) {
+							cardStr += "<div class='layui-col-xs12 layui-col-xs-offset1 transitCard'><p class='title'><img src='../../img/logo.jpg'>广西农信信用社</p><p class='cardName'><span>" + value[i].type + "</span></p><p class='cardNum'>" + value[i].cardnum + "</p></div>"
 
 						}
 						$("#viewContent").append(cardStr);
 
-						//删除银行卡的弹窗
-						//ajax动态获取点击事件无效的解决指令
-						// var cardnum=$(".cardnum").val();            //获取点击的银行卡账号
+						//确认是否删除银行卡的弹窗
 						$(document).on("click", ".transitCard", function (cardnum) {
-							// alert("cardnum")                    //打印银行卡账号     
-							// $(".transitCard").on('click', function() {
+							var cardNum = $(this).children('.cardNum').html();
+							var cardnum = $.trim(cardNum).replace(/\s/g, "");
+							console.log(cardnum);
 							layer.confirm('', {
 								title: false,
 								closeBtn: false,
@@ -106,19 +109,17 @@
 						});
 						//点击解绑时
 						$(".untying").on('click', function (data) {
-							//从参数里获得authorization
-							var params = getParams();
-							authorization = params["authorization"];
-
-							var cardnum = $(".cardNum").html();
+							var cardNum = $(this).children('.cardNum').html();
+							var cardnum = $.trim(cardNum).replace(/\s/g, "");
+							console.log(cardnum);
 							$.ajax({
 								url: globalurl + '/appcard/unBindCard',
 								type: 'post',
 								data: {
 									cardnum: cardnum
 								},
-								// beforeSend: function (request) {
-								// 	request.setRequestHeader("Authorization", token);
+								// headers: {
+								// 	"token": token         //此处放置请求到的用户token
 								// },
 								dataType: 'json',
 								async: false,
@@ -132,14 +133,12 @@
 										layer.close(layer.index - 1);
 										layer.close(layer.index - 2);
 										function g() {
-
 											window.location.href = window.location.href;   //删除之后进行页面刷新操作
 										}
 										//使用js计时器功能
 										setInterval(g, 3000);
-
 									} else {
-										layer.msg('解绑失败！');
+										layer.msg(data.msg);
 									}
 									layer.close("#opendiv");
 									layer.close(layer.index - 1);
