@@ -1,0 +1,13 @@
+.login_btn{
+    background-color: #095bb1;
+}
+.remark{
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 10%;
+    color: #575757;
+}
+.layui-form-item {
+    border-bottom: 1px solid gainsboro;
+}

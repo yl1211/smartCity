@@ -19,17 +19,14 @@
 					<i class="layui-icon layui-icon-left"></i>返回
 				</a>
 				好友邀请
-				<!--<a href="" download="二维码" class="range" id="userRange">保存图片</a>-->
+				<!-- <a href="" download="二维码" class="range" id="userRange">保存图片</a> -->
 				<a class="down range" href="" download="downImg">生成图片</a>
 			</h2>
 		</div>
 		<!-- 展示的二维码 -->
 		<div class="layui-row myTransitCardBox">
 			<div class="code">
-				<!--<img class="myTc" src="../../img/transitCode.png" alt="../../img/transitCode.png" id="testImg">-->
-				<!--<div class="frame_ewm" id="frame_ewm" onclick="getQRCodejs()"></div>-->
-				<!--<div id="code" style="display: none;"></div>-->
-				<div id="divOne"></div>
+				<div id="qrcode"></div>
 				<img id='imgOne' />
 
 				<p class="myTcBtn">
@@ -41,7 +38,7 @@
 		<!--点击复制链接-->
 		<div class="layui-col-xs12 copy">
 			<div class="copyTitle">复制链接</div>
-			<div class="copyLink" id="target">https://www.layui.com/demo/laytpl.html</div>
+			<div class="copyLink" id="target"></div>
 			<button class="layui-btn layui-btn-primary" data-clipboard-action="copy" data-clipboard-target="#target"
 				id="copy_btn">复制</button>
 		</div>
@@ -52,71 +49,64 @@
 <script src="../../js/url.js"></script>
 <script src="../../js/getparameter.js"></script>
 <script src="../../layui/layui.js"></script>
-<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<!-- 复制到剪切板插件 -->
 <script src="../../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+<!-- 生成二维码插件 -->
 <script src="../../js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../js/reqrcode.js" type="text/javascript" charset="utf-8"></script>
-<!--<script src="../../js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>-->
+<script src="../../js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<!-- 生成图片插件 -->
+<script src="../../js/html2canvas.min.js"></script>
+<!-- 解析二维码 -->
+<!-- <script src="../../js/reqrcode.js" type="text/javascript" charset="utf-8"></script> -->
 <script>
-	var codeId = localStorage.getItem('codeId');
-	console.log(codeId)
-	layui.use(['form', 'layer', 'element', 'laytpl'],
-		function () {
-			var form = layui.form,
-				layer = layui.layer,
-				element = layui.element,
-				laytpl = layui.laytpl;
+	layui.use(['form', 'layer', 'element', 'laytpl'], function () {
+		var form = layui.form,
+			layer = layui.layer,
+			element = layui.element,
+			laytpl = layui.laytpl;
 
-			//返回按钮
-			$(".ofenBack").on("click", function () {
-				var index = parent.layer.getFrameIndex(window.name);
-				parent.layer.close(index);
-			});
-			var clipboard = new Clipboard('#copy_btn');
-			clipboard.on('success', function (e) {
-				layer.msg('复制成功')
-				e.clearSelection();
-				console.log(e.clearSelection);
-			});
+		//返回按钮
+		$(".ofenBack").on("click", function () {
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
 		});
-</script>
-<script>
-	//生成的二维码转换成图片
-	var qrcode = $('#divOne').qrcode('http://blog.csdn.net/u01112701911111111111111').hide();
-	var canvas = qrcode.find('canvas').get(0);
-	$('#imgOne').attr('src', canvas.toDataURL('image/jpg'))
-</script>
-<!--<script type="text/javascript">
-    	//获取二维码
-			$(function(){
-	            getQRCodejs();
-			})
-			
-			function getQRCodejs(){
-				$("#frame_ewm").html("");				
-				$.ajax({
-					type:"get",
-					url:"",				
-					success:function(success){		
-						var num = success.mark;
-						qrcodeimg= '111cuiwhdcxnlkzSmcioweuro';
-						var qrcode = new QRCode('frame_ewm', {
-			              text: qrcodeimg,
-			              width: 200,
-			              height: 200,
-			              colorDark: '#000000',
-			              colorLight: '#ffffff',
-			              correctLevel: QRCode.CorrectLevel.H
-			           });			
-					}
-				});
+
+
+		//获取分享链接地址
+		$.ajax({
+			type: "post",
+			url: globalurl + "/extension/getUrl",
+			data: {
+
+			},
+			// headers: {
+			// 	"token": token         //此处放置请求到的用户token
+			// },
+			success: function (res) {
+				var value = JSON.parse($.base64.decode(res.data, 'GBK'));   //base64解密
+				console.log(value.url);
+				$("#target").html(value.url);
 			}
-    </script>-->
-<!--保存图片-->
-<script>
+		})
+
+		//复制链接内容
+		var clipboard = new Clipboard('#copy_btn');
+		clipboard.on('success', function (e) {
+			layer.msg('复制成功')
+			e.clearSelection();
+			console.log(e.clearSelection);
+		});
+
+	});
+
+	//生成的二维码转换成图片
+	var qrcode = $('#qrcode').qrcode("http://192.168.1.126:8848/smartCity/html/Mine/DownloadApp.html").hide();
+	var canvas = qrcode.find('canvas').get(0);
+	$('#imgOne').attr('src', canvas.toDataURL('image/jpg'));
+
+	//保存图片
 	var canvas2 = document.createElement("canvas");
-	let
-		_canvas = document.querySelector('html');
+	let _canvas = document.querySelector('html');
 	var w = parseInt(window.getComputedStyle(_canvas).width);
 	var h = parseInt(window.getComputedStyle(_canvas).height);
 	canvas2.width = w * 2;
