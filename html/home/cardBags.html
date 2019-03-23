@@ -79,9 +79,9 @@
 
 						//确认是否删除银行卡的弹窗
 						$(document).on("click", ".transitCard", function (cardnum) {
-							var cardNum = $(this).children('.cardNum').html();
-							var cardnum = $.trim(cardNum).replace(/\s/g, "");
-							console.log(cardnum);
+							// var cardNum = $(this).children('.cardNum').html();
+							// var cardnum = $.trim(cardNum).replace(/\s/g, "");
+							// console.log(cardnum);
 							layer.confirm('', {
 								title: false,
 								closeBtn: false,
@@ -122,13 +122,15 @@
 								// 	"token": token         //此处放置请求到的用户token
 								// },
 								dataType: 'json',
-								async: false,
+								// async: false,
 								success: function (data) {
 									if (data.code == "0000") {
 										console.log(data);
-										var index = layer.msg("解绑成功", {
-											time: 2000
-										});
+										// var index = layer.msg("解绑成功", {
+										// 	time: 2000
+										// });
+										layer.msg(data.msg);
+
 										layer.close("#opendiv");
 										layer.close(layer.index - 1);
 										layer.close(layer.index - 2);
