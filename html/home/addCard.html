@@ -61,150 +61,158 @@
 	<script type="text/javascript" src="../../js/getparameter.js"></script>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
 	<script>
-		layui.use(['form', 'layer', 'element', 'laytpl'], function () {
-			var form = layui.form,
-				layer = layui.layer,
-				element = layui.element,
-				laytpl = layui.laytpl;
-		});
+		// $(document).ready(function () {
+		// 	var a = GetRequest();
+		// 	var id = a['id'];   
+		// 	var token = a['token'];   //token值
+		// 	console.log(id);
+		// 	console.log(token);
 
-		$("#formDemo").on("click", function () {
-			var username = $("#username").val();
-			var idcard = $("#id-card").val();
-			var account = $("#account").val();
-			var phone = $("#phone").val();
-			var codenum = $("#codenum").val();
-			var deviceId = 123;
-			// 判断身份证格式是否正确
-			var Rega = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-			// 判断手机号码是否正确
-			var pattern = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/;
-			isPhone = 1;
-			// 判断银行卡格式是否正确
-			var banknum = /^\d{15,19}$/g;
-			// 判断验证码格式是否正确
-			var reg = /^\d{6}$/;
+			layui.use(['form', 'layer', 'element', 'laytpl'], function () {
+				var form = layui.form,
+					layer = layui.layer,
+					element = layui.element,
+					laytpl = layui.laytpl;
+			});
 
 
-			if (username == '') {
-				layer.msg('请填写用户名！');
-				return false;
-			}
-			if (idcard == '') {
-				layer.msg('请填写身份证号！');
-				return false;
-			}
-			if (!Rega.test(idcard)) {
-				layer.msg('请填写正确的身份证！');
-				return false;
-			}
-			if (account == '') {
-				layer.msg('请填写银行卡号！');
-				return false;
-			}
-			if (!banknum.test(account)) {
-				layer.msg('请填写正确的银行卡格式！');
-				return false;
-			}
-			if (phone == '') {
-				layer.msg('请填写手机号码');
-				isPhone = 0;
-				return false;
-			}
-			if (!pattern.test(phone)) {
-				layer.msg('请填写正确的手机号码');
-				isPhone = 0;
-				return false;
-			}
-			// 提交时判断是否为空
-			if (codenum == '') {
-				layer.msg('请填写验证码');
-				return false;
-			}
-			if (!reg.test(codenum)) {
-				layer.msg('请填写正确的验证码');
-				return false;
-			}
-			else {
-				$.ajax({
-					url: globalurl + "/appcard/addUsedCard",
-					type: 'post',
-					dataType: "json",
-					data: {
-						cardnum: account,
-						certno: idcard,
-						deviceid: deviceId,
-						phonenum: phone,
-						realname: username,
-						smsCode: codenum,
-						type: "h5"
-					},
-					// headers: {
-					// 	"token": token         //此处放置请求到的用户token
-					// },
-					success: function (data) {
-						console.log(data);
-						if (data.code == "0000") {
-							layer.msg('添加成功！');
-							window.location.href = "cardBags.html";
-						} else {
-							layer.msg(data.msg);
-						}
-					}
-				});
-			}
-		});
-
-
-		/*获取验证码*/
-		var isPhone = 1;
-		function getCode(e) {
-			if (isPhone) {
-				resetCode(); //倒计时
-				//向后台传送手机号获取验证码
-				// function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
+			$("#formDemo").on("click", function () {
+				var username = $("#username").val();
+				var idcard = $("#id-card").val();
+				var account = $("#account").val();
 				var phone = $("#phone").val();
+				var codenum = $("#codenum").val();
 				var deviceId = 123;
-				$.ajax({
-					url: globalurl + "/appsms/smsAuthForBindingCard",
-					type: 'post',
-					data: {
-						deviceId: deviceId,
-						phonenum: phone
-					},
-					dataType: "json",
-					success: function (res) {
-						var value = JSON.parse($.base64.decode(res.data));   //base64解密
-						console.log(value.code);
-					}, error: function () {
-						console.log(res.msg);
-					}
-				});
-			} else {
-				$('#phone').focus();
-			}
-		}
+				// 判断身份证格式是否正确
+				var Rega = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+				// 判断手机号码是否正确
+				var pattern = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/;
+				isPhone = 1;
+				// 判断银行卡格式是否正确
+				var banknum = /^\d{15,19}$/g;
+				// 判断验证码格式是否正确
+				var reg = /^\d{6}$/;
 
-		//倒计时
-		function resetCode() {
-			$('#getCode').hide();
-			$('#resetGetCode').hide();
-			$('#second').html('60');
-			$('#resetCode').show();
-			var second = 60;
-			var timer = null;
-			timer = setInterval(function () {
-				second -= 1;
-				if (second > 0) {
-					$('#second').html(second);
-				} else {
-					clearInterval(timer);
-					$('#resetGetCode').show();
-					$('#resetCode').hide();
+
+				if (username == '') {
+					layer.msg('请填写用户名！');
+					return false;
 				}
-			}, 1000);
-		}
+				if (idcard == '') {
+					layer.msg('请填写身份证号！');
+					return false;
+				}
+				if (!Rega.test(idcard)) {
+					layer.msg('请填写正确的身份证！');
+					return false;
+				}
+				if (account == '') {
+					layer.msg('请填写银行卡号！');
+					return false;
+				}
+				if (!banknum.test(account)) {
+					layer.msg('请填写正确的银行卡格式！');
+					return false;
+				}
+				if (phone == '') {
+					layer.msg('请填写手机号码');
+					isPhone = 0;
+					return false;
+				}
+				if (!pattern.test(phone)) {
+					layer.msg('请填写正确的手机号码');
+					isPhone = 0;
+					return false;
+				}
+				// 提交时判断是否为空
+				if (codenum == '') {
+					layer.msg('请填写验证码');
+					return false;
+				}
+				if (!reg.test(codenum)) {
+					layer.msg('请填写正确的验证码');
+					return false;
+				}
+				else {
+					$.ajax({
+						url: globalurl + "/appcard/addUsedCard",
+						type: 'post',
+						dataType: "json",
+						data: {
+							cardnum: account,
+							certno: idcard,
+							deviceid: deviceId,
+							phonenum: phone,
+							realname: username,
+							smsCode: codenum,
+							type: "h5"
+						},
+						// headers: {
+						// 	"token": token         //此处放置请求到的用户token
+						// },
+						success: function (data) {
+							console.log(data);
+							if (data.code == "0000") {
+								layer.msg('添加成功！');
+								window.location.href = "cardBags.html";
+							} else {
+								layer.msg(data.msg);
+							}
+						}
+					});
+				}
+			});
 
+
+			/*获取验证码*/
+			var isPhone = 1;
+			function getCode(e) {
+				if (isPhone) {
+					resetCode(); //倒计时
+					//向后台传送手机号获取验证码
+					// function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
+					var phone = $("#phone").val();
+					var deviceId = 123;
+					$.ajax({
+						url: globalurl + "/appsms/smsAuthForBindingCard",
+						type: 'post',
+						data: {
+							deviceId: deviceId,
+							phonenum: phone
+						},
+						dataType: "json",
+						success: function (res) {
+							var value = JSON.parse($.base64.decode(res.data));   //base64解密
+							console.log(value.code);
+						}, error: function () {
+							console.log(res.msg);
+						}
+					});
+				} else {
+					$('#phone').focus();
+				}
+			}
+
+			//倒计时
+			function resetCode() {
+				$('#getCode').hide();
+				$('#resetGetCode').hide();
+				$('#second').html('60');
+				$('#resetCode').show();
+				var second = 60;
+				var timer = null;
+				timer = setInterval(function () {
+					second -= 1;
+					if (second > 0) {
+						$('#second').html(second);
+					} else {
+						clearInterval(timer);
+						$('#resetGetCode').show();
+						$('#resetCode').hide();
+					}
+				}, 1000);
+			}
+		// })
 	</script>
 </body>
 

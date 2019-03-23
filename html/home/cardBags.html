@@ -79,9 +79,9 @@
 
 						//确认是否删除银行卡的弹窗
 						$(document).on("click", ".transitCard", function (cardnum) {
-							// var cardNum = $(this).children('.cardNum').html();
-							// var cardnum = $.trim(cardNum).replace(/\s/g, "");
-							// console.log(cardnum);
+							var cardNum = $(this).children('.cardNum').html();
+							var cardnum = $.trim(cardNum).replace(/\s/g, "");
+							console.log(cardnum);
 							layer.confirm('', {
 								title: false,
 								closeBtn: false,
@@ -108,7 +108,8 @@
 							layer.closeAll();
 						});
 						//点击解绑时
-						$(".untying").on('click', function (data) {
+						// $("#untying").on('click', function (data) {
+						$(document).on("click", "#untying", function (cardnum) {
 							var cardNum = $(this).children('.cardNum').html();
 							var cardnum = $.trim(cardNum).replace(/\s/g, "");
 							console.log(cardnum);
@@ -145,7 +146,6 @@
 									layer.close("#opendiv");
 									layer.close(layer.index - 1);
 									layer.close(layer.index - 2);
-
 								}
 							})
 

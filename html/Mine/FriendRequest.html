@@ -100,7 +100,7 @@
 	});
 
 	//生成的二维码转换成图片
-	var qrcode = $('#qrcode').qrcode("http://192.168.1.126:8848/smartCity/html/Mine/DownloadApp.html").hide();
+	var qrcode = $('#qrcode').qrcode("http://192.168.1.126:8848/smartCity/html/Mine/DownloadApp.html?userid=123").hide();
 	var canvas = qrcode.find('canvas').get(0);
 	$('#imgOne').attr('src', canvas.toDataURL('image/jpg'));
 

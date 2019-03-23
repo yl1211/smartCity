@@ -9,27 +9,69 @@
 	</head>
 
 	<body>
-		<a href="transactionDetails.html?order_id=value1&uid=value2">传参</a>
-		<button type="button" id="getDevice">获取设备号</button><br><br>
-	</body>
-	<script src="../../js/jquery-3.3.1.min.js"></script>
-	<script>
-		//时间字符串转成年-月-日 时:分:秒
-		let a = '20190301092140';
-		let b =
-			`${a.substring(0,4)}-${a.substring(4,6)}-${a.substring(6,8)} ${a.substring(8,10)}:${a.substring(10,12)}:${a.substring(12,14)}`;
-		console.log(b);
+		<a href="transactionDetails.html?order_id=value1&uid=value2">传参</a><br>
 
-		document.write("userAgent: " + navigator.userAgent + "<br><br>");
-		document.write("appName: " + navigator.appName + "<br><br>");
-		document.write("appCodeName: " + navigator.appCodeName + "<br><br>");
-		document.write("appVersion: " + navigator.appVersion + "<br><br>");
-		document.write("appMinorVersion: " + navigator.appMinorVersion + "<br><br>");
-		document.write("platform: " + navigator.platform + "<br><br>");
-		document.write("cookieEnabled: " + navigator.cookieEnabled + "<br><br>");
-		document.write("onLine: " + navigator.onLine + "<br><br>");
-		document.write("userLanguage: " + navigator.language + "<br><br>");
-		document.write("mimeTypes.description: " + navigator.mimeTypes[1].description + "<br><br>");
-		document.write("mimeTypes.type: " + navigator.mimeTypes[1].type + "<br><br>");
-	</script>
+		<button type="button" id="postdata">传递数据</button><br><br>
+
+		<!-- <a href="https://dl.01zhuanche.com/android/upinstall/4.0/4.3.1/app_release_4.3.1_v88_db70.apk" class="button">立即下载</a>
+		<a href="https://itunes.apple.com/cn/app/XXXX/id997586276?l=en&mt=8" class="button">立即下载</a> -->
+
+		<script src=" ../../js/jquery-3.3.1.min.js"> </script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script>
+			layui.use(['form', 'layer'], function() {
+				var form = layui.form;
+				var layer = layui.layer;
+
+			});
+			//时间字符串转成年-月-日 时:分:秒
+			let a = '20190301092140';
+			let b =
+				`${a.substring(0,4)}-${a.substring(4,6)}-${a.substring(6,8)} ${a.substring(8,10)}:${a.substring(10,12)}:${a.substring(12,14)}`;
+			console.log(b);
+
+
+			// 获取设备号
+			// document.write("userAgent: " + navigator.userAgent + "<br><br>");
+			// document.write("appName: " + navigator.appName + "<br><br>");
+			// document.write("appCodeName: " + navigator.appCodeName + "<br><br>");
+			// document.write("appVersion: " + navigator.appVersion + "<br><br>");
+			// document.write("appMinorVersion: " + navigator.appMinorVersion + "<br><br>");
+			// document.write("platform: " + navigator.platform + "<br><br>");
+			// document.write("cookieEnabled: " + navigator.cookieEnabled + "<br><br>");
+			// document.write("onLine: " + navigator.onLine + "<br><br>");
+			// document.write("userLanguage: " + navigator.language + "<br><br>");
+			// document.write("mimeTypes.description: " + navigator.mimeTypes[1].description + "<br><br>");
+			// document.write("mimeTypes.type: " + navigator.mimeTypes[1].type + "<br><br>");
+
+			// 点击事件传递数据
+			// $("#postdata").click(function() {
+			// $("#postdata").on('click', function() {
+			// $(document).on("click", "#postdata", function() {
+			// var value = $("a").html();
+			// console.log(value);
+			// })
+
+			// 点击下载app
+			// 			$("#postdata").click(function() {
+			// 				var u = navigator.userAgent;
+			// 				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+			// 				var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			// 				alert('是否是Android：' + isAndroid);
+			// 				alert('是否是iOS：' + isiOS);
+			// 			})
+			$("#postdata").click(function() {
+			// $(document).on("click", "#postdata", function() {
+				var u = navigator.userAgent,
+					app = navigator.appVersion;
+				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端
+				var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+				if (isAndroid) {
+					layer.msg("这个是安卓操作系统");
+				}
+				if (isIOS) {
+					layer.msg("这个是ios操作系统");
+				}
+			});
+		</script>
 </html>
