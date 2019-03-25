@@ -8,8 +8,8 @@ html{
 	background-color: white;
 }
 .msg{
-	/*text-indent:2rem;*/
 	margin-top: 1rem;
+	margin-bottom: 1rem;
 	text-align: center;
 	color: #999999;
 }
@@ -26,7 +26,6 @@ html{
 
 .layui-input{
 	text-align: right;
-	padding-right: 1rem;
 }
 .interval{
 	height: 1rem;
@@ -62,4 +61,11 @@ hr{
     height: 3rem;
     line-height: 3rem;
     text-align: center;
+}
+.nostutip{
+	margin: 1rem;
+    font-size: 1.2rem;
+    background: #fff;
+	padding: 1rem;
+	box-shadow: 5px 5px 10px #ddd;
 }
