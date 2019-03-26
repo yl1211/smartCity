@@ -56,7 +56,6 @@
     <script src="../../js/jquery-3.3.1.min.js"></script>
     <script src="../../layui/layui.js"></script>
     <script src="../../js/jquery.selector-px.js"></script>
-    <script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
     <script>
 		function fun_date(num) {
 		    var date = new Date();
@@ -68,7 +67,6 @@
 		    day = day < 10 ? '0' + day : day;
 		    return year + month + day;
 		}
-        var layid = $.getQueryString("layid");
         layui.use(['form', 'layer', 'element', 'laytpl'],function() {
             var form = layui.form,
             layer = layui.layer,
@@ -83,7 +81,7 @@
             $(".dayChoose").on("click",function(){
 
                 var index = parent.layer.getFrameIndex(window.name); 
-                parent.layer.iframeSrc(index,'SelectionMonthly.html?layid='+layid)
+                parent.layer.iframeSrc(index,'SelectionMonthly.html')
             })
             //获取当前年份与时间段区间
             var date=new Date;
@@ -136,7 +134,7 @@
 	                    type: 2,
 	                    closeBtn: 0,
 	                    title: false,
-	                    content: 'bill.html?startTime=' + fun_date() + '&endTime=' + fun_date() + "&layid=" + layid,
+	                    content: 'bill.html?startTime=' + fun_date() + '&endTime=' + fun_date(),
 	                    area: ['100%', '100%'],
 	                    yes: function (index) {
 	                        layer.close(index);
@@ -153,7 +151,7 @@
 	            layer.confirm(tip, {
 	                btn: ['确定', '取消']
 	            }, function () {
-	                window.location.href = 'bill.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date()+ "&layid=" + layid;
+	                window.location.href = 'bill.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date();
 	            }, function () {
 	            });
             });
@@ -165,7 +163,7 @@
 	            layer.confirm(tip, {
 	                btn: ['确定', '取消']
 	            }, function () {
-	                window.location.href = 'bill.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date()+ "&layid=" + layid;
+	                window.location.href = 'bill.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date();
 	            }, function () {
 	            });
             });
@@ -183,7 +181,7 @@
                 } else if (!timeBlock2) {
                     layer.msg("请选择截止时间!");
                 }else{
-                   window.location.href = 'bill.html?startTime=' + data_start + "&endTime=" + data_end + "&layid=" + layid;
+                   window.location.href = 'bill.html?startTime=' + data_start + "&endTime=" + data_end;
                 }              
             })
         });

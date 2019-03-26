@@ -33,9 +33,6 @@ body{
 a{
 	color: white;
 }
-.layui-layer{
-	background-color: transparent !important; 
-}
 .layui-layer-hui .layui-layer-content{
 	background-color: darkgray;
 }
@@ -58,27 +55,7 @@ button{
 	border: none;
 }
 /*结束*/
-/*一次弹窗内容*/
-.layui-layer-btn .layui-layer-btn0{
-	width: 100%;
-	color: rgba(72, 156, 245, 1) !important;
-	margin: .2rem;
-	border-radius: 10px;
-	background-color: white !important;
-	border: none;
-	text-align: center;
-}
-.layui-layer-btn a{
-	padding: 0 0 !important;
-}
-.layui-layer-btn .layui-layer-btn1{
-	width: 100%;
-	margin: .2rem;
-	border-radius: 10px;
-	background-color: white;
-	border: none;
-	text-align: center;
-}
+
 
 
 /*一次弹窗内容结束*/

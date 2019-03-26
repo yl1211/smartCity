@@ -1,137 +1,131 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="../../layui/css/layui.css">
-		<link rel="stylesheet" href="../../css/base.css">
-		<link rel="stylesheet" href="../../css/noReceive.css" />
-		<title>消费交易明细详情</title>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<link rel="stylesheet" href="../../css/base.css">
+	<link rel="stylesheet" href="../../css/noReceive.css" />
+	<title>消费交易明细详情</title>
+</head>
 
-	<body>
-		<div class="layui-fluid">
-			<div class="layui-row listContent">
-				<h2 class="listTitle">
-                    <a href="javascript:;" class="back">
-	                	<i class="layui-icon layui-icon-left"></i>
-	                	返回
-	            	</a>
-                    交易明细
-                </h2>
-				<!--未领款内容-->
-				<div class="layui-row contentBox" id="content">
-					<form class="layui-form" action="">
-				<div class="layui-col-xs10 layui-col-xs-offset1 dealContent">
-					<p class="dealing">消费</p>
-					<p class="receiveMoney"></p>
-				</div>
-				<div class="layui-col-xs10 layui-col-xs-offset1 cardContent">
-					<div class="layui-row">
-						<div class="layui-col-xs6">
-							<div class="payType">付款方式</div>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row listContent">
+			<h2 class="listTitle">
+				<a href="javascript:;" class="back">
+					<i class="layui-icon layui-icon-left"></i>
+					返回
+				</a>
+				交易明细
+			</h2>
+			<!--未领款内容-->
+			<div class="layui-row contentBox" id="content">
+				<form class="layui-form" action="">
+					<div class="layui-col-xs10 layui-col-xs-offset1 dealContent">
+						<p class="dealing">充值</p>
+						<p class="receiveMoney"></p>
+					</div>
+					<div class="layui-col-xs10 layui-col-xs-offset1 cardContent">
+						<div class="layui-row">
+							<div class="layui-col-xs6">
+								<div class="payType">充值方式</div>
+							</div>
+							<div class="layui-col-xs6">
+								<span class="type way"></span>
+							</div>
 						</div>
-						<div class="layui-col-xs6">
-							<span class="type way"></span>
+						<div class="layui-row">
+							<div class="layui-col-xs6">
+								<div class="payType">充值卡号</div>
+							</div>
+							<div class="layui-col-xs6">
+								<span class="type cardNum"></span>
+							</div>
+						</div>
+						<div class="layui-row">
+							<div class="layui-col-xs6">
+								<div class="payType">订单编号</div>
+							</div>
+							<div class="layui-col-xs6">
+								<span class="type orderNum"></span>
+							</div>
+						</div>
+						<div class="layui-row">
+							<div class="layui-col-xs6">
+								<div class="payType">交易时间</div>
+							</div>
+							<div class="layui-col-xs6">
+								<span class="type time"></span>
+							</div>
 						</div>
 					</div>
-					<div class="layui-row">
-						<div class="layui-col-xs6">
-							<div class="payType">城市云卡卡号</div>
-						</div>
-						<div class="layui-col-xs6">
-							<span class="type cardNum"></span>
-						</div>
-					</div>
-					<div class="layui-row">
-						<div class="layui-col-xs6">
-							<div class="payType">创建时间</div>
-						</div>
-						<div class="layui-col-xs6">
-							<span class="type time"></span>
-						</div>
-					</div>
-					<div class="layui-row">
-						<div class="layui-col-xs6">
-							<div class="payType_1">线路</div>
-						</div>
-						<div class="layui-col-xs6">
-							<span class="type route"></span>
-						</div>
-					</div>
-				</div>
-			</form>
-				</div>
+				</form>
 			</div>
 		</div>
-		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-		<script src="../../js/url.js"></script>
-		<script type="text/javascript" src="../../layui/layui.js"></script>
-		<script>
+	</div>
+	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery.base64.js"></script>
+	<script type="text/javascript" src="../../js/url.js"></script>
+	<script type="text/javascript" src="../../js/getparameter.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script>
+		//获取url参数
+		$(document).ready(function () {
+			var a = GetRequest();
+			var token = a['token'];
+			console.log(token);
+
 			var money = localStorage.getItem('money');//金额
 			var route = localStorage.getItem('route');//路线
 			var billId = localStorage.getItem('billId');//账单id
 			console.log(money)
 			console.log(route)
 			console.log(billId)
-//			if (money > 0) {
-//				$('.payType_1').html('备注')
-//			} else{
-//				$('.payType_1').html('线路');
-//				$('.route').html(route)
-//			}
-//			$('.receiveMoney').html(money)
-			layui.use(['laytpl', 'layer', 'form'], function() {
+
+			layui.use(['laytpl', 'layer', 'form'], function () {
 				var form = layui.form;
 				var laytpl = layui.laytpl;
 				var layer = layui.layer;
+
 				//返回按钮
-		        $(".back").on("click", function () {
-		            var index = parent.layer.getFrameIndex(window.name); 
-		            parent.layer.close(index); 
-		        })	
-		        //时间戳转换
-				function getMyDate(str){  
-		            var oDate = new Date(str),  
-		            oYear = oDate.getFullYear(),  
-		            oMonth = oDate.getMonth()+1,  
-		            oDay = oDate.getDate(),  
-		            oHour = oDate.getHours(),  
-		            oMin = oDate.getMinutes(),  
-		            oSen = oDate.getSeconds(),  
-		            oTime = getzf(oMonth) +'-'+ getzf(oDay) +'- '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);
-		            return oTime;  
-		        }; 
-		        function getzf(num){  
-		          	if(parseInt(num) < 10){  
-		              	num = '0'+num;  
-		          	}  
-		          	return num;  
-		      	};     
+				$(".back").on("click", function () {
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);
+				})
+
+
 				$.ajax({
-					type:"post",
-					url:globalurl + "/bill/consumptionDetail",
-					data:{
-						id:billId
+					type: "post",
+					url: globalurl + "/bill/rechargeDetail",
+					data: {
+						id: billId
 					},
-					async:true,
+					beforeSend: function (request) {
+						request.setRequestHeader("authorization", token);
+					},
+					async: true,
 					dataType: 'json',
-					success:function(success){
+					success: function (res) {
+						var success = JSON.parse($.base64.decode(res.data, 'GBK'));   //base64解密
+						var a = success.paytime;     //时间串插入分隔符
+						var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
 						console.log(success);
-						var data = success.data;
-						if (success.data.way == null) {
+						if (success.way == null) {
 							$('.way').html('消费')
-						} else{
-							$('.way').html(success.data.way)
+						} else {
+							$('.way').html(success.way)
 						}
-						$('.cardNum').html(success.data.cardNum);
-						$('.time').html(getMyDate(success.data.paytime));
-						$('.receiveMoney').html('-' + success.data.money)
+						$('.receiveMoney').html(money);
+						$('.cardNum').html(success.cardNum);
+						$('.orderNum').html(success.outTradeNo);
+						$('.time').html(b);
 					}
 				});
 			});
-		</script>
-	</body>
+		});
+	</script>
+</body>
 
 </html>

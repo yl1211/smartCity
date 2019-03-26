@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="cn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,63 +9,63 @@
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/transitIndex.css">
 </head>
+
 <body>
-<div class="layui-fluid">
-    <!-- 顶部返回与标题 -->
-    <div class="layui-row transitContent">
-        <h2 class="transitTitle">
-            <a href="javascript:;" class="back">
-                <i class="layui-icon layui-icon-left"></i>
-                返回
-            </a>
-            选择时间
-            <a href="javascript:;" class="timeTrue"> 完成</a>
-        </h2>
+    <div class="layui-fluid">
+        <!-- 顶部返回与标题 -->
+        <div class="layui-row transitContent">
+            <h2 class="transitTitle">
+                <a href="javascript:;" class="back">
+                    <i class="layui-icon layui-icon-left"></i>
+                    返回
+                </a>
+                选择时间
+                <a href="javascript:;" class="timeTrue"> 完成</a>
+            </h2>
+        </div>
+        <!-- 顶部返回与标题end -->
+        <!-- 按月选择/近7天/近1个月/近三个月 -->
+        <div class="layui-row seachTimeBtn">
+            <div class="layui-col-xs4">
+                <button class="layui-btn layui-btn-primary month monthChoose">按月选择<img src="../../img/zhuanhuan.png"
+                        class="zhuanhuan"></button>
+            </div>
+            <div class="layui-col-xs2">
+                <button class="layui-btn layui-btn-primary week">近1天</button>
+            </div>
+            <div class="layui-col-xs2">
+                <button class="layui-btn layui-btn-primary oneMonth">近7天</button>
+            </div>
+            <div class="layui-col-xs2">
+                <button class="layui-btn layui-btn-primary threeMonth">近1个月</button>
+            </div>
+        </div>
+        <!-- 按月选择/近7天/近1个月/近三个月end -->
+        <!-- 日期框与日期滚动模块 -->
+        <div class="layui-row timeBox">
+            <div class="layui-col-xs12">
+                <input type="text" placeholder="请选择时间" autocomplete="off" class="layui-input seachTime"
+                    readonly="readonly">
+            </div>
+        </div>
+        <!-- 日期狂与日期滚动模块end -->
     </div>
-    <!-- 顶部返回与标题end -->
-    <!-- 按月选择/近7天/近1个月/近三个月 -->
-    <div class="layui-row seachTimeBtn">
-        <div class="layui-col-xs4">
-            <button class="layui-btn layui-btn-primary month monthChoose">按月选择<img src="../../img/zhuanhuan.png"
-                                                                                   class="zhuanhuan"></button>
-        </div>
-        <div class="layui-col-xs2">
-            <button class="layui-btn layui-btn-primary week">近1天</button>
-        </div>
-        <div class="layui-col-xs2">
-            <button class="layui-btn layui-btn-primary oneMonth">近7天</button>
-        </div>
-        <div class="layui-col-xs2">
-            <button class="layui-btn layui-btn-primary threeMonth">近1个月</button>
-        </div>
-    </div>
-    <!-- 按月选择/近7天/近1个月/近三个月end -->
-    <!-- 日期框与日期滚动模块 -->
-    <div class="layui-row timeBox">
-        <div class="layui-col-xs12">
-            <input type="text" placeholder="请选择时间" autocomplete="off" class="layui-input seachTime" readonly="readonly">
-        </div>
-    </div>
-    <!-- 日期狂与日期滚动模块end -->
-</div>
 </body>
 <script src="../../js/jquery-3.3.1.min.js"></script>
 <script src="../../layui/layui.js"></script>
 <script src="../../js/jquery.selector-px.js"></script>
-<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
 <script>
-	function fun_date(num) {
-	    var date = new Date();
-	    date = num ? new Date(date.getTime() + num * 24 * 60 * 60 * 1000) : date;
-	    var year = date.getFullYear();
-	    var month = date.getMonth() + 1;
-	    var day = date.getDate();
-	    month = month < 10 ? '0' + month : month;
-	    day = day < 10 ? '0' + day : day;
-	    return year + month + day;
-	}
+    function fun_date(num) {
+        var date = new Date();
+        date = num ? new Date(date.getTime() + num * 24 * 60 * 60 * 1000) : date;
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+        return year + month + day;
+    }
 
-    var layid = $.getQueryString("layid");
     layui.use(['form', 'layer', 'element', 'laytpl'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -73,12 +74,12 @@
             laytpl = layui.laytpl;
         //返回按钮
         $(".back").on("click", function () {
-            var index = parent.layer.getFrameIndex(window.name); 
-            parent.layer.close(index); 
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         })
         $(".monthChoose").on("click", function () {
-            var index = parent.layer.getFrameIndex(window.name); 
-            parent.layer.iframeSrc(index, 'SelectionDaily.html?layid=' +layid);
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.iframeSrc(index, 'SelectionDaily.html');
         })
         //获取当前年份与时间段区间
         var date = new Date;
@@ -101,15 +102,15 @@
             eleName: '年',
             eleName2: '月',
             afterAction: function (data1, data2) {
-                $('.seachTime').val(data1 + data2 );
-                $('.seachTime').attr('data_year',data1)
-                $('.seachTime').attr('data_month',data2)
+                $('.seachTime').val(data1 + data2);
+                $('.seachTime').attr('data_year', data1)
+                $('.seachTime').attr('data_month', data2)
             }
         })
-		
+
         //近1天按钮
-        $("button.week").on("click", function () {       	
-            var tip =  fun_date();      
+        $("button.week").on("click", function () {
+            var tip = fun_date();
             localStorage.setItem('startTime', fun_date());
             localStorage.setItem('endTime', fun_date());
             layer.confirm(tip, {
@@ -119,7 +120,7 @@
                     type: 2,
                     closeBtn: 0,
                     title: false,
-                    content: 'bill.html?startTime=' + fun_date() + '&endTime=' + fun_date() + "&layid=" + layid,
+                    content: 'bill.html?startTime=' + fun_date() + '&endTime=' + fun_date(),
                     area: ['100%', '100%'],
                     yes: function (index) {
                         layer.close(index);
@@ -136,7 +137,7 @@
             layer.confirm(tip, {
                 btn: ['确定', '取消']
             }, function () {
-                window.location.href = 'bill.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date()+ "&layid=" + layid;
+                window.location.href = 'bill.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date();
             }, function () {
             });
         });
@@ -148,7 +149,7 @@
             layer.confirm(tip, {
                 btn: ['确定', '取消']
             }, function () {
-                window.location.href = 'bill.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date()+ "&layid=" + layid;
+                window.location.href = 'bill.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date();
             }, function () {
             });
         });
@@ -157,15 +158,15 @@
             var timeBlock = $(".seachTime").val();
             var year = $('.seachTime').attr('data_year');
             var month = $('.seachTime').attr('data_month');
-            var day = new Date(year,month,0); 
-			var firstdate = timeBlock + '01' ; 
-			var lastdate = timeBlock +  day.getDate(); 
-			localStorage.setItem('startTime',firstdate);
+            var day = new Date(year, month, 0);
+            var firstdate = timeBlock + '01';
+            var lastdate = timeBlock + day.getDate();
+            localStorage.setItem('startTime', firstdate);
             localStorage.setItem('endTime', lastdate);
             if (!timeBlock) {
                 layer.msg("请选择时间!");
             } else {
-				window.location.href = 'bill.html?startTime=' + firstdate + "&endTime=" + lastdate + "&layid=" + layid;
+                window.location.href = 'bill.html?startTime=' + firstdate + "&endTime=" + lastdate;
             }
         })
     });

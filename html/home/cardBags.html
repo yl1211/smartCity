@@ -8,7 +8,6 @@
 	<link rel="stylesheet" href="../../layui/css/layui.css" />
 	<link rel="stylesheet" href="../../css/base.css" />
 	<link rel="stylesheet" href="../../css/card.css" />
-	<!-- <link rel="stylesheet" href="../../css/layer.css" /> -->
 	<title>卡包</title>
 </head>
 
@@ -27,12 +26,12 @@
 			</div>
 		</div>
 		<!--点击“解绑”出现的弹窗内容-->
-		<div class="opendiv" id="opendiv" data-method="offset" data-type="c">
+		<!-- <div class="opendiv" id="opendiv" data-method="offset" data-type="c">
 			<h3 class="untyTitle">确定解绑？</h3>
 			<hr />
 			<button type="button" class="cancel" id="cancel">取消</button>
 			<button type="button" class="untying" id="untying">解绑</button>
-		</div>
+		</div> -->
 	</div>
 
 	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
@@ -41,21 +40,18 @@
 	<script type="text/javascript" src="../../js/getparameter.js"></script>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
 	<script>
+		//获取上级页面url的参数
+		$(document).ready(function () {
+			var a = GetRequest();
+			var token = a['token'];
+			console.log(token);
+		})
+
 		layui.use(['laytpl', 'layer'], function () {
 			var laytpl = layui.laytpl;
 			var layer = layui.layer;
 
-			//获取上级页面url的参数
-			// $(document).ready(function () {
-			// 	var a = GetRequest();
-			// 	var id = a['id'];
-			// 	var token = a['token'];
-			// 	console.log(id);
-			// 	console.log(token);
-			// })
-
-
-			//获取银行卡信息
+			//获取所有银行卡信息
 			$(function () {
 				$.ajax({
 					url: globalurl + '/appcard/appCardList',
@@ -63,9 +59,9 @@
 					data: {
 
 					},
-					// headers: {
-					// 	"token": token         //此处放置请求到的用户token
-					// },
+					headers: {
+						"token": token         //此处放置请求到的用户token
+					},
 					dataType: 'json',
 					success: function (res) {
 						var value = JSON.parse($.base64.decode(res.data));   //base64解密
@@ -77,88 +73,56 @@
 						}
 						$("#viewContent").append(cardStr);
 
-						//确认是否删除银行卡的弹窗
-						$(document).on("click", ".transitCard", function (cardnum) {
-							var cardNum = $(this).children('.cardNum').html();
-							var cardnum = $.trim(cardNum).replace(/\s/g, "");
-							console.log(cardnum);
-							layer.confirm('', {
-								title: false,
-								closeBtn: false,
-								area: '90%;',
-								type: 1,
-								shift: -1,
-								offset: 'b',
-								shadeClose: true,
-								btn: ['解绑', '取消'] //按钮
-							}, function () {
-								var index = layer.open({
-									title: false,
-									closeBtn: false,
-									area: '50%;',
-									type: 1,
-									shift: -1,
-									offset: 'auto', //位置
-									shadeClose: true,
-									content: $('#opendiv')
-								})
-							});
-						});
-						$(".cancel").on('click', function () {
-							layer.closeAll();
-						});
-						//点击解绑时
-						// $("#untying").on('click', function (data) {
-						$(document).on("click", "#untying", function (cardnum) {
-							var cardNum = $(this).children('.cardNum').html();
-							var cardnum = $.trim(cardNum).replace(/\s/g, "");
-							console.log(cardnum);
-							$.ajax({
-								url: globalurl + '/appcard/unBindCard',
-								type: 'post',
-								data: {
-									cardnum: cardnum
-								},
-								// headers: {
-								// 	"token": token         //此处放置请求到的用户token
-								// },
-								dataType: 'json',
-								// async: false,
-								success: function (data) {
-									if (data.code == "0000") {
-										console.log(data);
-										// var index = layer.msg("解绑成功", {
-										// 	time: 2000
-										// });
-										layer.msg(data.msg);
-
-										layer.close("#opendiv");
-										layer.close(layer.index - 1);
-										layer.close(layer.index - 2);
-										function g() {
-											window.location.href = window.location.href;   //删除之后进行页面刷新操作
-										}
-										//使用js计时器功能
-										setInterval(g, 3000);
-									} else {
-										layer.msg(data.msg);
+						//解绑弹窗
+						$(".transitCard").on('click', function () {
+							if ($("#viewContent .transitCard").length == 1) {
+								layer.msg("最后一张卡不能解绑哦！");
+								return false;
+							} else {
+								var cardNum = $(this).children('.cardNum').html();
+								var cardnum = $.trim(cardNum).replace(/\s/g, "");
+								var untying = '您要解绑 ' + cardnum + ' 吗？';
+								console.log(untying);
+								layer.confirm(untying, {
+									btn: ['解绑', '取消']
+									, yes: function (index, layero) {
+										$.ajax({
+											type: "post",
+											url: globalurl + "/appcard/unBindCard",
+											data: {
+												cardnum: cardnum
+											},
+											headers: {
+												"token": token         //此处放置请求到的用户token
+											},
+											dataType: 'json',
+											success: function (res) {
+												var value = JSON.parse($.base64.decode(res.data));   //base64解密
+												console.log(value);
+												console.log(res.code);
+												if (res.code == "0000") {
+													layer.closeAll();
+													// setTimeout(function () {
+													layer.msg('解绑成功');
+													// }, 3000);
+													setTimeout(function () {
+														window.location.reload();
+													}, 2000);
+												}
+											}
+										});
 									}
-									layer.close("#opendiv");
-									layer.close(layer.index - 1);
-									layer.close(layer.index - 2);
-								}
-							})
-
+									, btn2: function (index, layero) {
+										layer.closeAll();
+									}
+								});
+							}
 						});
-
 					}
 				})
 
 			});
 		})
-
-
-
 	</script>
 
 </body>
