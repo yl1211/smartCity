@@ -110,11 +110,11 @@
         {{#layui.each(d.value,function(index, item) {}}
         <div class="layui-row seachContentBox">
             <div class="layui-col-xs9">
-                {{# if(item.txntype == '2'){ }}
+                <!-- {{# if(item.txntype == '2'){ }} -->
                     <p class="detailsType">消费</p>
-                {{# }else if(item.txntype == '3'){ }}
-                    <p class="detailsType">充值</p>
-                {{# } }}
+                <!-- {{# }else if(item.txntype == '3'){ }} -->
+                    <!-- <p class="detailsType">充值</p> -->
+                <!-- {{# } }} -->
                 <p class="detailsTime">{{ item.opdt }}</p>
                 <p class="detailsNum">订单编号: <span>{{ item.txnid }}</span></p>
             </div>
@@ -134,9 +134,9 @@
     $(document).ready(function () {
         var a = GetRequest();
         var cardid = a['cardid'];   //公交卡id
-        var token = a['token'];   //公交卡id
+        var authorization = a['authorization'];   //公交卡id
         // console.log(cardid);
-        // console.log(token);
+        // console.log(authorization);
 
         layui.use(['form', 'layer', 'element', 'laytpl'],
             function () {
@@ -201,46 +201,56 @@
                     },
                     dataType: 'json',
                     success: function (res) {
-                        var value = JSON.parse($.base64.decode(res.data));   //base64解密
-                        console.log(value);
-                        var getTpl = seachContent.innerHTML;
-                        var view = document.getElementById('seachContent');
-                        laytpl(getTpl).render(res, function (html) {
-                            view.innerHTML = html;
-                        });
-                        function elementInit(res) {
-                        var seachContentHtml = $("#seachContent").html();
-                        laytpl(seachContentHtml).render(res.data, function (html) {
-                            $(".allDetail").find(".seachContent").html(html);
-                        });
-                        mescroll.endByPage(res.data.length,res.data.totalPage);
-                        page++;
-                        //区分充值记录与消费记录并重新渲染
-                        var newData1 = {}, newData2 = {}, newArr1 = [], newArr2 = [];
-                        newData1.value = newArr1;
-                        newData2.value = newArr2;
-                        for (var i = 0; i < data.length; i++) {
-                            if (data[i].type == 0) {
-                                newArr1.push(data[i]);
-
-                            } else {
-                                newArr2.push(data[i]);
+                        if (res.code == "0000") {
+                            var value = JSON.parse($.base64.decode(res.data));   //base64解密
+                            console.log(value);
+                            // var getTpl = seachContent.innerHTML;
+                            // var view = document.getElementById('seachContent');
+                            // laytpl(getTpl).render(res, function (html) {
+                            //     view.innerHTML = html;
+                            // });
+                            if (value[i].txntype == 0) {
+                                var seachContentHtml = $("#seachContent").html();
+                                laytpl(seachContentHtml).render(res, function (html) {
+                                    $(".allDetail").find(".seachContent").html(html);
+                                });
                             }
+                            function elementInit(res) {
+                                var seachContentHtml = $("#seachContent").html();
+                                laytpl(seachContentHtml).render(res, function (html) {
+                                    $(".allDetail").find(".seachContent").html(html);
+                                });
+                                // mescroll.endByPage(res.data.length, res.data.totalPage);
+                                // page++;
+                                //区分充值记录与消费记录并重新渲染
+                                var newData1 = {}, newData2 = {}, newArr1 = [], newArr2 = [];
+                                newData1.value = newArr1;
+                                newData2.value = newArr2;
+                                for (var i = 0; i < value.length; i++) {
+                                    if (value[i].txntype == 3) {
+                                        newArr1.push(value[i]);
+                                    } else if (value[i].txntype == 2) {
+                                        newArr2.push(value[i]);
+                                    }
+                                }
+                                //渲染充值记录
+                                laytpl(seachContentHtml).render(newData1, function (html) {
+                                    $(".rechargeDetail").find(".seachContent").html(html);
+                                });
+                                //渲染消费记录
+                                laytpl(seachContentHtml).render(newData2, function (html) {
+                                    $(".consumeDetail").find(".seachContent").html(html);
+                                });
+                            }
+                            elementInit(res.data);
+                        } else {
+                            layer.msg(res.msg);
                         }
-                        //渲染充值记录
-                        laytpl(seachContentHtml).render(newData1, function (html) {
-                            $(".rechargeDetail").find(".seachContent").html(html);
-                        });
-                        //渲染消费记录
-                        laytpl(seachContentHtml).render(newData2, function (html) {
-                            $(".consumeDetail").find(".seachContent").html(html);
-                        });
-                        }
-                        elementInit(res.data);
+
                     },
                     error: function () {
                         layer.msg("请求数据失败!");
-                        mescroll.endErr();
+                        // mescroll.endErr();
                     }
                 });
                 // }

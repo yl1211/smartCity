@@ -8,10 +8,7 @@ body{
 	height: 100%;
 }
 .add{
-	position: absolute;
-	right: 1rem;
-	font-size: 1rem;
-	color: #FFFFFF;
+	float: right;
 }
 .back{
 	position: absolute;
@@ -104,7 +101,7 @@ button{
 }
 .transitCardBox{
 	width: 96%;
-	padding: 0px 2%; 
+	padding: 1% 2%; 
 }
 .cardName{
 	text-align: left;

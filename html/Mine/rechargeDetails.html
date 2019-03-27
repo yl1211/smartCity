@@ -13,13 +13,13 @@
 <body>
 	<div class="layui-fluid">
 		<div class="layui-row listContent">
-			<h2 class="listTitle">
+			<!-- <h2 class="listTitle">
 				<a href="javascript:;" class="back">
 					<i class="layui-icon layui-icon-left"></i>
 					返回
 				</a>
 				交易明细
-			</h2>
+			</h2> -->
 			<!--未领款内容-->
 			<div class="layui-row contentBox" id="content">
 				<form class="layui-form" action="">
@@ -74,15 +74,14 @@
 		//获取url参数
 		$(document).ready(function () {
 			var a = GetRequest();
-			var token = a['token'];
-			console.log(token);
-
-			var money = localStorage.getItem('money');//金额
-			var route = localStorage.getItem('route');//路线
-			var billId = localStorage.getItem('billId');//账单id
-			console.log(money)
-			console.log(route)
-			console.log(billId)
+			var authorization = a['authorization'];
+			var money = a['money'];
+			var route = a['route'];
+			var billId = a['billId'];
+			// console.log(authorization);
+			console.log(money);
+			console.log(route);
+			console.log(billId);
 
 			layui.use(['laytpl', 'layer', 'form'], function () {
 				var form = layui.form;
@@ -100,10 +99,8 @@
 					type: "post",
 					url: globalurl + "/bill/rechargeDetail",
 					data: {
+						authorization: authorization,
 						id: billId
-					},
-					beforeSend: function (request) {
-						request.setRequestHeader("authorization", token);
 					},
 					async: true,
 					dataType: 'json',

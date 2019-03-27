@@ -70,7 +70,7 @@
 						"token": token         //此处放置请求到的用户token
 					},
 					success: function (res) {
-						var value = JSON.parse($.base64.decode(res.data, 'GBK'));   //base64解密
+						var value = JSON.parse($.base64.decode(res.data, 'utf-8'));   //base64解密
 						console.log(value.id);
 						console.log(value.createTime);
 						console.log(value);
