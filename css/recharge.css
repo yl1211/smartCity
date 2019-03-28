@@ -243,17 +243,17 @@
   border-bottom:1px solid #e8e5e5;
   border-top:1px solid #e8e5e5;
 }
-#chooseSchool .schoolList {
+.rangeList {
   margin:0 -15px;
   padding:5px 15px 0px;
   background-color:#fff;
 }
-#chooseSchool .schoolList li {
+.rangeList li {
   border-bottom:1px solid #eee;
   line-height: 2.5rem;
   padding-left: 0.5rem;
 }
-#chooseSchool .schoolList li img {
+.rangeList li img {
   width:30px;
   height:30px;
   vertical-align:middle;

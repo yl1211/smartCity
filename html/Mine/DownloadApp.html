@@ -38,59 +38,64 @@
 	<script type="text/javascript" src="../../js/getparameter.js"></script>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
 	<script>
-		// $(document).ready(function () {
-		// 	var a = GetRequest();
-		// 	var userid = a['userid'];
-		// 	var token = a['token'];   //token值
-		// 	console.log(userid);
-		// 	console.log(token);
-		var userid = "828282216859f87b01685a1450b90000";
-
-		var globalurl = "http://192.168.1.130:8080/gateway";     //孙宇飞局域网地址
-		// var globalurl = "http://1.192.121.127:12613/gateway";     //映射地址
-
-
-
-		layui.use(['form'], function () {
-			var form = layui.form;
-
-		});
-
 		$(document).ready(function () {
-			$("#login_btn").click(function () {
-				var phone = $("#phone").val();
-				$.ajax({
-					url: globalurl + "/extension/recordDownloadNum",
-					data: {
-						// authorization: authorization,
-						phonenum: phone,
-						userid: userid
-					},
-					type: "POST",
-					dataType: "json",
-					success: function (res) {
-						if (res.code == "0000") {
-							console.log(res.data);
-							var u = navigator.userAgent,
-								app = navigator.appVersion;
-							var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端
-							var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-							if (isAndroid) {
-								layer.msg("这个是安卓操作系统");
-								window.location.href = "安卓下载地址";
+			var a = GetRequest();
+			var userid = a['userid'];
+			var authorization = a['authorization'];   //authorization值
+			console.log(userid);
+			console.log(authorization);
+
+			// var userid = "828282216859f87b01685a1450b90000";
+
+			var globalurl = "http://192.168.1.130:8080/gateway";     //孙宇飞局域网地址
+			// var globalurl = "http://1.192.121.127:12613/gateway";     //映射地址
+
+
+
+			layui.use(['form'], function () {
+				var form = layui.form;
+
+			});
+
+			$(document).ready(function () {
+				$("#login_btn").click(function () {
+					var phone = $("#phone").val();
+					$.ajax({
+						url: globalurl + "/extension/recordDownloadNum",
+						data: {
+							authorization: authorization,
+							phonenum: phone,
+							userid: userid
+						},
+						type: "POST",
+						dataType: "json",
+						success: function (res) {
+							if (res.code == "0000") {
+								var value = JSON.parse($.base64.decode(res.data)); //base64解密
+								console.log(value);
+								var downurl = value.url;
+								var u = navigator.userAgent,
+									app = navigator.appVersion;
+								var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端
+								var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+								if (isAndroid) {
+									layer.msg("这个是安卓操作系统");
+									console.log(downurl);
+									window.location.href = downurl;
+								}
+								if (isIOS) {
+									layer.msg("这个是ios操作系统");
+									window.location.href = "https://www.baidu.com/";
+								}
 							}
-							if (isIOS) {
-								layer.msg("这个是ios操作系统");
-								window.location.href = "ios下载地址";
+							else {
+								layer.msg(res.msg);
 							}
-						} else {
-							layer.msg(res.msg);
 						}
-					}
-				});
-			})
+					});
+				})
+			});
 		});
-			// });
 	</script>
 </body>
 

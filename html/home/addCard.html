@@ -69,11 +69,11 @@
 			console.log(authorization);
 
 
-			layui.use(['form', 'layer', 'element', 'laytpl'], function () {
+			layui.use(['form', 'layer', 'element', 'jquery'], function () {
 				var form = layui.form,
 					layer = layui.layer,
 					element = layui.element,
-					laytpl = layui.laytpl;
+					$ = layui.$;
 			});
 
 
@@ -164,62 +164,78 @@
 					});
 				}
 			});
-
-
-			/*获取验证码*/
-			var isPhone = 1;
-
-			function getCode(e) {
-				if (isPhone) {
-					resetCode(); //倒计时
-					var phone = $("#phone").val();
-					// var deviceId = 123;
-					$.ajax({
-						url: globalurl + "/appsms/smsAuthForBindingCard",
-						type: 'post',
-						data: {
-							authorization: authorization,
-							deviceId: deviceId,
-							phonenum: phone
-						},
-						dataType: "json",
-						success: function (res) {
-							if (res.code == "0000") {
-								var value = JSON.parse($.base64.decode(res.data)); //base64解密
-								console.log(value.code);
-							} else {
-								layer.msg(res.msg);
-							}
-						},
-						error: function () {
-							console.log(res.msg);
-						}
-					});
-				} else {
-					$('#phone').focus();
-				}
-			}
-
-			//倒计时
-			function resetCode() {
-				$('#getCode').hide();
-				$('#resetGetCode').hide();
-				$('#second').html('60');
-				$('#resetCode').show();
-				var second = 60;
-				var timer = null;
-				timer = setInterval(function () {
-					second -= 1;
-					if (second > 0) {
-						$('#second').html(second);
-					} else {
-						clearInterval(timer);
-						$('#resetGetCode').show();
-						$('#resetCode').hide();
-					}
-				}, 1000);
-			}
 		})
+
+
+		//验证手机号码
+		function checkPhone() {
+			var phone = $('#phone').val();
+			var pattern = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/;
+			isPhone = 1;
+			if (phone == '') {
+				layer.msg('请输入手机号码');
+				isPhone = 0;
+				return false;
+			}
+			if (!pattern.test(phone)) {
+				layer.msg('请输入正确的手机号码');
+				isPhone = 0;
+				return false;
+			}
+		}
+		/*获取验证码*/
+		var isPhone = 1;
+		function getCode(e) {
+			checkPhone(); //验证手机号码
+			if (isPhone) {
+				resetCode(); //倒计时
+				var phone = $("#phone").val();
+				var deviceId = 123;
+				$.ajax({
+					url: globalurl + "/appsms/smsAuthForBindingCard",
+					type: 'post',
+					data: {
+						authorization: authorization,
+						deviceId: deviceId,
+						phonenum: phone
+					},
+					dataType: "json",
+					success: function (res) {
+						if (res.code == "0000") {
+							var value = JSON.parse($.base64.decode(res.data)); //base64解密
+							console.log(value.code);
+						} else {
+							layer.msg(res.msg);
+						}
+					},
+					error: function () {
+						console.log(res.msg);
+					}
+				});
+			} else {
+				$('#phone').focus();
+			}
+		}
+
+		//倒计时
+		function resetCode() {
+			$('#getCode').hide();
+			$('#resetGetCode').hide();
+			$('#second').html('60');
+			$('#resetCode').show();
+			var second = 60;
+			var timer = null;
+			timer = setInterval(function () {
+				second -= 1;
+				if (second > 0) {
+					$('#second').html(second);
+				} else {
+					clearInterval(timer);
+					$('#resetGetCode').show();
+					$('#resetCode').hide();
+				}
+			}, 1000);
+		}
 	</script>
 </body>
 

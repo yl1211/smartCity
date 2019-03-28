@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="../../layui/css/layui.css">
 	<link rel="stylesheet" href="../../css/base.css">
 	<link rel="stylesheet" href="../../css/schooltransitIndex.css">
+	<link rel="stylesheet" href="../../css/dropload.css">
 	<style type="text/css">
 		.dropload-noData {
 			text-align: center;
@@ -29,8 +30,10 @@
 				交易明细
 			</h2>
 		</div> -->
-		<!-- 顶部返回与标题end -->
-		<!-- 交易明细tab切换 -->
+
+		<!-- 返回顶部 -->
+		<img src="../../img/mescroll-totop.png" class="go-top">
+
 		<div class="layui-row cardDetails">
 			<div class="layui-tab layui-tab-brief" lay-filter="test1">
 				<ul class="layui-tab-title">
@@ -88,7 +91,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- 交易明细end -->
 	</div>
 </body>
 <script src="../../js/jquery-3.3.1.min.js"></script>
@@ -97,7 +99,7 @@
 <script src="../../layui/layui.js"></script>
 <script src="../../js/jquery.selector-px.js"></script>
 <script src="../../js/getparameter.js" type="text/javascript" charset="utf-8"></script>
-<!-- <script src="../../js/dropload.min.js" type="text/javascript" charset="utf-8"></script> -->
+<script src="../../js/dropload.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
 	//获取url参数
 	$(document).ready(function () {
@@ -150,156 +152,202 @@
 
 			//全部接口
 			function allList() {
-				var page = 1;
-				$.ajax({
-					type: "post",
-					url: globalurl + "/bill/allList",
-					data: {
-						startDate: firstdate,
-						endDate: lastdate,
-						pageNum: page,
-						authorization: authorization
+				var page = 0;
+				$('#content_1').dropload({
+					scrollArea: window,
+					domDown: {
+						domNoData: '<div class="dropload-noData">无更多数据</div>'
 					},
-					async: true,
-					dataType: 'json',
-					success: function (res) {
-						if (res.code == '0000') {
-							var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-							console.log(success);
-							var arrLen = success.length;
-							var html_all = '';
-							if (arrLen > 0) {
-								for (var i = 0; i < success.length; i++) {
-									var a = success[i].paytime;     //时间串插入分隔符
-									var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
-									html_all += '<div class="layui-row seachContentBox">';
-									html_all += '<div class="layui-col-xs9">';
-									if (success[i].way == null) {
-										html_all += '<p class="detailsType">消费</p>';
+					loadDownFn: function (me) {
+						page++;
+						$.ajax({
+							type: "post",
+							url: globalurl + "/bill/allList",
+							data: {
+								startDate: firstdate,
+								endDate: lastdate,
+								pageNum: page,
+								authorization: authorization
+							},
+							async: true,
+							dataType: 'json',
+							success: function (res) {
+								if (res.code == '0000') {
+									var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+									console.log(success);
+									var arrLen = success.length;
+									var html_all = '';
+									if (arrLen > 0) {
+										for (var i = 0; i < success.length; i++) {
+											var a = success[i].paytime;     //时间串插入分隔符
+											var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
+											html_all += '<div class="layui-row seachContentBox">';
+											html_all += '<div class="layui-col-xs9">';
+											if (success[i].way == null) {
+												html_all += '<p class="detailsType">消费</p>';
+											} else {
+												html_all += '<p class="detailsType">' + success[i].way + '</p>';
+											}
+											html_all += '<p class="detailsTime" value="' + success[i].id + '" data_flag="' + success[i].flag + '">' + b + '</p>';
+											if (success[i].flag == 0) {
+												html_all += '<p class="detailsNum">订单编号: <span>' + success[i].outTradeNo + '</span></p>';
+											} else {
+												// html_all += '<p class="detailsNum">线路: <span>198</span></p>';
+											}
+											html_all += '</div>';
+											html_all += '<div class="layui-col-xs3">';
+											if (success[i].flag == 0) {
+												html_all += '<p class="detailsMoney">' + '+' + success[i].money + '</p>';
+											} else {
+												html_all += '<p class="detailsMoney">' + '-' + success[i].money + '</p>';
+											}
+											// html_all += '<p class="detailsStatus">待领取</p>';
+											html_all += '</div>';
+											html_all += '</div>';
+										}
 									} else {
-										html_all += '<p class="detailsType">' + success[i].way + '</p>';
+										$(".seachHelp").html("无数据");
+										// 锁定
+										me.lock();
+										// 无数据
+										me.noData();
 									}
-									html_all += '<p class="detailsTime" value="' + success[i].id + '" data_flag="' + success[i].flag + '">' + b + '</p>';
-									if (success[i].flag == 0) {
-										html_all += '<p class="detailsNum">订单编号: <span>' + success[i].outTradeNo + '</span></p>';
-									} else {
-										// html_all += '<p class="detailsNum">线路: <span>198</span></p>';
-									}
-									html_all += '</div>';
-									html_all += '<div class="layui-col-xs3">';
-									if (success[i].flag == 0) {
-										html_all += '<p class="detailsMoney">' + '+' + success[i].money + '</p>';
-									} else {
-										html_all += '<p class="detailsMoney">' + '-' + success[i].money + '</p>';
-									}
-									// html_all += '<p class="detailsStatus">待领取</p>';
-									html_all += '</div>';
-									html_all += '</div>';
+									setTimeout(function () {
+										$('.seachContent_1').append(html_all);
+										me.resetload();
+									}, 1000);
+								} else {
+									layer.msg(res.msg);
 								}
 							}
-							setTimeout(function () {
-								$('.seachContent_1').append(html_all)
-							}, 1000);
-						} else if (res.code == "1008") {
-							layer.msg(res.msg);
-						}
-					}
-				});
-			}
-			//充值接口
-			function rechargeList() {
-				var pages = 1;
-				$.ajax({
-					type: "post",
-					url: globalurl + "/bill/rechargeList",
-					data: {
-						startDate: firstdate,
-						endDate: lastdate,
-						pageNum: pages,
-						authorization: authorization
-					},
-					async: true,
-					dataType: 'json',
-					success: function (res) {
-						if (res.code == '0000') {
-							var success = JSON.parse($.base64.decode(res.data, 'UTF-8')); //base64解密
-							console.log(success);
-							var html_cz = '';
-							var arrLen_1 = success.length;
-							if (arrLen_1 > 0) {
-								for (var i = 0; i < success.length; i++) {
-									var a = success[i].paytime;     //时间串插入分隔符
-									var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
-									html_cz += '<div class="layui-row seachContentBox">';
-									html_cz += '<div class="layui-col-xs9">';
-									html_cz += '<p class="detailsType">' + success[i].way + '</p>';
-									html_cz += '<p class="detailsTime" value="' + success[i].id + '" data_flag="' + success[i].flag + '">' + b + '</p>';
-									html_cz += '<p class="detailsNum">订单编号: <span>' + success[i].outTradeNo + '</span></p>';
-									html_cz += '</div>';
-									html_cz += '<div class="layui-col-xs3">';
-									html_cz += '<p class="detailsMoney">' + '+' + success[i].money + '</p>';
-									// html_cz += '<p class="detailsStatus">待领取</p>';
-									html_cz += '</div>';
-									html_cz += '</div>';
-								}
-							}
-							setTimeout(function () {
-								$('.seachContent_2').append(html_cz)
-							}, 1000);
-						} else if (res.code == "1008") {
-							layer.msg(res.msg);
-						}
+						});
 					}
 				});
 			}
 
-			//消费接口
-			function consumptionList() {
-				var page_3 = 1;
-				$.ajax({
-					type: "post",
-					url: globalurl + "/bill/consumptionList",
-					data: {
-						startDate: firstdate,
-						endDate: lastdate,
-						pageNum: page_3,
-						authorization: authorization
+			//充值接口
+			function rechargeList() {
+				var pages = 0
+				$('#content_2').dropload({
+					scrollArea: window,
+					domDown: {
+						domNoData: '<div class="dropload-noData">无更多数据</div>'
 					},
-					async: true,
-					dataType: 'json',
-					success: function (res) {
-						if (res.code == '0000') {
-							var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-							console.log(success);
-							var html_xf = '';
-							var arrLen_2 = success.length;
-							if (arrLen_2 > 0) {
-								for (var i = 0; i < success.length; i++) {
-									var a = success[i].paytime;     //时间串插入分隔符
-									var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
-									html_xf += '<div class="layui-row seachContentBox">';
-									html_xf += '<div class="layui-col-xs9">';
-									if (success[i].way == null) {
-										html_xf += '<p class="detailsType">消费</p>';
+					loadDownFn: function (me) {
+						pages++;
+						$.ajax({
+							type: "post",
+							url: globalurl + "/bill/rechargeList",
+							data: {
+								startDate: firstdate,
+								endDate: lastdate,
+								pageNum: pages,
+								authorization: authorization
+							},
+							async: true,
+							dataType: 'json',
+							success: function (res) {
+								if (res.code == '0000') {
+									var success = JSON.parse($.base64.decode(res.data, 'UTF-8')); //base64解密
+									console.log(success);
+									var html_cz = '';
+									var arrLen_1 = success.length;
+									if (arrLen_1 > 0) {
+										for (var i = 0; i < success.length; i++) {
+											var a = success[i].paytime;     //时间串插入分隔符
+											var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
+											html_cz += '<div class="layui-row seachContentBox">';
+											html_cz += '<div class="layui-col-xs9">';
+											html_cz += '<p class="detailsType">' + success[i].way + '</p>';
+											html_cz += '<p class="detailsTime" value="' + success[i].id + '" data_flag="' + success[i].flag + '">' + b + '</p>';
+											html_cz += '<p class="detailsNum">订单编号: <span>' + success[i].outTradeNo + '</span></p>';
+											html_cz += '</div>';
+											html_cz += '<div class="layui-col-xs3">';
+											html_cz += '<p class="detailsMoney">' + '+' + success[i].money + '</p>';
+											// html_cz += '<p class="detailsStatus">待领取</p>';
+											html_cz += '</div>';
+											html_cz += '</div>';
+										}
 									} else {
-										html_xf += '<p class="detailsType">' + success[i].way + '</p>';
+										$(".seachHelp").html("无数据");
+										// 锁定
+										me.lock();
+										// 无数据
+										me.noData();
 									}
-									html_xf += '<p class="detailsTime" value="' + success[i].id + '" data_flag="' + success[i].flag + '">' + b + '</p>';
-									html_xf += '<p class="detailsNum">线路: <span>198</span></p>';
-									html_xf += '</div>';
-									html_xf += '<div class="layui-col-xs3">';
-									html_xf += '<p class="detailsMoney">' + '-' + success[i].money + '</p>';
-									// html_xf += '<p class="detailsStatus">待领取</p>';
-									html_xf += '</div>';
-									html_xf += '</div>';
+									setTimeout(function () {
+										$('.seachContent_2').append(html_cz);
+										me.resetload();
+									}, 1000);
+								} else {
+									layer.msg(res.msg);
 								}
 							}
-							setTimeout(function () {
-								$('.seachContent_3').append(html_xf)
-							}, 1000);
-						} else if (res.code == "1008") {
-							layer.msg(res.msg);
-						}
+						});
+					}
+				});
+			}
+			//消费接口
+			function consumptionList() {
+				var page_3 = 0;
+				$('#content_3').dropload({
+					scrollArea: window,
+					domDown: {
+						domNoData: '<div class="dropload-noData">无更多数据</div>'
+					},
+					loadDownFn: function (me) {
+						page_3++;
+						$.ajax({
+							type: "post",
+							url: globalurl + "/bill/consumptionList",
+							data: {
+								startDate: firstdate,
+								endDate: lastdate,
+								pageNum: page_3,
+								authorization: authorization
+							},
+							async: true,
+							dataType: 'json',
+							success: function (res) {
+								if (res.code == '0000') {
+									var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+									console.log(success);
+									var html_xf = '';
+									var arrLen_2 = success.length;
+									if (arrLen_2 > 0) {
+										for (var i = 0; i < success.length; i++) {
+											var a = success[i].paytime;     //时间串插入分隔符
+											var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
+											html_xf += '<div class="layui-row seachContentBox">';
+											html_xf += '<div class="layui-col-xs9">';
+											if (success[i].way == null) {
+												html_xf += '<p class="detailsType">消费</p>';
+											} else {
+												html_xf += '<p class="detailsType">' + success[i].way + '</p>';
+											}
+											html_xf += '<p class="detailsTime" value="' + success[i].id + '" data_flag="' + success[i].flag + '">' + b + '</p>';
+											html_xf += '<p class="detailsNum">线路: <span>198</span></p>';
+											html_xf += '</div>';
+											html_xf += '<div class="layui-col-xs3">';
+											html_xf += '<p class="detailsMoney">' + '-' + success[i].money + '</p>';
+											// html_xf += '<p class="detailsStatus">待领取</p>';
+											html_xf += '</div>';
+											html_xf += '</div>';
+										}
+									} else {
+										$(".seachHelp").html("无数据");
+										me.lock();
+										me.noData();
+									}
+									setTimeout(function () {
+										$('.seachContent_3').append(html_xf);
+										me.resetload();
+									}, 1000);
+								} else {
+									layer.msg(res.msg);
+								}
+							}
+						});
 					}
 				});
 			}
@@ -405,11 +453,29 @@
 					});
 				}
 				localStorage.clear('newStratDate');
-				localStorage.clear('newEndDate')
+				localStorage.clear('newEndDate');
 			});
 		});
 	});
-	// });
+
+
+	//返回顶部
+	$(function () {
+		$(window).scroll(function () {
+			if ($(window).scrollTop() > 100) {
+				$(".go-top").fadeIn(400);
+			} else {
+				$(".go-top").fadeOut(400);
+			}
+		});
+		$(".go-top").click(function (event) {
+			event.preventDefault();
+			$('html,body').animate({
+				'scrollTop': 0
+			}, 300);
+			return false;
+		});
+	});
 </script>
 
 </html>

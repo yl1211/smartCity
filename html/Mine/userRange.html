@@ -1,150 +1,120 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="../../layui/css/layui.css">
-		<link rel="stylesheet" href="../../css/base.css">
-		<link rel="stylesheet" href="../../css/recharge.css">
-		<title>使用范围</title>
-	</head>
-	<body>
-		<div class="layui-fluid">
-			<div class="layui-row rangeContent ">
-				<h2 class="rangeTitle">
-                    <a href="javascript:;" class="goBack ofenBack">
-                        <i class="layui-icon layui-icon-left"></i> 返回
-                    </a>
-                  使用范围
-                </h2>
-			</div>
-			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-			  	<ul class="layui-tab-title aaa">
-				    <li class="layui-this">
-				    	城市云卡						
-				    </li>
-				    <li>校园</li>
-			  	</ul>
-			  	<div class="layui-tab-content" style="height: 100px;">
-				    <div class="layui-tab-item layui-show">
-				    	<div id="chooseSchool"></div>
-				    </div>
-				    <div class="layui-tab-item">
-				    	<ul class="userSchool">
-				    		<li><span>1广西财经大学</span></li>
-				    		<li><span>2广西财经大学</span></li>
-				    		<li><span>3南宁广西财经大学</span></li>
-				    		<li><span>4南宁广西财经大学</span></li>
-				    		<li><span>5郑州财经大学</span></li>
-				    		<li><span>6郑州财经大学</span></li>
-				    		<li><span>7郑州财经大学</span></li>
-				    	</ul>
-				    </div>
-			  	</div>
-			</div> 
-			
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<link rel="stylesheet" href="../../css/base.css">
+	<link rel="stylesheet" href="../../css/recharge.css">
+	<link rel="stylesheet" href="../../css/userRange.css">
+	<title>使用范围</title>
+</head>
+
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row rangeContent ">
+			<h2 class="rangeTitle">
+				<a href="javascript:;" class="goBack ofenBack">
+					<i class="layui-icon layui-icon-left"></i> 返回
+				</a>
+				使用范围
+			</h2>
 		</div>
-		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="../../layui/layui.js"></script>
-		<!-- 城市云卡 -->
-		<script id="chooseBox" type="text/html">
-			{{# layui.each(d.value, function(index, item){ }}
-			<div class="chooseBox">
-				<div class="schoolList">
+		<div class="layui-tab layui-tab-brief" lay-filter="rangeTab">
+			<ul class="layui-tab-title aaa">
+				<li class="layui-this">
+					城市
+				</li>
+				<li>学校</li>
+			</ul>
+			<div class="layui-tab-content" style="height: 100px;">
+				<div class="layui-tab-item layui-show rangeList">
 					<ul>
-						{{# layui.each(item.list, function(index, items){ }}
-						<li class="tSchool">
-							<span>{{ items.name }}</span>
-						</li>
-						{{# }); }}
+						<li>南宁市</li>
+						<li>柳州市</li>
+						<li>桂林市</li>
+						<li>梧州市</li>
+						<li>北海市</li>
+						<li>防城港市</li>
+						<li>钦州市</li>
+						<li>贵港市</li>
+						<li>玉林市</li>
+						<li>百色市</li>
+						<li>贺州市</li>
+						<li>河池市</li>
+						<li>来宾市</li>
+						<li>崇左市</li>
 					</ul>
 				</div>
+				<div class="layui-tab-item rangeList" id="schoolList">
+					<!-- <ul>
+						<li></li>
+					</ul> -->
+				</div>
 			</div>
-			{{# }); }}
-		</script>
-		<script>
-			var codeId = localStorage.getItem('codeId');
-        	console.log(codeId)
-			layui.use(['form', 'layer', 'element', 'laytpl'],function() {
+		</div>
+
+	</div>
+	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery.base64.js"></script>
+	<script type="text/javascript" src="../../js/url.js"></script>
+	<script type="text/javascript" src="../../js/getparameter.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script>
+		$(document).ready(function () {
+			var a = GetRequest();
+			var authorization = a['authorization'];   //authorization值
+			// console.log(authorization);
+
+			layui.use(['form', 'layer', 'element'], function () {
 				var form = layui.form,
 					layer = layui.layer,
-					element = layui.element,
-					laytpl = layui.laytpl;
+					element = layui.element
+
 				//返回按钮
-				$(".ofenBack").on("click",function() {
-					var index = parent.layer.getFrameIndex(window.name); 
+				$(".ofenBack").on("click", function () {
+					var index = parent.layer.getFrameIndex(window.name);
 					parent.layer.close(index);
 				})
-				/*$.ajax({
-					url: '',
-					type: 'POST',
-					dataType: 'JSON',
-					success: function(data){
-				        var chooseBoxHtml = $("#chooseBox").html();
-				        laytpl(chooseBoxHtml).render(data, function(html){
-						    $("#chooseSchool").html(html);
-						    
-						});
-					},
-					error: function(){
-						layer.msg("请求数据失败");
-					}
-				})*/
-				function allSchool() {
-					//假数据,需要从后台拿
-					var data = {
-						code: 0,
-						success: '成功',
-						value: [{
-								list: [{
-										name: "广西财经大学"
-								},										
-									{
-										name: "广西财经大学"
-									}
-								]
+
+				//监听tab切换到学校时
+				element.on('tab(rangeTab)', function (data) {
+					console.log(data.index);        //得到当前Tab的所在下标
+					var tab_index = data.index;
+					if (tab_index == "1") {
+						$.ajax({
+							url: globalurl + '/family/getUseScope',
+							type: 'POST',
+							dataType: 'JSON',
+							data: {
+								authorization: authorization,
+								type: 'school'
 							},
-							{
-								list: [{
-										name: "南宁广西财经大学"
-									},
-									{
-										name: "南宁广西财经大学"
+							success: function (res) {
+								if (res.code == "0000") {
+									var value = JSON.parse($.base64.decode(res.data, 'utf-8')); //base64解密
+									console.log(value);
+									var html_xf = '';
+									for (var i = 0; i < value.length; i++) {
+										html_xf += '<ul>';
+										html_xf += '<li>' + value[i].name + '</li>';
+										html_xf += '</ul>';
 									}
-								]
+									$('#schoolList').html(html_xf);
+								} else {
+									layer.msg(res.msg);
+								}
 							},
-							{
-								list: [{
-										name: "郑州财经大学"
-									},
-									{
-										name: "郑州财经大学"
-									},
-									{
-										name: "郑州财经大学"
-									}
-								]
+							error: function (res) {
+								layer.msg(res.msg);
 							}
-						]
-					};
-					//所有学校
-					var chooseBoxHtml = $("#chooseBox").html();
-					laytpl(chooseBoxHtml).render(data,function(html) {
-						$("#chooseSchool").html(html);
-					});
-				}
-				allSchool();
-				//点击学校名字后关闭窗口并回填
-				$("#chooseSchool").on("click", ".tSchool",function() {
-					var $this = $(this);
-					var chooseName = $this.find("span").text();
-					alert(chooseName);
-					var index = parent.layer.getFrameIndex(window.name); 
-					parent.layer.close(index); 
+						})
+					}
 				})
 			});
-		</script>
-	</body>
+		});
+	</script>
+</body>
 
 </html>

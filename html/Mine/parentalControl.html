@@ -15,13 +15,13 @@
 <body>
 	<div class="layui-fluid">
 		<div class=" layui-row top">
-			<h2 class="manageTitle">
+			<!-- <h2 class="manageTitle">
 				<a href="javascript:history.back(-1);" class="goBack">
 					<i class="layui-icon layui-icon-left"></i> 返回
 				</a>
-				家长管控
-				<a href="###" class="range" id="userRange">使用范围</a>
-			</h2>
+				家长管控 -->
+			<a href="###" class="range" id="userRange">使用范围</a>
+			<!-- </h2> -->
 		</div>
 		<h3 class="msg">开通后，接收孩子校园、公交等信息</h3>
 		<form class="layui-form" action="" id="content">
@@ -44,78 +44,107 @@
 	<script type="text/javascript" src="../../js/getparameter.js"></script>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
 	<script type="text/javascript">
-		// $(document).ready(function () {
-		// 	var a = GetRequest();
-		// 	var parentname = a['parentname'];  
-		// 	var parentid = a['parentid'];  
-		// 	var token = a['token'];   //token值
-		// 	console.log(parentname);
-		// 	console.log(parentid);
-		// 	console.log(token);
+		$(document).ready(function () {
+			var a = GetRequest();
+			var parentName = a['parentName'];
+			var parentId = a['parentId'];
+			var authorization = a['authorization'];   //authorization值
+			console.log(parentName);
+			console.log(parentId);
+			console.log(authorization);
 
-		layui.use('form', function () {
-			var form = layui.form;
+			layui.use(['form', 'jquery', 'element'], function () {
+				var form = layui.form;
+				var $ = layui.$;
+				var element = layui.element;
 
-			//监听开关
-			form.on('switch(switchTest)', function (data) {
-				console.log(data.elem.checked);
-			})
-		});
-
-		//家长身份绑定关系校验
-		$.ajax({
-			type: "post",
-			url: globalurl + "/family/getChildrenList",
-			data: {
-				parentName: "蒋国栋",
-				parentCertno: "610923197906281419"
-			},
-			success: function (res) {
-				var value = JSON.parse($.base64.decode(res.data, 'GBK'));   //base64解密
-				console.log(value);
-				if (value == "") {
-					$("#content").html("<div class='nostutip'>暂无绑定学生</div>");
-				} else {
-					var html_all = '';
-					for (var i = 0; i < value.length; i++) {
-						html_all += '<div class="layui-form-item">';
-						html_all += '<label class="layui-form-label">孩子姓名</label>';
-						html_all += '<div class="layui-input-block">';
-						html_all += '<input type="text" name="identity" id="namea" autocomplete="off" class="layui-input" disabled="" value="' + value[i].name + '">';
-						html_all += '</div>';
-						html_all += '<hr />';
-						html_all += '<label class="layui-form-label">开通</label>';
-						html_all += '<input type="checkbox" lay-filter="switchTest" name="switch" lay-skin="switch">';
-						html_all += '</div>';
+				//监听开关，改变开通状态
+				form.on('switch(switchTest)', function (data) {
+					var current = $(data.elem);    //当前操作的元素
+					var state = data.elem.checked;  //当前复选框true,false
+					var id = current.parent().find("#id").val();
+					console.log(state);
+					if (state == true) {
+						var ifReceive = 0;
+					} else {
+						var ifReceive = 1;
 					}
-					$('#content').append(html_all);
-					layui.use('form', function () {    //重新渲染checkbox
-						var form = layui.form;
-						form.render('checkbox');
-					});
-				}
+					$.ajax({
+						type: "post",
+						url: globalurl + "/family/openRemind",
+						data: {
+							authorization: authorization,
+							id: id,
+							ifReceive: ifReceive
+						},
+						success: function (res) {
+							layer.msg(res.msg);
+						}
+					})
+				})
+			});
 
-			}
-		})
-
-
-		//使用范围
-		$("#userRange").on("click", function () {
-			layer.open({
-				type: 2,
-				closeBtn: 0,
-				title: false,
-				content: "userRange.html",
-				area: ['100%', '100%'],
-				yes: function (index) {
-					layer.close(index);
+			//家长身份绑定关系校验
+			// 蒋国栋  610923197906281419
+			$.ajax({
+				type: "post",
+				url: globalurl + "/family/getChildrenList",
+				data: {
+					authorization: authorization,
+					parentName: parentName,
+					parentCertno: parentId
 				},
-				end: function () {
-					// form.render();
+				success: function (res) {
+					var value = JSON.parse($.base64.decode(res.data, 'utf-8'));   //base64解密
+					console.log(value);
+					if (value == "") {
+						$("#content").html("<div class='nostutip'>暂无绑定学生</div>");
+					} else {
+						var html_all = '';
+						for (var i = 0; i < value.length; i++) {
+							html_all += '<div class="layui-form-item">';
+							html_all += '<label class="layui-form-label">孩子姓名</label>';
+							html_all += '<div class="layui-input-block">';
+							html_all += '<input type="hidden" id="id" value="' + value[i].id + '">';
+							html_all += '<input type="text" name="identity" id="name" autocomplete="off" class="layui-input" disabled="" value="' + value[i].name + '">';
+							html_all += '</div>';
+							html_all += '<hr />';
+							html_all += '<label class="layui-form-label">开通</label>';
+							if (value[i].ifReceive == "0") {
+								html_all += '<input type="checkbox" lay-filter="switchTest" name="switch" lay-skin="switch" checked>';
+							} else if (value[i].ifReceive == "1") {
+								html_all += '<input type="checkbox" lay-filter="switchTest" name="switch" lay-skin="switch">';
+							}
+							html_all += '</div>';
+						}
+						$('#content').append(html_all);
+						layui.use('form', function () {    //重新渲染checkbox
+							var form = layui.form;
+							form.render('checkbox');
+						});
+					}
+
 				}
+			})
+
+
+			//使用范围
+			$("#userRange").on("click", function () {
+				layer.open({
+					type: 2,
+					closeBtn: 0,
+					title: false,
+					content: "userRange.html",
+					area: ['100%', '100%'],
+					yes: function (index) {
+						layer.close(index);
+					},
+					end: function () {
+						// form.render();
+					}
+				});
 			});
 		});
-		// });
 	</script>
 </body>
 

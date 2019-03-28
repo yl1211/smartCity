@@ -6,15 +6,39 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>传参</title>
+		<style type="text/css">
+			/* .go-top {
+				position: fixed;
+				bottom: 10px;
+				right: 10px;
+				background: #fff;
+				display: none;
+				cursor: pointer;
+			} */
+			.go-top {
+				position: fixed;
+				bottom: 20px;
+				right: 15px;
+				display: none;
+				cursor: pointer;
+				width: 2rem;
+				border-radius: 50%;
+			}
+		</style>
 	</head>
 
 	<body>
 		<a href="../Mine/bill.html?authorization=234564wefghbfdsaerthg">传参</a><br>
+		<!-- <button type="button" id="down">下载</button> -->
+		<!-- <div class="go-top">返回顶部</div> -->
+		<img src="../../img/mescroll-totop.png" class="go-top">
 
-		<button type="button" id="postdata">传递数据</button><br><br>
-
-		<!-- <a href="https://dl.01zhuanche.com/android/upinstall/4.0/4.3.1/app_release_4.3.1_v88_db70.apk" class="button">立即下载</a>
-		<a href="https://itunes.apple.com/cn/app/XXXX/id997586276?l=en&mt=8" class="button">立即下载</a> -->
+		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
+		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
+		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
+		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
+		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
+		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
 
 		<script src=" ../../js/jquery-3.3.1.min.js"> </script>
 		<script type="text/javascript" src="../../layui/layui.js"></script>
@@ -30,48 +54,28 @@
 				`${a.substring(0,4)}-${a.substring(4,6)}-${a.substring(6,8)} ${a.substring(8,10)}:${a.substring(10,12)}:${a.substring(12,14)}`;
 			console.log(b);
 
+			//下载apk
+			// 			$("#down").click(function() {
+			// 				window.location.href = "http://1.192.121.127:12613/gateway/file/apk/1.0.5/smart-city";
+			// 			});
 
-			// 获取设备号
-			// document.write("userAgent: " + navigator.userAgent + "<br><br>");
-			// document.write("appName: " + navigator.appName + "<br><br>");
-			// document.write("appCodeName: " + navigator.appCodeName + "<br><br>");
-			// document.write("appVersion: " + navigator.appVersion + "<br><br>");
-			// document.write("appMinorVersion: " + navigator.appMinorVersion + "<br><br>");
-			// document.write("platform: " + navigator.platform + "<br><br>");
-			// document.write("cookieEnabled: " + navigator.cookieEnabled + "<br><br>");
-			// document.write("onLine: " + navigator.onLine + "<br><br>");
-			// document.write("userLanguage: " + navigator.language + "<br><br>");
-			// document.write("mimeTypes.description: " + navigator.mimeTypes[1].description + "<br><br>");
-			// document.write("mimeTypes.type: " + navigator.mimeTypes[1].type + "<br><br>");
 
-			// 点击事件传递数据
-			// $("#postdata").click(function() {
-			// $("#postdata").on('click', function() {
-			// $(document).on("click", "#postdata", function() {
-			// var value = $("a").html();
-			// console.log(value);
-			// })
 
-			// 点击下载app
-			// 			$("#postdata").click(function() {
-			// 				var u = navigator.userAgent;
-			// 				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-			// 				var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-			// 				alert('是否是Android：' + isAndroid);
-			// 				alert('是否是iOS：' + isiOS);
-			// 			})
-			$("#postdata").click(function() {
-			// $(document).on("click", "#postdata", function() {
-				var u = navigator.userAgent,
-					app = navigator.appVersion;
-				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端
-				var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-				if (isAndroid) {
-					layer.msg("这个是安卓操作系统");
-				}
-				if (isIOS) {
-					layer.msg("这个是ios操作系统");
-				}
+			$(function() {
+				$(window).scroll(function() {
+					if ($(window).scrollTop() > 100) {
+						$(".go-top").fadeIn(400);
+					} else {
+						$(".go-top").fadeOut(400);
+					}
+				});
+				$(".go-top").click(function(event) {
+					event.preventDefault();
+					$('html,body').animate({
+						'scrollTop': 0
+					}, 300);
+					return false;
+				});
 			});
 		</script>
 </html>

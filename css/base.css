@@ -8,3 +8,14 @@ body {
 .layui-icon{
 	float: left;
 }
+
+/* 返回顶部 */
+.go-top {
+	position: fixed;
+	bottom: 20px;
+	right: 15px;
+	display: none;
+	cursor: pointer;
+	width: 2.5rem;
+	border-radius: 50%;
+}
