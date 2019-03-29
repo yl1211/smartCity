@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="cn">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>按日查询</title>
-    <link rel="stylesheet" href="../../layui/css/layui.css">
-    <link rel="stylesheet" href="../../css/base.css">
-    <link rel="stylesheet" href="../../css/transitIndex.css">
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>按日查询</title>
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/transitIndex.css">
+	</head>
 
-<body>
-    <div class="layui-fluid">
-        <!-- 顶部返回与标题 -->
-        <!-- <div class="layui-row transitContent">
+	<body>
+		<div class="layui-fluid">
+			<!-- 顶部返回与标题 -->
+			<!-- <div class="layui-row transitContent">
             <h2 class="transitTitle">
                 <a href="javascript:;" class="back">
                     <i class="layui-icon layui-icon-left"></i>
@@ -22,174 +22,181 @@
                 选择时间
             </h2>
         </div> -->
-        <a href="javascript:;" class="timeTrue">完成</a>
-        <!-- 顶部返回与标题end -->
-        <!-- 按月选择/近7天/近1个月/近三个月 -->
-        <div class="layui-row seachTimeBtn">
-            <div class="layui-col-xs4">
-                <button class="layui-btn layui-btn-primary month dayChoose">按日选择<img src="../../img/zhuanhuan.png"
-                        class="zhuanhuan"></button>
-            </div>
-            <div class="layui-col-xs2">
-                <button class="layui-btn layui-btn-primary week">近1天</button>
-            </div>
-            <div class="layui-col-xs2">
-                <button class="layui-btn layui-btn-primary oneMonth">近7天</button>
-            </div>
-            <div class="layui-col-xs2">
-                <button class="layui-btn layui-btn-primary threeMonth">近1个月</button>
-            </div>
-        </div>
-        <!-- 按月选择/近7天/近1个月/近三个月end -->
-        <!-- 日期框与日期滚动模块 -->
-        <div class="layui-row timeBox">
-            <div class="layui-col-xs5">
-                <input type="text" placeholder="请选择时间" autocomplete="off" class="layui-input seachTime"
-                    readonly="readonly">
-            </div>
-            <div class="layui-col-xs2 zhi">
-                至
-            </div>
-            <div class="layui-col-xs5">
-                <input type="text" placeholder="请选择时间" autocomplete="off" class="layui-input seachTimeEnd"
-                    readonly="readonly">
-            </div>
-        </div>
-        <!-- 日期狂与日期滚动模块end -->
-    </div>
-</body>
-<script src="../../js/jquery-3.3.1.min.js"></script>
-<script src="../../layui/layui.js"></script>
-<script src="../../js/jquery.selector-px.js"></script>
-<script>
-    function fun_date(num) {
-        var date = new Date();
-        date = num ? new Date(date.getTime() + num * 24 * 60 * 60 * 1000) : date;
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        month = month < 10 ? '0' + month : month;
-        day = day < 10 ? '0' + day : day;
-        return year + month + day;
-    }
-    layui.use(['form', 'layer', 'element', 'laytpl'], function () {
-        var form = layui.form,
-            layer = layui.layer,
-            element = layui.element,
-            laytpl = layui.laytpl;
+			<a href="javascript:;" class="timeTrue">完成</a>
+			<!-- 顶部返回与标题end -->
+			<!-- 按月选择/近7天/近1个月/近三个月 -->
+			<div class="layui-row seachTimeBtn">
+				<div class="layui-col-xs4">
+					<button class="layui-btn layui-btn-primary month dayChoose">按日选择<img src="../../img/zhuanhuan.png" class="zhuanhuan"></button>
+				</div>
+				<div class="layui-col-xs2">
+					<button class="layui-btn layui-btn-primary week">近1天</button>
+				</div>
+				<div class="layui-col-xs2">
+					<button class="layui-btn layui-btn-primary oneMonth">近7天</button>
+				</div>
+				<div class="layui-col-xs2">
+					<button class="layui-btn layui-btn-primary threeMonth">近1个月</button>
+				</div>
+			</div>
+			<!-- 按月选择/近7天/近1个月/近三个月end -->
+			<!-- 日期框与日期滚动模块 -->
+			<div class="layui-row timeBox">
+				<div class="layui-col-xs5">
+					<input type="text" placeholder="请选择时间" autocomplete="off" class="layui-input seachTime" readonly="readonly">
+				</div>
+				<div class="layui-col-xs2 zhi">
+					至
+				</div>
+				<div class="layui-col-xs5">
+					<input type="text" placeholder="请选择时间" autocomplete="off" class="layui-input seachTimeEnd" readonly="readonly">
+				</div>
+			</div>
+			<!-- 日期狂与日期滚动模块end -->
+		</div>
+	</body>
+	<script src="../../js/jquery-3.3.1.min.js"></script>
+	<script src="../../js/getparameter.js"></script>
+	<script src="../../layui/layui.js"></script>
+	<script src="../../js/jquery.selector-px.js"></script>
+	<script>
+		//获取url参数
+		$(document).ready(function() {
+			var a = GetRequest();
+			var authorization = a['authorization'];
 
-        //返回按钮
-        $(".back").on("click", function () {
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-        })
-        $(".dayChoose").on("click", function () {
+			function fun_date(num) {
+				var date = new Date();
+				date = num ? new Date(date.getTime() + num * 24 * 60 * 60 * 1000) : date;
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var day = date.getDate();
+				month = month < 10 ? '0' + month : month;
+				day = day < 10 ? '0' + day : day;
+				return year + '-' + month + '-' + day;
+			}
+			layui.use(['form', 'layer', 'element', 'laytpl'], function() {
+				var form = layui.form,
+					layer = layui.layer,
+					element = layui.element,
+					laytpl = layui.laytpl;
 
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.iframeSrc(index, 'SelectionMonthly.html')
-        })
-        //获取当前年份与时间段区间
-        var date = new Date;
-        var endYear = date.getFullYear(), startYear = endYear - 100;
-        //开始日期
-        $.dateSelector({
-            evEle: '.seachTime',
-            startYear: startYear,
-            endYear: endYear,
-            timeBoo: false,
-            afterAction: function (d1, d2, d3) {
-                var sDate = new Date(d1 + '-' + d2 + '-' + d3);
-                var eDate = new Date($('.seachTimeEnd').val().replace(/\-/g, "\/"));
+				//返回按钮
+				$(".back").on("click", function() {
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);
+				})
+				$(".dayChoose").on("click", function() {
 
-                if (sDate > eDate) {
-                    layer.msg("开始日期不得大于于结束日期！");
-                    return false;
-                } else {
-                    $('.seachTime').val(d1 + '-' + d2 + '-' + d3);
-                    $('.seachTime').attr('data_start', d1 + d2 + d3)
-                }
-            }
-        });
-        //结束日期
-        $.dateSelector({
-            evEle: '.seachTimeEnd',
-            startYear: startYear,
-            endYear: endYear,
-            timeBoo: false,
-            afterAction: function (d1, d2, d3) {
-                var sDate = new Date($('.seachTime').val().replace(/\-/g, "\/"));
-                var eDate = new Date(d1 + '-' + d2 + '-' + d3);
-                if (sDate > eDate) {
-                    layer.msg("结束日期不得小于开始日期！");
-                    return false;
-                } else {
-                    $('.seachTimeEnd').val(d1 + '-' + d2 + '-' + d3);
-                    $('.seachTimeEnd').attr('data_end', d1 + d2 + d3)
-                }
-            }
-        });
-        //近1天按钮
-        $("button.week").on("click", function () {
-            var tip = fun_date();
-            localStorage.setItem('endTime', fun_date());
-            layer.confirm(tip, {
-                btn: ['确定', '取消']
-            }, function () {
-                layer.open({
-                    type: 2,
-                    closeBtn: 0,
-                    title: false,
-                    content: 'bill.html?startTime=' + fun_date() + '&endTime=' + fun_date(),
-                    area: ['100%', '100%'],
-                    yes: function (index) {
-                        layer.close(index);
-                    },
-                });
-            }, function () {
-            });
-        });
-        //近一个月按钮
-        $("button.oneMonth").on("click", function () {
-            var tip = fun_date(-7) + ' 至 ' + fun_date()
-            localStorage.setItem('startTime', fun_date(-7));
-            localStorage.setItem('endTime', fun_date());
-            layer.confirm(tip, {
-                btn: ['确定', '取消']
-            }, function () {
-                window.location.href = 'bill.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date();
-            }, function () {
-            });
-        });
-        //近三个月按钮
-        $("button.threeMonth").on("click", function () {
-            var tip = fun_date(-30) + ' 至 ' + fun_date()
-            localStorage.setItem('startTime', fun_date(-30));
-            localStorage.setItem('endTime', fun_date());
-            layer.confirm(tip, {
-                btn: ['确定', '取消']
-            }, function () {
-                window.location.href = 'bill.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date();
-            }, function () {
-            });
-        });
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.iframeSrc(index, 'SelectionMonthly.html')
+				})
+				//获取当前年份与时间段区间
+				var date = new Date;
+				var endYear = date.getFullYear(),
+					startYear = endYear - 100;
+				//开始日期
+				$.dateSelector({
+					evEle: '.seachTime',
+					startYear: startYear,
+					endYear: endYear,
+					timeBoo: false,
+					afterAction: function(d1, d2, d3) {
+						var sDate = new Date(d1 + '-' + d2 + '-' + d3);
+						var eDate = new Date($('.seachTimeEnd').val().replace(/\-/g, "\/"));
 
-        $(".timeTrue").on("click", function () {
-            //根据时间请求充值消费记录接口
-            var timeBlock = $(".seachTime").val();
-            var timeBlock2 = $(".seachTimeEnd").val();
-            var data_start = $(".seachTime").attr('data_start');
-            var data_end = $(".seachTimeEnd").attr('data_end');
-            localStorage.setItem('startTime', data_start);
-            localStorage.setItem('endTime', data_end);
-            if (!timeBlock) {
-                layer.msg("请选择开始时间!");
-            } else if (!timeBlock2) {
-                layer.msg("请选择截止时间!");
-            } else {
-                window.location.href = 'bill.html?startTime=' + data_start + "&endTime=" + data_end;
-            }
-        })
-    });
-</script>
+						if (sDate > eDate) {
+							layer.msg("开始日期不得大于于结束日期！");
+							return false;
+						} else {
+							$('.seachTime').val(d1 + '-' + d2 + '-' + d3);
+							$('.seachTime').attr('data_start', d1 + d2 + d3)
+						}
+					}
+				});
+				//结束日期
+				$.dateSelector({
+					evEle: '.seachTimeEnd',
+					startYear: startYear,
+					endYear: endYear,
+					timeBoo: false,
+					afterAction: function(d1, d2, d3) {
+						var sDate = new Date($('.seachTime').val().replace(/\-/g, "\/"));
+						var eDate = new Date(d1 + '-' + d2 + '-' + d3);
+						if (sDate > eDate) {
+							layer.msg("结束日期不得小于开始日期！");
+							return false;
+						} else {
+							$('.seachTimeEnd').val(d1 + '-' + d2 + '-' + d3);
+							$('.seachTimeEnd').attr('data_end', d1 + d2 + d3)
+						}
+					}
+				});
+				//近1天按钮
+				$("button.week").on("click", function() {
+					var tip = fun_date();
+					localStorage.setItem('endTime', fun_date());
+					layer.confirm(tip, {
+						btn: ['确定', '取消']
+					}, function() {
+						layer.open({
+							type: 2,
+							closeBtn: 0,
+							title: false,
+							content: 'bill.html?startTime=' + fun_date() + '&endTime=' + fun_date() + "&authorization=" +
+								authorization,
+							area: ['100%', '100%'],
+							yes: function(index) {
+								layer.close(index);
+							},
+						});
+					}, function() {});
+				});
+				//近一个月按钮
+				$("button.oneMonth").on("click", function() {
+					var tip = fun_date(-7) + ' 至 ' + fun_date()
+					localStorage.setItem('startTime', fun_date(-7));
+					localStorage.setItem('endTime', fun_date());
+					layer.confirm(tip, {
+						btn: ['确定', '取消']
+					}, function() {
+						window.location.href = 'bill.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date() +
+							"&authorization=" + authorization;
+					}, function() {});
+				});
+				//近三个月按钮
+				$("button.threeMonth").on("click", function() {
+					var tip = fun_date(-30) + ' 至 ' + fun_date()
+					localStorage.setItem('startTime', fun_date(-30));
+					localStorage.setItem('endTime', fun_date());
+					layer.confirm(tip, {
+						btn: ['确定', '取消']
+					}, function() {
+						window.location.href = 'bill.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date() +
+							"&authorization=" + authorization;
+					}, function() {});
+				});
+
+				$(".timeTrue").on("click", function() {
+					//根据时间请求充值消费记录接口
+					var timeBlock = $(".seachTime").val();
+					var timeBlock2 = $(".seachTimeEnd").val();
+					var data_start = $(".seachTime").attr('data_start');
+					var data_end = $(".seachTimeEnd").attr('data_end');
+					localStorage.setItem('startTime', data_start);
+					localStorage.setItem('endTime', data_end);
+					localStorage.setItem('authorization', authorization);
+					if (!timeBlock) {
+						layer.msg("请选择开始时间!");
+					} else if (!timeBlock2) {
+						layer.msg("请选择截止时间!");
+					} else {
+						window.location.href = 'bill.html?startTime=' + data_start + "&endTime=" + data_end + "&authorization=" +
+							authorization;
+					}
+				})
+			});
+		});
+	</script>
 
 </html>
