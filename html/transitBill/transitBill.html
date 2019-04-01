@@ -52,7 +52,7 @@
 								说明: 由于网络原因,数据可能会有延迟
 							</div>
 						</div>
-						<div class="seachContent seachContent_1">
+						<div class="seachContent">
 
 						</div>
 					</div>
@@ -68,7 +68,7 @@
 								说明: 由于网络原因,数据可能会有延迟
 							</div>
 						</div>
-						<div class="seachContent seachContent_2">
+						<div class="seachContent">
 
 						</div>
 					</div>
@@ -84,7 +84,7 @@
 								说明: 由于网络原因,数据可能会有延迟
 							</div>
 						</div>
-						<div class="seachContent seachContent_3">
+						<div class="seachContent">
 
 						</div>
 					</div>
@@ -107,9 +107,11 @@
 		var authorization = a['authorization'];
 		var cardno = a['cardno'];
 		var merCode = a['merCode'];
+		var newStratDate = a['startTime'];
+		var newEndDate = a['endTime'];
 
-		var cardno = "800600010004B70E";  //假数据
-		var merCode = "10003";            //假数据
+// 		var cardno = "800600010004B70E";  //假数据
+// 		var merCode = "10003";            //假数据
 
 		layui.use(['form', 'layer', 'element', 'laytpl'], function () {
 			var form = layui.form,
@@ -137,14 +139,6 @@
 				});
 			});
 
-
-			var newStratDate = localStorage.getItem('startTime');
-			var newEndDate = localStorage.getItem('endTime');
-			var authorization = localStorage.getItem('authorization');
-			console.log(newStratDate);
-			console.log(newEndDate);
-
-
 			//获取当月第一天和最后一天
 			var newDay = new Date();
 			var year = newDay.getFullYear();
@@ -153,9 +147,11 @@
 			month = month < 10 ? '0' + month : month;
 			var firstdate = year + '-' + month + '-' + '01';
 			var lastdate = year + '-' + month + '-' + nowday;
+			// var firstdate = "2011-11-11";
+			// var lastdate = "2019-11-11";
+
 			console.log(firstdate);
 			console.log(lastdate);
-
 
 			//全部接口
 			function allList() {
@@ -171,8 +167,8 @@
 							type: "post",
 							url: globalurl + "/appbus/getBusTransactionDetails",
 							data: {
-								strdate: "2011-11-11",
-								enddate: "2019-11-11",
+								strdate: firstdate,
+								enddate: lastdate,
 								pageno: page,
 								authorization: authorization,
 								cardno: cardno,
@@ -184,7 +180,7 @@
 							success: function (res) {
 								if (res.code == '0000') {
 									if (res.data == "") {
-										$(".seachHelp").html("无数据");
+										// layer.msg("暂无数据");
 										me.lock();
 										me.noData();
 									} else {
@@ -199,11 +195,9 @@
 												html_all += '<div class="layui-row seachContentBox">';
 												html_all += '<div class="layui-col-xs9">';
 												if (success[i].txntype == "2") {
-													html_all += ' <p class="detailsType">消费</p>';
+													html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
 												} else if (success[i].txntype == "3") {
-													html_all += ' <p class="detailsType">充值</p>';
-												} else if (success[i].txntype == "1") {
-													html_all += ' <p class="detailsType">圈存未领款</p>';
+													html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
 												}
 												html_all += '<p class="detailsTime">' + b + '</p>';
 												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
@@ -211,23 +205,20 @@
 												html_all += '<div class="layui-col-xs3">';
 												if (success[i].txntype == "2") {
 													html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
-												} else {
+												} else if (success[i].txntype == "3") {
 													html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
-												}
-												if (success[i].txntype == "1") {
-													html_all += ' <p class="detailsStatus">待领取</p>';
 												}
 												html_all += ' </div>';
 												html_all += '</div>';
 											}
 										} else {
-											$(".seachHelp").html("无数据");
+											layer.msg("暂无数据");
 											me.lock();
 											me.noData();
 										}
 									}
 									setTimeout(function () {
-										$('.seachContent_1').append(html_all);
+										$('.seachContent').append(html_all);
 										me.resetload();
 									}, 1000);
 								} else {
@@ -241,7 +232,7 @@
 
 			//充值接口
 			function rechargeList() {
-				var pages = 0
+				var pages = 0;
 				$('#content_2').dropload({
 					scrollArea: window,
 					domDown: {
@@ -253,20 +244,20 @@
 							type: "post",
 							url: globalurl + "/appbus/getBusTransactionDetails",
 							data: {
-								strdate: "2011-11-11",
-								enddate: "2019-11-11",
+								strdate: firstdate,
+								enddate: lastdate,
 								pageno: pages,
 								authorization: authorization,
 								cardno: cardno,
 								merCode: merCode,
-								txntype: "0"
+								txntype: "3"
 							},
 							async: true,
 							dataType: 'json',
 							success: function (res) {
 								if (res.code == '0000') {
 									if (res.data == "") {
-										$(".seachHelp").html("无数据");
+										// layer.msg("暂无数据");
 										me.lock();
 										me.noData();
 									} else {
@@ -276,29 +267,27 @@
 										var html_all = '';
 										if (arrLen > 0) {
 											for (var i = 0; i < success.length; i++) {
-												if (success[i].txntype == "3") {
-													var a = success[i].opdt;     //时间串插入分隔符
-													var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
-													html_all += '<div class="layui-row seachContentBox">';
-													html_all += '<div class="layui-col-xs9">';
-													html_all += ' <p class="detailsType">充值</p>';
-													html_all += '<p class="detailsTime">' + b + '</p>';
-													html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
-													html_all += '</div>';
-													html_all += '<div class="layui-col-xs3">';
-													html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
-													html_all += ' </div>';
-													html_all += '</div>';
-												}
+												var a = success[i].opdt;     //时间串插入分隔符
+												var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
+												html_all += '<div class="layui-row seachContentBox">';
+												html_all += '<div class="layui-col-xs9">';
+												html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
+												html_all += '<p class="detailsTime">' + b + '</p>';
+												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
+												html_all += '</div>';
+												html_all += '<div class="layui-col-xs3">';
+												html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
+												html_all += ' </div>';
+												html_all += '</div>';
 											}
 										} else {
-											$(".seachHelp").html("无数据");
+											layer.msg("暂无数据");
 											me.lock();
 											me.noData();
 										}
 									}
 									setTimeout(function () {
-										$('.seachContent_2').append(html_all);
+										$('.seachContent').append(html_all);
 										me.resetload();
 									}, 1000);
 								} else {
@@ -323,20 +312,20 @@
 							type: "post",
 							url: globalurl + "/appbus/getBusTransactionDetails",
 							data: {
-								strdate: "2019-11-11",
-								enddate: "2019-11-11",
+								strdate: firstdate,
+								enddate: lastdate,
 								pageno: page_3,
 								authorization: authorization,
 								cardno: cardno,
 								merCode: merCode,
-								txntype: "0"
+								txntype: "2"
 							},
 							async: true,
 							dataType: 'json',
 							success: function (res) {
 								if (res.code == '0000') {
 									if (res.data == "") {
-										// $(".seachHelp").html("无数据");
+										// layer.msg("暂无数据");
 										me.lock();
 										me.noData();
 									} else {
@@ -346,31 +335,27 @@
 										var html_all = '';
 										if (arrLen > 0) {
 											for (var i = 0; i < success.length; i++) {
-												if (success[i].txntype == "2") {
-													var a = success[i].opdt;     //时间串插入分隔符
-													var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
-													html_all += '<div class="layui-row seachContentBox">';
-													html_all += '<div class="layui-col-xs9">';
-													html_all += ' <p class="detailsType">消费</p>';
-													html_all += '<p class="detailsTime">' + b + '</p>';
-													html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
-													html_all += '</div>';
-													html_all += '<div class="layui-col-xs3">';
-													html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
-													html_all += ' </div>';
-													html_all += '</div>';
-												} else {
-													$(".seachHelp").html("查询时间段内无消费数据");
-												}
+												var a = success[i].opdt;     //时间串插入分隔符
+												var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
+												html_all += '<div class="layui-row seachContentBox">';
+												html_all += '<div class="layui-col-xs9">';
+												html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
+												html_all += '<p class="detailsTime">' + b + '</p>';
+												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
+												html_all += '</div>';
+												html_all += '<div class="layui-col-xs3">';
+												html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
+												html_all += ' </div>';
+												html_all += '</div>';
 											}
 										} else {
-											$(".seachHelp").html("无数据");
+											layer.msg("暂无数据");
 											me.lock();
 											me.noData();
 										}
 									}
 									setTimeout(function () {
-										$('.seachContent_3').append(html_all);
+										$('.seachContent').append(html_all);
 										me.resetload();
 									}, 1000);
 								} else {
@@ -384,17 +369,12 @@
 
 			//查询默认当前月份的账单
 			if (newStratDate == null) {
-				//获取当月第一天和最后一天
-				var newDay = new Date();
-				var year = newDay.getFullYear();
-				var month = newDay.getMonth() + 1;
-				var nowday = newDay.getDate();
-				month = month < 10 ? '0' + month : month;
-				var firstdate = year + '-' + month + '-' + '01';
-				var lastdate = year + '-' + month + '-' + nowday;
-				console.log(firstdate);
-				console.log(lastdate);
+				//默认显示本月全部
 				allList();
+				// $(".dropload-down").remove();
+				page = 0;
+				$('.seachContent').children().remove();
+
 				//监听tab切换
 				element.on('tab(test1)', function (data) {
 					console.log(data.index);        //得到当前Tab的所在下标
@@ -406,65 +386,87 @@
 					var month = newDay.getMonth() + 1;
 					var nowday = newDay.getDate();
 					month = month < 10 ? '0' + month : month;
-					var firstdate = year + '' + month + '' + '01';
-					var lastdate = year + '' + month + '' + nowday;
+					var firstdate = year + '-' + month + '-' + '01';
+					var lastdate = year + '-' + month + '-' + nowday;
+					// var firstdate = "2011-11-11";
+					// var lastdate = "2019-11-11";
+
 					console.log(firstdate);
 					console.log(lastdate);
 
 					if (tab_index == 0) {
+						//全部接口
+						$(".dropload-down").remove();
+						page = 0;
+						$('.seachContent').children().remove();
 						allList();
 					} else if (tab_index == 1) {
 						//充值接口
+						$(".dropload-down").remove();
+						pages = 0;
+						$('.seachContent').children().remove();
 						rechargeList();
 					} else if (tab_index == 2) {
+						//消费接口
+						$(".dropload-down").remove();
+						page_3 = 0;
+						$('.seachContent').children().remove();
 						consumptionList();
 					}
 				})
 			}
 			//查询选择得时间段得账单
-			// else {
-			// 	var firstdate = newStratDate;
-			// 	var lastdate = newEndDate;
-			// 	console.log(firstdate);
-			// 	console.log(lastdate);
-			// 	allList();
+			else {
+				var firstdate = newStratDate;
+				var lastdate = newEndDate;
+				console.log(firstdate);
+				console.log(lastdate);
 
-			// 	element.on('tab(test1)', function (data) {
-			// 		console.log(data.index);        //得到当前Tab的所在下标
-			// 		var tab_index = data.index;
+				allList();
 
-			// 		var firstdate = newStratDate;
-			// 		var lastdate = newEndDate;
-			// 		console.log(firstdate);
-			// 		console.log(lastdate);
+				element.on('tab(test1)', function (data) {
+					console.log(data.index);        //得到当前Tab的所在下标
+					var tab_index = data.index;
 
-			// 		if (tab_index == 0) {
-			// 			allList();
-			// 		} else if (tab_index == 1) {
-			// 			rechargeList();
-			// 		} else if (tab_index == 2) {
-			// 			consumptionList();
-			// 		}
-			// 	})
-			// }
+					var firstdate = newStratDate;
+					var lastdate = newEndDate;
+					console.log(firstdate);
+					console.log(lastdate);
+
+					if (tab_index == 0) {
+						$(".dropload-down").remove();
+						page = 0;
+						$('.seachContent').children().remove();
+						allList();
+					} else if (tab_index == 1) {
+						$(".dropload-down").remove();
+						pages = 0;
+						$('.seachContent').children().remove();
+						rechargeList();
+						rechargeList();
+					} else if (tab_index == 2) {
+						$(".dropload-down").remove();
+						page_3 = 0;
+						$('.seachContent').children().remove();
+						consumptionList();
+					}
+				})
+			}
 
 
 			//消费或充值详情
 			$('.seachContent').on('click', '.seachContentBox', function () {
-				var type = $(this).find(".detailsType").html()
+				var type = $(this).find(".detailsType").html();
 				var money = $(this).find(".detailsMoney").html();
-				var route = $(this).find('.detailsNum span').html();
-				var billId = $(this).find('.detailsTime').attr('value');
-				var data_flag = $(this).find('.detailsTime').attr('data_flag');
-				localStorage.setItem('money', money);
-				localStorage.setItem('route', route);
-				localStorage.setItem('billId', billId);
+				var tradeWay = $(this).find(".detailsType").attr('value');
+				var billId = $(this).find('span').html();
+				var tradeTime = $(this).find('.detailsTime').html();
 				if (type == "消费") {
 					layer.open({
 						type: 2,
 						closeBtn: 0,
 						title: false,
-						content: 'ConsumptionDetails.html?money=' + money + '&route=' + route + '&billId=' + billId + '&authorization=' + authorization,
+						content: 'ConsumptionDetails.html?money=' + money + '&tradeWay=' + tradeWay + '&cardno=' + cardno + '&billId=' + billId + '&tradeTime=' + tradeTime,
 						area: ['100%', '100%'],
 						yes: function (index) {
 							layer.close(index);
@@ -475,7 +477,7 @@
 						type: 2,
 						closeBtn: 0,
 						title: false,
-						content: 'RechargeDetails.html?money=' + money + '&route=' + route + '&billId=' + billId + '&authorization=' + authorization,
+						content: 'RechargeDetails.html?money=' + money + '&tradeWay=' + tradeWay + '&cardno=' + cardno + '&billId=' + billId + '&tradeTime=' + tradeTime,
 						area: ['100%', '100%'],
 						yes: function (index) {
 							layer.close(index);

@@ -7,19 +7,19 @@
 	<link rel="stylesheet" href="../../layui/css/layui.css">
 	<link rel="stylesheet" href="../../css/base.css">
 	<link rel="stylesheet" href="../../css/noReceive.css" />
-	<title>消费交易明细详情</title>
+	<title>公交交易明细详情</title>
 </head>
 
 <body>
 	<div class="layui-fluid">
 		<div class="layui-row listContent">
-			<!-- <h2 class="listTitle">
+			<h2 class="listTitle">
 				<a href="javascript:;" class="back">
 					<i class="layui-icon layui-icon-left"></i>
 					返回
 				</a>
 				交易明细
-			</h2> -->
+			</h2>
 			<!--未领款内容-->
 			<div class="layui-row contentBox" id="content">
 				<form class="layui-form" action="">
@@ -33,7 +33,7 @@
 								<div class="payType">充值方式</div>
 							</div>
 							<div class="layui-col-xs6">
-								<span class="type way"></span>
+								<span class="way"></span>
 							</div>
 						</div>
 						<div class="layui-row">
@@ -74,14 +74,16 @@
 		//获取url参数
 		$(document).ready(function () {
 			var a = GetRequest();
-			var authorization = a['authorization'];
 			var money = a['money'];
-			var route = a['route'];
+			var tradeWay = a['tradeWay'];
+			var cardno = a['cardno'];
 			var billId = a['billId'];
-			// console.log(authorization);
+			var tradeTime = a['tradeTime'];
 			console.log(money);
-			console.log(route);
+			console.log(tradeWay);
+			console.log(cardno);
 			console.log(billId);
+			console.log(tradeTime);
 
 			layui.use(['laytpl', 'layer', 'form'], function () {
 				var form = layui.form;
@@ -95,31 +97,12 @@
 				})
 
 
-				$.ajax({
-					type: "post",
-					url: globalurl + "/bill/rechargeDetail",
-					data: {
-						authorization: authorization,
-						id: billId
-					},
-					async: true,
-					dataType: 'json',
-					success: function (res) {
-						var success = JSON.parse($.base64.decode(res.data, 'GBK'));   //base64解密
-						var a = success.paytime;     //时间串插入分隔符
-						var b = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)} ${a.substring(8, 10)}:${a.substring(10, 12)}:${a.substring(12, 14)}`;
-						console.log(success);
-						if (success.way == null) {
-							$('.way').html('消费')
-						} else {
-							$('.way').html(success.way)
-						}
-						$('.receiveMoney').html(money);
-						$('.cardNum').html(success.cardNum);
-						$('.orderNum').html(success.outTradeNo);
-						$('.time').html(b);
-					}
-				});
+				//显示详情
+				$('.receiveMoney').html(money);
+				$('.way').html(tradeWay);
+				$('.cardNum').html(cardno);
+				$('.orderNum').html(billId);
+				$('.time').html(tradeTime);
 			});
 		});
 	</script>

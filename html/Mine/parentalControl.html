@@ -134,14 +134,8 @@
 					type: 2,
 					closeBtn: 0,
 					title: false,
-					content: "userRange.html",
-					area: ['100%', '100%'],
-					yes: function (index) {
-						layer.close(index);
-					},
-					end: function () {
-						// form.render();
-					}
+					content: "userRange.html?authorization=" + authorization,
+					area: ['100%', '100%']
 				});
 			});
 		});
