@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>校园交易明细</title>
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<link rel="stylesheet" href="../../css/base.css">
+	<link rel="stylesheet" href="../../css/schooltransitIndex.css">
+	<link rel="stylesheet" href="../../css/dropload.css">
+	<style type="text/css">
+		.dropload-noData {
+			text-align: center;
+			margin: 10px 0;
+		}
+	</style>
+</head>
+
+<body style="background:#fff;">
+	<div class="layui-fluid">
+		<!-- 顶部返回与标题 -->
+		<!-- <div class="layui-row transitContent">
+			<h2 class="transitTitle">
+				<a href="javascript:;" class="back ofenBack">
+					<i class="layui-icon layui-icon-left">
+					</i>
+					返回
+				</a>
+				交易明细
+			</h2>
+		</div> -->
+
+		<!-- 返回顶部 -->
+		<img src="../../img/mescroll-totop.png" class="go-top">
+
+		<div class="layui-row cardDetails">
+			<div class="layui-tab layui-tab-brief" lay-filter="test1">
+				<ul class="layui-tab-title">
+					<li class="layui-this" lay-id="111">全部</li>
+					<li lay-id="222">充值</li>
+					<li lay-id="333">消费</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item allDetail layui-show" id="content_1">
+						<div class="layui-row seachDetail">
+							<div class="layui-col-xs2">本月</div>
+							<div class="layui-col-xs2 layui-col-xs-offset8">
+								<i class="layui-icon layui-icon-date seachTime" index='0'></i>
+							</div>
+							<div class="layui-col-xs12 seachHelp">
+								说明: 由于网络原因,数据可能会有延迟
+							</div>
+						</div>
+						<div class="seachContent">
+
+						</div>
+					</div>
+					<div class="layui-tab-item rechargeDetail" id="content_2">
+						<div class="layui-row seachDetail">
+							<div class="layui-col-xs2">
+								本月
+							</div>
+							<div class="layui-col-xs2 layui-col-xs-offset8">
+								<i class="layui-icon layui-icon-date seachTime" index='1'></i>
+							</div>
+							<div class="layui-col-xs12 seachHelp">
+								说明: 由于网络原因,数据可能会有延迟
+							</div>
+						</div>
+						<div class="seachContent">
+
+						</div>
+					</div>
+					<div class="layui-tab-item consumeDetail" id="content_3">
+						<div class="layui-row seachDetail">
+							<div class="layui-col-xs2">
+								本月
+							</div>
+							<div class="layui-col-xs2 layui-col-xs-offset8">
+								<i class="layui-icon layui-icon-date seachTime" index='2'></i>
+							</div>
+							<div class="layui-col-xs12 seachHelp">
+								说明: 由于网络原因,数据可能会有延迟
+							</div>
+						</div>
+						<div class="seachContent">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="../../js/jquery-3.3.1.min.js"></script>
+<script src="../../js/jquery.base64.js"></script>
+<script src="../../js/url.js"></script>
+<script src="../../layui/layui.js"></script>
+<script src="../../js/jquery.selector-px.js"></script>
+<script src="../../js/getparameter.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/dropload.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	//获取url参数
+	$(document).ready(function () {
+		var a = GetRequest();
+		var authorization = a['authorization'];
+		var customerid = a['customerid'];    //账户
+		var dpcode = a['dpcode'];        //用户所属企业代码
+		var partnerCode = a['partnerCode'];        //商户号
+		var newStratDate = a['startTime'];
+		var newEndDate = a['endTime'];
+
+		var customerid = "1000148";
+		var dpcode = "4";
+		var partnerCode = "10007";
+
+		layui.use(['form', 'layer', 'element', 'laytpl'], function () {
+			var form = layui.form,
+				layer = layui.layer,
+				element = layui.element,
+				laytpl = layui.laytpl;
+
+			//返回按钮
+			$(".ofenBack").on("click", function () {
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
+			});
+
+			//点击小日历跳转按月选择页面
+			$(".seachTime").click(function () {
+				layer.open({
+					type: 2,
+					closeBtn: 0,
+					title: false,
+					content: 'SelectionMonthly.html?authorization=' + authorization,
+					area: ['100%', '100%'],
+					yes: function (index) {
+						layer.close(index);
+					},
+				});
+			});
+
+			//获取当月第一天和最后一天
+			var newDay = new Date();
+			var year = newDay.getFullYear();
+			var month = newDay.getMonth() + 1;
+			var nowday = newDay.getDate();
+			month = month < 10 ? '0' + month : month;
+			var firstdate = year + '-' + month + '-' + '01';
+			var lastdate = year + '-' + month + '-' + nowday;
+			var firstdate = "2011-11-11";
+			var lastdate = "2019-11-11";
+
+			console.log(firstdate);
+			console.log(lastdate);
+
+			//全部接口
+			function allList() {
+				var page = -1;
+				$('#content_1').dropload({
+					scrollArea: window,
+					domDown: {
+						domNoData: '<div class="dropload-noData">无更多数据</div>'
+					},
+					loadDownFn: function (me) {
+						page++;
+						$.ajax({
+							type: "post",
+							url: globalurl + "/merchant/traceDetailListResp",
+							data: {
+								beginDate: firstdate,
+								endDate: lastdate,
+								beginIndex: page,
+								authorization: authorization,
+								customerid: customerid,
+								dpcode: dpcode,
+								partnerCode: partnerCode,
+								flag: "-1"
+							},
+							async: false,
+							dataType: 'json',
+							success: function (res) {
+								if (res.code == '0000') {
+									if (res.data == "") {
+										// layer.msg("暂无数据");
+										me.lock();
+										me.noData();
+									} else {
+										var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+										console.log(success);
+										var arrLen = success.length;
+										var html_all = '';
+										if (arrLen > 0) {
+											for (var i = 0; i < success.length; i++) {
+												html_all += '<div class="layui-row seachContentBox">';
+												html_all += '<div class="layui-col-xs9">';
+												if (success[i].flag == "1") {
+													html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
+												} else if (success[i].flag == "0") {
+													html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
+												}
+												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
+												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
+												html_all += '</div>';
+												html_all += '<div class="layui-col-xs3">';
+												if (success[i].flag == "1") {
+													html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
+												} else if (success[i].flag == "0") {
+													html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
+												}
+												html_all += ' </div>';
+												html_all += '</div>';
+											}
+										} else {
+											layer.msg("暂无数据");
+											me.lock();
+											me.noData();
+										}
+									}
+									setTimeout(function () {
+										$('.seachContent').append(html_all);
+										me.resetload();
+									}, 1000);
+								} else {
+									layer.msg(res.msg);
+								}
+							}
+						});
+					}
+				});
+			}
+
+			//充值接口
+			function rechargeList() {
+				var pages = -1;
+				$('#content_2').dropload({
+					scrollArea: window,
+					domDown: {
+						domNoData: '<div class="dropload-noData">无更多数据</div>'
+					},
+					loadDownFn: function (me) {
+						pages++;
+						$.ajax({
+							type: "post",
+							url: globalurl + "/merchant/traceDetailListResp",
+							data: {
+								beginDate: firstdate,
+								endDate: lastdate,
+								beginIndex: page,
+								authorization: authorization,
+								customerid: customerid,
+								dpcode: dpcode,
+								partnerCode: partnerCode,
+								flag: "0"
+							},
+							async: false,
+							dataType: 'json',
+							success: function (res) {
+								if (res.code == '0000') {
+									if (res.data == "") {
+										// layer.msg("暂无数据");
+										me.lock();
+										me.noData();
+									} else {
+										var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+										console.log(success);
+										var arrLen = success.length;
+										var html_all = '';
+										if (arrLen > 0) {
+											for (var i = 0; i < success.length; i++) {
+												html_all += '<div class="layui-row seachContentBox">';
+												html_all += '<div class="layui-col-xs9">';
+												html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
+												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
+												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
+												html_all += '</div>';
+												html_all += '<div class="layui-col-xs3">';
+												html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
+												html_all += ' </div>';
+												html_all += '</div>';
+											}
+										} else {
+											layer.msg("暂无数据");
+											me.lock();
+											me.noData();
+										}
+									}
+									setTimeout(function () {
+										$('.seachContent').append(html_all);
+										me.resetload();
+									}, 1000);
+								} else {
+									layer.msg(res.msg);
+								}
+							}
+						});
+					}
+				});
+			}
+			//消费接口
+			function consumptionList() {
+				var page_3 = -1;
+				$('#content_3').dropload({
+					scrollArea: window,
+					domDown: {
+						domNoData: '<div class="dropload-noData">无更多数据</div>'
+					},
+					loadDownFn: function (me) {
+						page_3++;
+						$.ajax({
+							type: "post",
+							url: globalurl + "/merchant/traceDetailListResp",
+							data: {
+								beginDate: firstdate,
+								endDate: lastdate,
+								beginIndex: page,
+								authorization: authorization,
+								customerid: customerid,
+								dpcode: dpcode,
+								partnerCode: partnerCode,
+								flag: "1"
+							},
+							async: false,
+							dataType: 'json',
+							success: function (res) {
+								if (res.code == '0000') {
+									if (res.data == "") {
+										// layer.msg("暂无数据");
+										me.lock();
+										me.noData();
+									} else {
+										var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+										console.log(success);
+										var arrLen = success.length;
+										var html_all = '';
+										if (arrLen > 0) {
+											for (var i = 0; i < success.length; i++) {
+												html_all += '<div class="layui-row seachContentBox">';
+												html_all += '<div class="layui-col-xs9">';
+												html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
+												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
+												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
+												html_all += '</div>';
+												html_all += '<div class="layui-col-xs3">';
+												html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
+												html_all += ' </div>';
+												html_all += '</div>';
+											}
+										} else {
+											layer.msg("暂无数据");
+											me.lock();
+											me.noData();
+										}
+									}
+									setTimeout(function () {
+										$('.seachContent').append(html_all);
+										me.resetload();
+									}, 1000);
+								} else {
+									layer.msg(res.msg);
+								}
+							}
+						});
+					}
+				});
+			}
+
+			//查询默认当前月份的账单
+			if (newStratDate == null) {
+				//默认显示本月全部
+				allList();
+				// $(".dropload-down").remove();
+				page = 0;
+				$('.seachContent').children().remove();
+
+				//监听tab切换
+				element.on('tab(test1)', function (data) {
+					console.log(data.index);        //得到当前Tab的所在下标
+					var tab_index = data.index;
+
+					//获取当月第一天和最后一天
+					var newDay = new Date();
+					var year = newDay.getFullYear();
+					var month = newDay.getMonth() + 1;
+					var nowday = newDay.getDate();
+					month = month < 10 ? '0' + month : month;
+					var firstdate = year + '-' + month + '-' + '01';
+					var lastdate = year + '-' + month + '-' + nowday;
+					var firstdate = "2011-11-11";
+					var lastdate = "2019-11-11";
+
+					console.log(firstdate);
+					console.log(lastdate);
+
+					if (tab_index == 0) {
+						//全部接口
+						$(".dropload-down").remove();
+						page = 0;
+						$('.seachContent').children().remove();
+						allList();
+					} else if (tab_index == 1) {
+						//充值接口
+						$(".dropload-down").remove();
+						pages = 0;
+						$('.seachContent').children().remove();
+						rechargeList();
+					} else if (tab_index == 2) {
+						//消费接口
+						$(".dropload-down").remove();
+						page_3 = 0;
+						$('.seachContent').children().remove();
+						consumptionList();
+					}
+				})
+			}
+			//查询选择得时间段得账单
+			else {
+				var firstdate = newStratDate;
+				var lastdate = newEndDate;
+				console.log(firstdate);
+				console.log(lastdate);
+
+				allList();
+
+				element.on('tab(test1)', function (data) {
+					console.log(data.index);        //得到当前Tab的所在下标
+					var tab_index = data.index;
+
+					var firstdate = newStratDate;
+					var lastdate = newEndDate;
+					console.log(firstdate);
+					console.log(lastdate);
+
+					if (tab_index == 0) {
+						$(".dropload-down").remove();
+						page = 0;
+						$('.seachContent').children().remove();
+						allList();
+					} else if (tab_index == 1) {
+						$(".dropload-down").remove();
+						pages = 0;
+						$('.seachContent').children().remove();
+						rechargeList();
+						rechargeList();
+					} else if (tab_index == 2) {
+						$(".dropload-down").remove();
+						page_3 = 0;
+						$('.seachContent').children().remove();
+						consumptionList();
+					}
+				})
+			}
+
+
+			//消费或充值详情
+			$('.seachContent').on('click', '.seachContentBox', function () {
+				var type = $(this).find(".detailsType").html();
+				var money = $(this).find(".detailsMoney").html();
+				var tradeWay = $(this).find(".detailsType").attr('value');
+				var billId = $(this).find('span').html();
+				var tradeTime = $(this).find('.detailsTime').html();
+				if (type == "消费") {
+					layer.open({
+						type: 2,
+						closeBtn: 0,
+						title: false,
+						content: 'ConsumptionDetails.html?money=' + money + '&tradeWay=' + tradeWay + '&cardno=' + cardno + '&billId=' + billId + '&tradeTime=' + tradeTime,
+						area: ['100%', '100%'],
+						yes: function (index) {
+							layer.close(index);
+						},
+					});
+				} else {
+					layer.open({
+						type: 2,
+						closeBtn: 0,
+						title: false,
+						content: 'RechargeDetails.html?money=' + money + '&tradeWay=' + tradeWay + '&cardno=' + cardno + '&billId=' + billId + '&tradeTime=' + tradeTime,
+						area: ['100%', '100%'],
+						yes: function (index) {
+							layer.close(index);
+						},
+					});
+				}
+				localStorage.clear('newStratDate');
+				localStorage.clear('newEndDate');
+			});
+		});
+	});
+
+
+	//返回顶部
+	$(function () {
+		$(window).scroll(function () {
+			if ($(window).scrollTop() > 100) {
+				$(".go-top").fadeIn(400);
+			} else {
+				$(".go-top").fadeOut(400);
+			}
+		});
+		$(".go-top").click(function (event) {
+			event.preventDefault();
+			$('html,body').animate({
+				'scrollTop': 0
+			}, 300);
+			return false;
+		});
+	});
+</script>
+
+</html>

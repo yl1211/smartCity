@@ -127,7 +127,7 @@
                         type: 2,
                         closeBtn: 0,
                         title: false,
-                        content: 'transitBill.html?startTime=' + fun_date() + '&endTime=' + fun_date() + "&authorization=" + authorization,
+                        content: 'schoolBill.html?startTime=' + fun_date() + '&endTime=' + fun_date() + "&authorization=" + authorization,
                         area: ['100%', '100%'],
                         yes: function (index) {
                             layer.close(index);
@@ -144,20 +144,19 @@
                 layer.confirm(tip, {
                     btn: ['确定', '取消']
                 }, function () {
-                    window.location.href = 'transitBill.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date() + "&authorization=" + authorization;
+                    window.location.href = 'schoolBill.html?startTime=' + fun_date(-7) + '&endTime=' + fun_date() + "&authorization=" + authorization;
                 }, function () {
                 });
             });
             //近1个月按钮
             $("button.threeMonth").on("click", function () {
-                console.log(month);
-                var tip = fun_date(-30) + ' 至 ' + fun_date();
+                var tip = fun_date(-30) + ' 至 ' + fun_date()
                 localStorage.setItem('startTime', fun_date(-30));
                 localStorage.setItem('endTime', fun_date());
                 layer.confirm(tip, {
                     btn: ['确定', '取消']
                 }, function () {
-                    window.location.href = 'transitBill.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date() + "&authorization=" + authorization;
+                    window.location.href = 'schoolBill.html?startTime=' + fun_date(-30) + '&endTime=' + fun_date() + "&authorization=" + authorization;
                 }, function () {
                 });
             });
@@ -177,7 +176,7 @@
                 if (!timeBlock) {
                     layer.msg("请选择时间!");
                 } else {
-                    window.location.href = 'transitBill.html?startTime=' + firstdate + "&endTime=" + lastdate + "&authorization=" + authorization;
+                    window.location.href = 'schoolBill.html?startTime=' + firstdate + "&endTime=" + lastdate + "&authorization=" + authorization;
                 }
             })
         });
