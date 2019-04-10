@@ -17,88 +17,160 @@
 			<a href="javascript:history.back(-1);" class="back"><i class="layui-icon layui-icon-left"></i>返回</a>
 			<h2 class="file-title">考勤记录</h2>
 		</div>
-		<div class="layui-row contentBox">
-			<input type="text" class="layui-input" id="start" placeholder="yyyy-MM-dd" value=""> 至
-			<input type="text" class="layui-input" id="end" placeholder="yyyy-MM-dd" value="">
-			<button class="layui-btn queryBtn" lay-submit="" lay-filter="demo1">查询</button>
+		<div class="layui-row layui-inline contentBox">
+			<input type="text" class="layui-input-inline layui-input" id="startdate" placeholder="开始日期" readonly> --
+			<input type="text" class="layui-input-inline layui-input" id="enddate" placeholder="结束日期" readonly>
+			<button class="layui-btn queryBtn" type="button">查询</button>
 			<div class="layui-row recordBox" id="recordBox">
 				<!--<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>
 					<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>
 					<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>-->
 			</div>
 		</div>
-		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="../../layui/layui.js"></script>
+
 		<!--引用模板引擎-->
 		<script id="recordContent" type="text/html">
-				{{# layui.each(d.appList, function(index, item){ }}
-				<p class="recordTime">{{ item.recordTime }}<span class="recordAddress">{{ item.recordAddress }}</span></p>
-				<!--无数据时-->
-				{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
-			</script>
-		<script>
-			layui.use(['laytpl', 'layer'], function () {
-				var laytpl = layui.laytpl;
-				var layer = layui.layer;
-				var recordData = { //数据
-					"title": "应用模板引擎",
-					"appList": [{
-						"recordTime": "2018-02-04 12:32:01",
-						"recordAddress": "校北门"
-					},
-					{
-						"recordTime": "2018-02-04 12:32:01",
-						"recordAddress": "南门"
-					},
-					{
-						"recordTime": "2018-02-04 12:32:01",
-						"recordAddress": "校北门"
-					}
-					]
-				}
-				// $.ajax({
-				// 	url: '',
-				// 	type: 'post',
-				// 	data: {
-				// 	},
-				// 	dataType: 'json',
-				// 	success: function (data) {
-				// 		console.log(data);
-				// 	}
-				var getAppTpl = recordContent.innerHTML,
-					appView = document.getElementById('recordBox');
-				laytpl(getAppTpl).render(recordData, function (html) {
-					appView.innerHTML = html;
-				});
-			});
+			{{# layui.each(d.appList, function(index, item){ }}
+			<p class="recordTime">{{ item.opdt }}<span class="recordAddress">{{ item.address }}</span></p>
+			<!--无数据时-->
+			{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
 		</script>
+
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script type="text/javascript" src="../../js/jquery.base64.js"></script>
+		<script type="text/javascript" src="../../js/url.js"></script>
+		<script type="text/javascript" src="../../js/getparameter.js"></script>
+		<script type="text/javascript" src="../../js/jquery.selector-px.js"></script>
 		<script>
-			//日期选择范围
-			layui.use(['laydate'], function () {
-				var $ = layui.$;
-				var laydate = layui.laydate;
+			//获取url参数
+			$(document).ready(function () {
+				var a = GetRequest();
+				var authorization = a['authorization'];
+				var customerid = a['customerid'];   //账户
+				var dpcode = a['dpcode'];   //用户所属企业代码
+				var partnerCode = a['partnerCode'];   //商户号
 
-				var start = laydate.render({
-					elem: '#start',
-					calendar: true,
-					type: 'date',
-					btns: ['clear', 'now', 'confirm'],
-					done: function (value, date) {
-						console.log(value);
-						var strvalue = value;
-						console.log(strvalue);
-					}
-				});
-				var end = laydate.render({
-					elem: '#end',
-					type: 'date',
-					done: function (value, date) {
-						console.log(value);
-					}
-				});
-				console.log($("#start").val());
+				var beginDate = $("#startdate").val();
+				var endDate = $("#enddate").val();
+				console.log(beginDate);
+				console.log(endDate);
 
-			});
+
+				layui.use(['laytpl', 'layer'], function () {
+					var laytpl = layui.laytpl;
+					var layer = layui.layer;
+
+					//默认展示当天考勤
+					if (beginDate == "" && endDate == "") {
+						//获取当天日期
+						var newDay = new Date();
+						var year = newDay.getFullYear();
+						var month = newDay.getMonth() + 1;
+						var nowday = newDay.getDate();
+						month = month < 10 ? '0' + month : month;
+						nowday = nowday < 10 ? '0' + nowday : nowday;
+						var today = year + '-' + month + '-' + nowday;
+						console.log(today);
+						var beginIndex = 1;
+
+						// $.ajax({
+						// 	url: globalurl + '/merchant/attendanceListRespList',
+						// 	type: 'post',
+						// 	data: {
+						// 		authorization: authorization,
+						// 		beginDate: today,
+						// 		endDate: today,
+						// 		beginIndex: beginIndex,
+						// 		customerid: customerid,
+						// 		dpcode: dpcode,
+						// 		partnerCode: partnerCode
+						// 	},
+						// 	dataType: 'json',
+						// 	success: function (res) {
+						// 		console.log(res);
+						// 	}
+						// })
+						// var getAppTpl = recordContent.innerHTML,
+						// 	appView = document.getElementById('recordBox');
+						// laytpl(getAppTpl).render(res, function (html) {
+						// 	appView.innerHTML = html;
+						// });
+					} else {
+						//获取当前年份与时间段区间
+						var date = new Date;
+						var endYear = date.getFullYear(), startYear = endYear - 100;
+						//开始日期
+						$.dateSelector({
+							evEle: '#startdate',
+							startYear: startYear,
+							endYear: endYear,
+							timeBoo: false,
+							afterAction: function (d1, d2, d3) {
+								var sDate = new Date(d1 + '-' + d2 + '-' + d3);
+								var eDate = new Date($('#enddate').val().replace(/\-/g, "\/"));
+								if (sDate > eDate) {
+									layer.msg("开始日期不得大于于结束日期！");
+									return false;
+								} else {
+									$('#startdate').val(d1 + '-' + d2 + '-' + d3);
+								}
+							}
+						});
+						//结束日期
+						$.dateSelector({
+							evEle: '#enddate',
+							startYear: startYear,
+							endYear: endYear,
+							timeBoo: false,
+							afterAction: function (d1, d2, d3) {
+								var sDate = new Date($('#startdate').val().replace(/\-/g, "\/"));
+								var eDate = new Date(d1 + '-' + d2 + '-' + d3);
+								if (sDate > eDate) {
+									layer.msg("结束日期不得小于开始日期！");
+									return false;
+								} else {
+									$('#enddate').val(d1 + '-' + d2 + '-' + d3);
+								}
+							}
+						});
+
+
+						//点击查询按钮
+						$('.queryBtn').click(function () {
+							var beginDate = $("#startdate").val();
+							var endDate = $("#enddate").val();
+							var beginIndex = 1;
+							console.log(beginDate);
+							console.log(endDate);
+							// $.ajax({
+							// 	url: globalurl + '/merchant/attendanceListRespList',
+							// 	type: 'post',
+							// 	data: {
+							// 		authorization: authorization,
+							// 		beginDate: beginDate,
+							// 		endDate: endDate,
+							// 		beginIndex: beginIndex,
+							// 		customerid: customerid,
+							// 		dpcode: dpcode,
+							// 		partnerCode: partnerCode
+							// 	},
+							// 	dataType: 'json',
+							// 	success: function (res) {
+							// 		console.log(res);
+							// 	}
+							// })
+							// var getAppTpl = recordContent.innerHTML,
+							// 	appView = document.getElementById('recordBox');
+							// laytpl(getAppTpl).render(res, function (html) {
+							// 	appView.innerHTML = html;
+							// });
+						});
+					}
+
+				})
+			})
+
 		</script>
 </body>
 

@@ -7,22 +7,39 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>传参</title>
 		<style type="text/css">
-			/* .go-top {
+			.background {
+				display: block;
+				width: 100%;
+				height: 100%;
+				opacity: 0.4;
+				filter: alpha(opacity=40);
+				background: while;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 2000;
+			}
+
+			.progressBar {
+				border: solid 2px #86A5AD;
+				background: white url(${pageContext.request.contextPath}/static/image/progressBar_m.gif) no-repeat 10px 10px;
+			}
+
+			.progressBar {
+				display: block;
+				width: 160px;
+				height: 28px;
 				position: fixed;
-				bottom: 10px;
-				right: 10px;
-				background: #fff;
-				display: none;
-				cursor: pointer;
-			} */
-			.go-top {
-				position: fixed;
-				bottom: 20px;
-				right: 15px;
-				display: none;
-				cursor: pointer;
-				width: 2rem;
-				border-radius: 50%;
+				top: 50%;
+				left: 50%;
+				margin-left: -74px;
+				margin-top: -14px;
+				padding: 10px 10px 10px 50px;
+				text-align: left;
+				line-height: 27px;
+				font-weight: bold;
+				position: absolute;
+				z-index: 2001;
 			}
 		</style>
 	</head>
@@ -34,11 +51,7 @@
 		<img src="../../img/mescroll-totop.png" class="go-top">
 
 		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
-		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
-		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
-		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
-		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
-		<div style="width:200px;height:200px;background: red;margin-bottom: 10px;"></div>
+
 
 		<script src=" ../../js/jquery-3.3.1.min.js"> </script>
 		<script type="text/javascript" src="../../layui/layui.js"></script>
@@ -48,34 +61,8 @@
 				var layer = layui.layer;
 
 			});
-			//时间字符串转成年-月-日 时:分:秒
-			let a = '20190301092140';
-			let b =
-				`${a.substring(0,4)}-${a.substring(4,6)}-${a.substring(6,8)} ${a.substring(8,10)}:${a.substring(10,12)}:${a.substring(12,14)}`;
-			console.log(b);
 
-			//下载apk
-			// 			$("#down").click(function() {
-			// 				window.location.href = "http://1.192.121.127:12613/gateway/file/apk/1.0.5/smart-city";
-			// 			});
-
-
-
-			$(function() {
-				$(window).scroll(function() {
-					if ($(window).scrollTop() > 100) {
-						$(".go-top").fadeIn(400);
-					} else {
-						$(".go-top").fadeOut(400);
-					}
-				});
-				$(".go-top").click(function(event) {
-					event.preventDefault();
-					$('html,body').animate({
-						'scrollTop': 0
-					}, 300);
-					return false;
-				});
-			});
+	
+			
 		</script>
 </html>

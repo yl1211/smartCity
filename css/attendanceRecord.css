@@ -50,3 +50,10 @@
 	height: auto; /*如设置bottom:50px,则需height:auto才能生效*/
 	width: 91.8%;
 }
+
+.getDateBox .choiceDateTitle button{
+	color: #0c7fd4;
+}
+.layui-input{
+	border-color: #727272;
+}
