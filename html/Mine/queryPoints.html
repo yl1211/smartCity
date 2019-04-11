@@ -1,95 +1,118 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="../../layui/css/layui.css">
-		<link rel="stylesheet" href="../../css/base.css">
-		<link rel="stylesheet" href="../../css/exchangePoints.css" />
-		<title>积分兑换-一键查询</title>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<link rel="stylesheet" href="../../css/base.css">
+	<link rel="stylesheet" href="../../css/exchangePoints.css" />
+	<title>积分兑换-一键查询</title>
+</head>
 
-	<body>
-		<div class="layui-fluid">
-			<div class="layui-row content ">
-				<h2 class="exchangeTitle">
-                    <a href="javascript:history.back(-1);" class="back">
-                        <i class="layui-icon layui-icon-left"></i> 返回
-                    </a>
-                  积分兑换
-                </h2>
-				<!--总积分-->
-				<div class="layui-row headContent">
-					<div class="layui-form layui-form-item">
-						<div class="layui-input-block">
-							<button class="layui-btn query_btn" lay-submit="" lay-filter="demo1">一键查询</button>
-						</div>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row content ">
+			<h2 class="exchangeTitle">
+				<a href="javascript:history.back(-1);" class="back">
+					<i class="layui-icon layui-icon-left"></i> 返回
+				</a>
+				积分兑换
+			</h2>
+			<!--总积分-->
+			<div class="layui-row headContent">
+				<div class="layui-form layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn query_btn" lay-submit="" lay-filter="demo1">一键查询</button>
 					</div>
-				</div>
-				<!--储蓄卡和信用卡积分内容-->
-				<div class="layui-row layui-form centerContent">
-					<!--储蓄卡-->
-					<div class="layui-row contentPart ">
-						<div class="layui-inline">
-							<img src="../../img/cardType.png" class="layui-circle savings">储蓄卡
-						</div>
-						<div class="layui-form layui-form-item cardMsg">
-							<label class="layui-form-label">**** **** **** 7183</label>
-						</div>
-						<div class="layui-form layui-form-item cardMsg">
-							<label class="layui-form-label">**** **** **** 3920</label>
-						</div>
-						<div class="layui-form layui-form-item cardMsg">
-							<label class="layui-form-label">**** **** **** 0804</label>
-						</div>
-					</div>
-					<!--信用卡-->
-					<div class="layui-row contentPart ">
-						<div class="layui-inline">
-							<img src="../../img/cardType.png" class="layui-circle savings">储蓄卡
-						</div>
-						<div class="layui-form layui-form-item cardMsg">
-							<label class="layui-form-label">**** **** **** 7183</label>
-						</div>
-						<div class="layui-form layui-form-item cardMsg">
-							<label class="layui-form-label">**** **** **** 3920</label>
-						</div>
-						<div class="layui-form layui-form-item cardMsg">
-							<label class="layui-form-label">**** **** **** 0804</label>
-						</div>
-					</div>
-				</div>
-				<div class="layui-row footer">
-					<p class="warn">温馨提示</p>
-					<p class=""><span class="layui-badge-dot layui-bg-blue"></span>只显示个人账户相应的积分情况</p>
-					<p class=""><span class="layui-badge-dot layui-bg-blue"></span>仅支持兑换广西农信利农商城积分</p>
-					
 				</div>
 			</div>
-		</div>
-		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="../../layui/layui.js"></script>
-		<script>
-			layui.use(['form', 'layedit', 'laydate'], function() {
-				var form = layui.form,
-					layer = layui.layer,
-					layedit = layui.layedit,
-					laydate = layui.laydate;
-					//点击一键查询触发的事件
-					$(".query_btn").on('click', function() {
-						window.location.href = "exchangePoints.html"
-					});
+			<!--储蓄卡和信用卡积分内容-->
+			<div class="layui-row layui-form centerContent">
+				<!--储蓄卡-->
+				<div class="layui-row contentPart">
+					<div class="layui-inline">
+						<img src="../../img/SavingsDepositCard.png" class="savings">
+						<span>储蓄卡</span>
+					</div>
+					<div id="cardlist1">
+						<!-- <div class="layui-form layui-form-item cardMsg">
+							<label class="layui-form-label">**** **** **** 7183</label>
+						</div> -->
+					</div>
+				</div>
+				<!--信用卡-->
+				<div class="layui-row contentPart ">
+					<div class="layui-inline">
+						<img src="../../img/CreditCard.png" class="savings">
+						<span>信用卡</span>
+					</div>
+					<div id="cardlist2">
+						<!-- <div class="layui-form layui-form-item cardMsg">
+							<label class="layui-form-label">**** **** **** 7183</label>
+						</div> -->
+					</div>
+				</div>
+			</div>
+			<div class="layui-row footer">
+				<p class="warn">温馨提示</p>
+				<p class=""><span class="layui-badge-dot layui-bg-blue"></span>只显示个人账户相应的积分情况</p>
+				<p class=""><span class="layui-badge-dot layui-bg-blue"></span>仅支持兑换广西农信利农商城积分</p>
 
-				//监听提交
-//				form.on('submit(demo1)', function(data) {
-//					layer.alert(JSON.stringify(data.field), {
-//						title: '最终的提交信息'
-//					})
-//					return false;
-//				});
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript" src="../../js/jquery.base64.js"></script>
+	<script type="text/javascript" src="../../js/url.js"></script>
+	<script type="text/javascript" src="../../js/getparameter.js"></script>
+	<script>
+		//获取url参数
+		$(document).ready(function () {
+			var a = GetRequest();
+			var authorization = a['authorization'];
+
+			layui.use(['form', 'layer', 'jquery'], function () {
+				var form = layui.form,
+					$ = layui.$,
+					layer = layui.layer;
+
+				//点击一键查询
+				$(".query_btn").on('click', function () {
+					window.location.href = "exchangePoints.html"
+				});
+
+
+				$.ajax({
+					url: globalurl + '/pointExchange/cardListResp',
+					type: 'post',
+					data: {
+						authorization: authorization
+					},
+					dataType: 'json',
+					success: function (res) {
+						console.log(res);
+						var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+						console.log(value);
+						var cardStr = '';
+						for (var i = 0; i < value.length; i++) {
+							cardStr += '<div class="layui-form layui-form-item cardMsg">';
+							cardStr += '<label class="layui-form-label">' + value[i].cardnum + '</label>';
+							cardStr += '</div>';
+						}
+						if (value.cardType == '35') {
+							$("#cardlist1").append(cardStr);
+						} else if (value.cardType == '41') {
+							$("#cardlist2").append(cardStr);
+						}
+					}, error: function (res) {
+						layer.msg(res.data);
+					}
+				})
 			});
-		</script>
-	</body>
+		});
+	</script>
+</body>
 
 </html>

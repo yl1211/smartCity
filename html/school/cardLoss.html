@@ -28,7 +28,7 @@
 				<p class="lossName">学号<span class="name"></span></p>
 			</div>
 			<p class="warn">若遗失，请及时挂失，挂失后及时补卡！</p>
-			<button class="layui-btn lossBtn" lay-submit="" lay-filter="demo1">立即挂失</button>
+			<button class="layui-btn lossBtn" type="button">立即挂失</button>
 		</div>
 	</div>
 	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
@@ -40,11 +40,13 @@
 		$(document).ready(function () {
 			var a = GetRequest();
 			var authorization = a['authorization'];
+			var name = a['name'];
 			var outid = a['outid'];   //学工号
 			var dpcode = a['dpcode'];   //用户所属企业代码
 			var partnerCode = a['partnerCode'];   //商户号
+
 			$('.number').html(name);
-			$('.name').html(codeId);
+			$('.name').html(outid);
 
 			layui.use(['laytpl', 'layer'], function () {
 				var laytpl = layui.laytpl;
@@ -63,34 +65,30 @@
 					btn: ['确定', '取消'],
 					yes: function (index) {
 						$.ajax({
-							url: "http://1.192.121.127:12613/gateway/merchant/reportLoss",
+							url: globalurl + '/merchant/reportLoss',
 							type: 'post',
 							data: {
-								// authorization:authorization,
-								// customerid:customerid,
-								// partnerCode:partnerCode,
-								// dpcode:dpcode,
+								authorization: authorization,
+								name: name,
+								outid: outid,
+								partnerCode: partnerCode,
+								dpcode: dpcode,
 							},
 							dataType: 'json',
-							success: function (data) {
-								console.log(data);
-								if (data.code == "0000") {
+							success: function (res) {
+								console.log(res);
+								if (res.code == "0000") {
 									layer.close(index); //关闭二次弹窗
 									layer.msg('已解绑');   //显示解绑提示
 
 									setTimeout(function () {        //解绑后隐藏卡片信息
 										$("#untyingBox").hide();
-
 										// window.location.href="index.html";
-
 									}, 800);
-
-
 								} else {
 									layer.close(index);
 									layer.msg('挂失失败！');
 								}
-
 							}
 						});
 					}

@@ -25,16 +25,23 @@
 	margin-top: 1rem;
 	border-bottom: 1px solid gainsboro;
 }
-.layui-inline img{
-	height: 30px;
-	width: 30px;
+.savings{
+	width: 2rem;
 	margin: 0 10px;
 }
 .contentPart{
 	margin-top: 1rem;
 }
+.contentPart span{
+	font-size: 1rem;
+    font-weight: bold;
+}
 .radio{
 	float: right;
+	display: none;
+}
+.integral{
+	display: none;
 }
 .layui-anim.layui-icon{
 	float: right;
