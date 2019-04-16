@@ -14,12 +14,12 @@
 <body>
 	<div class="layui-fluid">
 		<div class="layui-row lossContent">
-			<h2 class="file-title">
+			<!-- <h2 class="file-title">
 				<a href="javascript:;" class="back ofenBack">
 					<i class="layui-icon layui-icon-left"></i>返回
 				</a>
 				挂失
-			</h2>
+			</h2> -->
 			<div class="layui-col-xs12 loss">
 				<img src="../../img/cardLoss.png">
 			</div>
@@ -51,7 +51,6 @@
 			layui.use(['laytpl', 'layer'], function () {
 				var laytpl = layui.laytpl;
 				var layer = layui.layer;
-
 				//返回按钮
 				$(".ofenBack").on("click", function () {
 					var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
@@ -78,13 +77,9 @@
 							success: function (res) {
 								console.log(res);
 								if (res.code == "0000") {
-									layer.close(index); //关闭二次弹窗
-									layer.msg('已解绑');   //显示解绑提示
-
-									setTimeout(function () {        //解绑后隐藏卡片信息
-										$("#untyingBox").hide();
-										// window.location.href="index.html";
-									}, 800);
+									layer.close(index);
+									layer.msg('挂失成功！');
+									$(".lossBtn").prop('disabled', 'disabled').addClass("layui-btn-disabled");
 								} else {
 									layer.close(index);
 									layer.msg('挂失失败！');

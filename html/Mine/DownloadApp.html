@@ -23,7 +23,11 @@
 		</div>
 		<form class="layui-form User" action="">
 			<div class="layui-form-item onerow">
-				<input id="phone" type="text" name="phone" placeholder="请输入手机号" lay-verify="required|phone"
+				<input id="phone" type="text" name="phone" placeholder="您的手机号" lay-verify="required|phone"
+					class="layui-input">
+			</div>
+			<div class="layui-form-item onerow">
+				<input id="phone2" type="text" name="phone" placeholder="推广人手机号（选填）" lay-verify="required|phone"
 					class="layui-input">
 			</div>
 			<button type="button" class="layui-btn login_btn" id="login_btn" lay-submit="">下载</button>
@@ -45,14 +49,14 @@
 			console.log(userid);
 			console.log(authorization);
 
-			// var userid = "828282216859f87b01685a1450b90000";
-
+			var userid = "828282216859f87b01685a1450b90000";
 			layui.use(['form'], function () {
 				var form = layui.form;
 
-			});
-
-			$(document).ready(function () {
+				//判断是否有userid(是否是通用码)
+				// if (userid != "") {
+				// 	$("#phone2").parent(".onerow").hide();
+				// }
 				$("#login_btn").click(function () {
 					var phone = $("#phone").val();
 					$.ajax({
@@ -60,6 +64,7 @@
 						data: {
 							authorization: authorization,
 							phonenum: phone,
+							extensionPhonenum: phone2,
 							userid: userid
 						},
 						type: "POST",

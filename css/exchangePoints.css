@@ -15,7 +15,7 @@
 }
 .query_btn{
 	float: right;
-	background-color:#005ea7!important;
+	background-color:#005ea7;
 }
 .layui-form-item .layui-form-label{
 	overflow: visible;
@@ -38,10 +38,6 @@
 }
 .radio{
 	float: right;
-	display: none;
-}
-.integral{
-	display: none;
 }
 .layui-anim.layui-icon{
 	float: right;
@@ -56,7 +52,15 @@
 .exchange-btn{
 	width: 80%;
 	text-align: center;
-	background-color:#005ea7!important;
+	background-color:#005ea7;
+	margin-top:1rem;
+}
+.layui-btn-disabled, .layui-btn-disabled:active, .layui-btn-disabled:hover {
+    border: 1px solid #e6e6e6;
+    background-color: #FBFBFB;
+    color: #C9C9C9;
+    cursor: not-allowed;
+    opacity: 1;
 }
 .layui-input-block{
 	text-align: center;

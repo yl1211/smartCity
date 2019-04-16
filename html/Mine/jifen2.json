@@ -1,0 +1,67 @@
+[
+    {
+        "acctCardFlag": "CARD",
+        "acctCardId": "6231330500000110119",
+        "allTotalBonus": "3000",
+        "doneCode": "111111",
+        "rate": "50",
+        "rtDesc": "储蓄卡",
+        "validBonus": "20"
+    },{
+        "acctCardFlag": "CARD",
+        "acctCardId": "6231330500000110127",
+        "allTotalBonus": "3000",
+        "doneCode": "111112",
+        "rate": "50",
+        "rtDesc": "储蓄卡",
+        "validBonus": "200"
+    },{
+        "acctCardFlag": "CARD",
+        "acctCardId": "6231330500000110135",
+        "allTotalBonus": "3000",
+        "doneCode": "111113",
+        "rate": "50",
+        "rtDesc": "储蓄卡",
+        "validBonus": "300"
+    },{
+        "acctCardFlag": "CARD",
+        "acctCardId": "6231330500000110143",
+        "allTotalBonus": "3000",
+        "doneCode": "111114",
+        "rate": "50",
+        "rtDesc": "储蓄卡",
+        "validBonus": "400"
+    },{
+        "acctCardFlag": "CARD",
+        "acctCardId": "6283306190000071",
+        "allTotalBonus": "4000",
+        "doneCode": "222221",
+        "rate": "100",
+        "rtDesc": "信用卡",
+        "validBonus": "80"
+    },{
+        "acctCardFlag": "CARD",
+        "acctCardId": "6283306700000017",
+        "allTotalBonus": "4000",
+        "doneCode": "222222",
+        "rate": "100",
+        "rtDesc": "信用卡",
+        "validBonus": "200"
+    },{
+        "acctCardFlag": "CARD",
+        "acctCardId": "6251210000001824",
+        "allTotalBonus": "4000",
+        "doneCode": "222223",
+        "rate": "100",
+        "rtDesc": "信用卡",
+        "validBonus": "300"
+    },{
+        "acctCardFlag": "CARD",
+        "acctCardId": "6251210000001758",
+        "allTotalBonus": "4000",
+        "doneCode": "222224",
+        "rate": "100",
+        "rtDesc": "信用卡",
+        "validBonus": "400"
+    }
+]
