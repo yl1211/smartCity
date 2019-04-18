@@ -1,258 +1,290 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../../layui/css/layui.css">
-	<link rel="stylesheet" href="../../css/base.css">
-	<link rel="stylesheet" href="../../css/exchangePoints.css" />
-	<title>查询积分</title>
-	<style type="text/css">
-		.content {
-			padding-bottom: 1rem;
-		}
-	</style>
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/base.css">
+		<link rel="stylesheet" href="../../css/exchangePoints.css" />
+		<title>查询积分</title>
+		<style type="text/css">
+			.content {
+				padding-bottom: 1rem;
+			}
+		</style>
+	</head>
 
-<body>
-	<div class="layui-fluid">
-		<div class="layui-row content ">
-			<!-- <h2 class="exchangeTitle">
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row content ">
+				<!-- <h2 class="exchangeTitle">
 				<a href="javascript:history.back(-1);" class="back">
 					<i class="layui-icon layui-icon-left"></i> 返回
 				</a>
 				积分兑换
 			</h2> -->
-			<!--总积分-->
-			<div class="layui-row headContent">
-				<div class="layui-form layui-form-item">
-					<label class="layui-form-label sum" style="display:none;"></label>
-					<div class="layui-input-block">
-						<button class="layui-btn query_btn" type="button">一键查询</button>
+				<!--总积分-->
+				<div class="layui-row headContent">
+					<div class="layui-form layui-form-item">
+						<label class="layui-form-label sum" style="display:none;"></label>
+						<div class="layui-input-block">
+							<button class="layui-btn query_btn" type="button">一键查询</button>
+						</div>
 					</div>
 				</div>
-			</div>
-			<!--储蓄卡和信用卡积分内容-->
-			<div class="layui-row layui-form centerContent">
-				<!--储蓄卡-->
-				<div class="layui-row contentPart ">
-					<div class="layui-inline">
-						<img src="../../img/SavingsDepositCard.png" class="savings">储蓄卡
+				<!--储蓄卡和信用卡积分内容-->
+				<div class="layui-row layui-form centerContent">
+					<!--储蓄卡-->
+					<div class="layui-row contentPart ">
+						<div class="layui-inline">
+							<img src="../../img/SavingsDepositCard.png" class="savings">储蓄卡
+						</div>
+						<div id="cardlist1">
+						</div>
 					</div>
-					<div id="cardlist1">
+					<!--信用卡-->
+					<div class="layui-row contentPart ">
+						<div class="layui-inline">
+							<img src="../../img/CreditCard.png" class="savings">信用卡
+						</div>
+						<div id="cardlist2">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button class="layui-btn exchange-btn" type="button" style="display:none;">兑换商城积分</button>
+						</div>
 					</div>
 				</div>
-				<!--信用卡-->
-				<div class="layui-row contentPart ">
-					<div class="layui-inline">
-						<img src="../../img/CreditCard.png" class="savings">信用卡
-					</div>
-					<div id="cardlist2">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<div class="layui-input-block">
-						<button class="layui-btn exchange-btn" type="button" style="display:none;">兑换商城积分</button>
-					</div>
-				</div>
-			</div>
-			<div class="layui-row footer">
-				<p class="warn">温馨提示</p>
-				<p class=""><span class="layui-badge-dot layui-bg-blue"></span>只显示个人账户相应的积分情况</p>
-				<p class=""><span class="layui-badge-dot layui-bg-blue"></span>仅支持兑换广西农信利农商城积分</p>
+				<div class="layui-row footer">
+					<p class="warn">温馨提示</p>
+					<p class=""><span class="layui-badge-dot layui-bg-blue"></span>只显示个人账户相应的积分情况</p>
+					<p class=""><span class="layui-badge-dot layui-bg-blue"></span>仅支持兑换广西农信利农商城积分</p>
 
+				</div>
 			</div>
+			<input type="hidden" name="radioText" id="radioText" value="001" />
 		</div>
-		<input type="hidden" name="radioText" id="radioText" value="001" />
-	</div>
-	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="../../layui/layui.js"></script>
-	<script type="text/javascript" src="../../js/jquery.base64.js"></script>
-	<script type="text/javascript" src="../../js/url.js"></script>
-	<script type="text/javascript" src="../../js/getparameter.js"></script>
-	<script>
-		//获取url参数
-		$(document).ready(function () {
-			var a = GetRequest();
-			var authorization = a['authorization'];
-			var username = a['username'];
-			var userphone = a['userphone'];
-			var username = "袁磊";
-			var userphone = '15038080185';
+		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script type="text/javascript" src="../../js/jquery.base64.js"></script>
+		<script type="text/javascript" src="../../js/url.js"></script>
+		<script type="text/javascript" src="../../js/getparameter.js"></script>
+		<script>
+			//获取url参数
+			$(document).ready(function() {
+				var a = GetRequest();
+				var authorization = a['authorization'];
+				var username = a['username'];
+				var userphone = a['userphone'];
+				// alert("用户名：" + username);
+				// alert("手机号：" + userphone);
+				// var username = "袁磊";
+				// var userphone = '15038080185';
 
-			layui.use(['form', 'layer', 'jquery'], function () {
-				var form = layui.form,
-					$ = layui.$,
-					layer = layui.layer;
+				layui.use(['form', 'layer', 'jquery'], function() {
+					var form = layui.form,
+						$ = layui.$,
+						layer = layui.layer;
 
-				//默认先查询卡信息
-				$.ajax({
-					// url: globalurl + '/pointExchange/cardListResp',
-					// type: 'post',
-					url: 'jifen.json',
-					type: 'get',
-					data: {
-						authorization: authorization
-					},
-					dataType: 'json',
-					beforeSend: function () {
-						$("body").append('<div id="load" style="position:fixed;top:30%;z-index:1200;background:url(/static/admin/images/loading.gif) top center no-repeat;width:100%;height:140px;margin:auto auto;"></div>');
-					},
-					complete: function () {
-						$("#load").remove();
-					},
-					success: function (res) {
-						console.log(res);
-						// var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-						// console.log(value);
-						var cardStr = '';
-						var cardStr2 = '';
-						// for (var i = 0; i < value.length; i++) {
-						// 	if (value[i].cardType == '35') {
-						// 		cardStr += '<div class="layui-form layui-form-item cardMsg">';
-						// 		cardStr += '<input class="type" type="hidden" value="1113">';
-						// 		cardStr += '<label class="layui-form-label cardnum">' + value[i].cardnum + '</label>';
-						// 		cardStr += '</div>';
-						// 	} else if (value[i].cardType == '41') {
-						// 		cardStr2 += '<div class="layui-form layui-form-item cardMsg">';
-						// 		cardStr2 += '<input class="type" type="hidden" value="1112">';
-						// 		cardStr2 += '<label class="layui-form-label cardnum">' + value[i].cardnum + '</label>';
-						// 		cardStr2 += '</div>';
-						// 	}
-						// }
-						for (var i = 0; i < res.length; i++) {
-							if (res[i].cardType == '35') {
-								cardStr += '<div class="layui-form layui-form-item cardMsg">';
-								cardStr += '<input class="type" type="hidden" value="1113">';
-								cardStr += '<label class="layui-form-label cardnum">' + res[i].cardnum + '</label>';
-								cardStr += '</div>';
-							} else if (res[i].cardType == '41') {
-								cardStr2 += '<div class="layui-form layui-form-item cardMsg">';
-								cardStr2 += '<input class="type" type="hidden" value="1112">';
-								cardStr2 += '<label class="layui-form-label cardnum">' + res[i].cardnum + '</label>';
-								cardStr2 += '</div>';
-							}
-						}
-						$("#cardlist1").html(cardStr);
-						$("#cardlist2").html(cardStr2);
-					}, error: function (res) {
-						layer.msg(res.data);
-					}
-				})
-
-				//点击“一键查询”
-				$(".query_btn").on('click', function () {
-					//卡类型
-					var cks2 = $(".cardMsg").children(".type");
-					var param2 = [];
-					cks2.each(function () {
-						param2.push($(this).val());
-					})
-
-					//定义一个json数组 
-					var cons = new Array();
-					var len = $(".cardnum").length;
-					for (var i = 0; i < len; i++) {
-						var con = {};
-						con["acctCardFlag"] = 'CARD';
-						con["acctCardId"] = $(".cardMsg").children("label").html();
-						con["cardType"] = $(".cardMsg").children(".type").val();
-						cons[i] = con;
-					}
-					console.log(cons);
-					var json = JSON.stringify(cons);
-					console.log(json);
-
+					//默认先查询卡信息
 					$.ajax({
-					url: globalurl + '/pointExchange/queryAllPoint',
-					type: 'post',
-					// url: 'jifen2.json',
-					// type: 'get',
-					data: {
-						authorization: authorization,
-						PointQueryReq: json
-					},
-					dataType: 'json',
-					contentType: "application/json;charset=utf-8",
-					success: function (res) {
-						console.log(res);
-						var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-						console.log(value);
-						var cardStr = '';
-						var cardStr2 = '';
-						for (var i = 0; i < value.length; i++) {
-							if (param2[i] == '1113') {
-								cardStr += '<div class="layui-form layui-form-item cardMsg">';
-								cardStr += '<input class="type" type="hidden" value="1113">';
-								cardStr += '<input class="doneCode" type="hidden" value="' + value[i].doneCode + '">';
-								cardStr += '<input class="rate" type="hidden" value="' + value[i].rate + '">';
-								cardStr += '<label class="layui-form-label cardnum">' + value[i].acctCardId + '</label>';
-								cardStr += '<div class="layui-input-block radio">';
-								cardStr += '<input type="radio" lay-filter="integral" name="integral" value="' + value[i].validBonus + '" title="' + value[i].validBonus + '">';
-								cardStr += '</div>';
-								cardStr += '</div>';
-							} else if (param2[i] == '1112') {
-								cardStr2 += '<div class="layui-form layui-form-item cardMsg">';
-								cardStr2 += '<input class="type" type="hidden" value="1112">';
-								cardStr2 += '<input class="doneCode" type="hidden" value="' + value[i].doneCode + '">';
-								cardStr2 += '<input class="rate" type="hidden" value="' + value[i].rate + '">';
-								cardStr2 += '<label class="layui-form-label cardnum">' + value[i].acctCardId + '</label>';
-								cardStr2 += '<div class="layui-input-block radio">';
-								cardStr2 += '<input type="radio" lay-filter="integral" name="integral" value="' + value[i].validBonus + '" title="' + value[i].validBonus + '">';
-								cardStr2 += '</div>';
-								cardStr2 += '</div>';
+						url: globalurl + '/pointExchange/cardListResp',
+						type: 'post',
+						async: true,
+						data: {
+							authorization: authorization
+						},
+						dataType: 'json',
+						beforeSend: function() {
+							$("body").append(
+								'<div id="load" style="position:fixed;top:30%;z-index:1200;background:url(../../img/loading.gif) top center no-repeat;width:150px;margin:auto auto;"></div>'
+							);
+						},
+						complete: function() {
+							$("#load").remove();
+						},
+						success: function(res) {
+							if (res.code == "0000") {
+								console.log(res);
+								var value = JSON.parse($.base64.decode(res.data, 'UTF-8')); //base64解密
+								console.log(value);
+								var cardStr = '';
+								var cardStr2 = '';
+								for (var i = 0; i < value.length; i++) {
+									if (value[i].cardType == '35') {
+										cardStr += '<div class="layui-form layui-form-item cardMsg">';
+										cardStr += '<input class="type" type="hidden" value="1113">';
+										cardStr += '<label class="layui-form-label cardnum">' + value[i].cardnum + '</label>';
+										cardStr += '</div>';
+									} else if (value[i].cardType == '41') {
+										cardStr2 += '<div class="layui-form layui-form-item cardMsg">';
+										cardStr2 += '<input class="type" type="hidden" value="1112">';
+										cardStr2 += '<label class="layui-form-label cardnum">' + value[i].cardnum + '</label>';
+										cardStr2 += '</div>';
+									}
+								}
+								$("#cardlist1").html(cardStr);
+								$("#cardlist2").html(cardStr2);
+							}else{
+								layer.msg(res.msg);
 							}
+
+						},
+						error: function(res) {
+							layer.msg(res.data);
 						}
-						$("#cardlist1").html(cardStr);
-						$("#cardlist2").html(cardStr2);
-						form.render();
-						$(".exchange-btn").show();  //显示兑换按钮
-						$(".query_btn").addClass("layui-btn-disabled").attr("disabled", "disabled");  //禁用“一键查询”
-						//计算总积分
-						var sum = 0;
-						$("input[type='radio']").each(function (i) {
-							sum = sum + parseInt($(this).val());
-						});
-						$(".sum").html("总积分:" + sum).show();
-					}, error: function (res) {
-						layer.msg(res.data);
-					}
-				})
-				});
-
-
-			//点击“兑换积分”按钮
-			$(".exchange-btn").on('click', function () {
-				if ($('.layui-form-radioed').length <= 0) {
-					layer.alert('请先选择要兑换的卡', {
-						title: '提示'
 					})
-					return false;
-				}
-			});
-			//监听选中单选框
-			form.on('radio(integral)', function (data) {
-				var current = $(data.elem);    //当前操作的元素
-				var cardnum = current.parents(".cardMsg").children(".cardnum").html();   //卡号
-				var doneCode = current.parents(".cardMsg").children(".doneCode").val();  //流水号
-				var rate = current.parents(".cardMsg").children(".rate").val();          //比率
-				var validBonus = current.val();                                         //可用积分
-				var cardtype = current.parents(".cardMsg").children(".type").val();         //卡类型
-				localStorage.setItem('username', username);
-				$(".exchange-btn").on('click', function () {
-					console.log(cardnum);
-					console.log(doneCode);
-					console.log(rate);
-					console.log(validBonus);
-					console.log(cardtype);
-					window.location.href = "exchanging.html?cardnum=" + cardnum + "&doneCode=" + doneCode + "&rate=" + rate + "&validBonus=" + validBonus + "&cardtype=" + cardtype + "&username=" + username + "&userphone=" + userphone;
+
+					//点击“一键查询”
+					$(".query_btn").on('click', function() {
+						//卡号
+						var cks = $(".cardMsg").children(".cardnum");
+						var param = [];
+						cks.each(function() {
+							param.push($(this).html());
+						})
+						//卡类型
+						var cks2 = $(".cardMsg").children(".type");
+						var param2 = [];
+						cks2.each(function() {
+							param2.push($(this).val());
+						})
+
+						//定义一个json数组 
+						var cons = new Array();
+						var len = $(".cardnum").length;
+						for (var i = 0; i < len; i++) {
+							var con = {};
+							con["acctCardFlag"] = 'CARD';
+							con["acctCardId"] = param[i];
+							con["cardType"] = param2[i];
+							cons[i] = con;
+						}
+						var json = JSON.stringify(cons);
+						console.log(json);
+
+						$.ajax({
+							url: globalurl + '/pointExchange/queryAllPoint',
+							type: 'post',
+							dataType: 'json',
+							data: {
+								authorization: authorization,
+								pointQueryReq: json
+							},
+							beforeSend: function() {
+								$("body").append(
+									'<div id="load" style="position:fixed;top:30%;z-index:1200;background:url(../../img/loading.gif) top center no-repeat;width:150px;margin:auto auto;"></div>'
+								);
+							},
+							complete: function() {
+								$("#load").remove();
+							},
+							success: function(res) {
+								var value = JSON.parse($.base64.decode(res.data, 'UTF-8')); //base64解密
+								console.log(value);
+								var cardStr = '';
+								var cardStr2 = '';
+								for (var i = 0; i < value.length; i++) {
+									if (param2[i] == '1113') {
+										cardStr += '<div class="layui-form layui-form-item cardMsg">';
+										cardStr += '<input class="type" type="hidden" value="1113">';
+										cardStr += '<input class="doneCode" type="hidden" value="' + value[i].doneCode + '">';
+										cardStr += '<input class="rate" type="hidden" value="' + value[i].rate + '">';
+										cardStr += '<label class="layui-form-label cardnum">' + value[i].acctCardId + '</label>';
+										cardStr += '<div class="layui-input-block radio">';
+										if (value[i].rtDesc != "成功") {
+											cardStr +=
+												'<input type="radio" lay-filter="integral" name="integral" value="0" title="0" disabled>';
+										} else {
+											if (value[i].validBonus == "0") {
+												cardStr +=
+													'<input type="radio" lay-filter="integral" name="integral" value="0" title="0"disabled>';
+											} else {
+												cardStr += '<input type="radio" lay-filter="integral" name="integral" value="' + value[i].validBonus +
+													'" title="' + value[i].validBonus + '">';
+											}
+										}
+										cardStr += '</div>';
+										cardStr += '</div>';
+									} else if (param2[i] == '1112') {
+										cardStr2 += '<div class="layui-form layui-form-item cardMsg">';
+										cardStr2 += '<input class="type" type="hidden" value="1112">';
+										cardStr2 += '<input class="doneCode" type="hidden" value="' + value[i].doneCode + '">';
+										cardStr2 += '<input class="rate" type="hidden" value="' + value[i].rate + '">';
+										cardStr2 += '<label class="layui-form-label cardnum">' + value[i].acctCardId + '</label>';
+										cardStr2 += '<div class="layui-input-block radio">';
+										if (value[i].rtDesc != "成功") {
+											cardStr2 +=
+												'<input type="radio" lay-filter="integral" name="integral" value="0" title="0" disabled>';
+										} else {
+											if (value[i].validBonus == "0") {
+												cardStr2 +=
+													'<input type="radio" lay-filter="integral" name="integral" value="0" title="0"disabled>';
+											} else {
+												cardStr2 += '<input type="radio" lay-filter="integral" name="integral" value="' + value[i].validBonus +
+													'" title="' + value[i].validBonus + '">';
+											}
+										}
+										cardStr2 += '</div>';
+										cardStr2 += '</div>';
+									}
+								}
+								$("#cardlist1").html(cardStr);
+								$("#cardlist2").html(cardStr2);
+								form.render();
+								$(".exchange-btn").show(); //显示兑换按钮
+								$(".query_btn").addClass("layui-btn-disabled").attr("disabled", "disabled"); //禁用“一键查询”
+								//计算总积分
+								var sum = 0;
+								$("input[type='radio']").each(function(i) {
+									sum = sum + parseInt($(this).val());
+								});
+								$(".sum").html("总积分:" + sum).show();
+								//修改单选框字体颜色
+								$('.layui-form-radio').children('div').css('color','#005fa6');
+							},
+							error: function(res) {
+								layer.msg(res.data);
+							}
+						})
+					});
+
+
+					//点击“兑换积分”按钮
+					$(".exchange-btn").on('click', function() {
+						if ($('.layui-form-radioed').length <= 0) {
+							layer.alert('请先选择要兑换的卡', {
+								title: '提示'
+							})
+							return false;
+						}
+					});
+					//监听选中单选框
+					form.on('radio(integral)', function(data) {
+						var current = $(data.elem); //当前操作的元素
+						var cardnum = current.parents(".cardMsg").children(".cardnum").html(); //卡号
+						var doneCode = current.parents(".cardMsg").children(".doneCode").val(); //流水号
+						var rate = current.parents(".cardMsg").children(".rate").val(); //比率
+						var validBonus = current.val(); //可用积分
+						var cardtype = current.parents(".cardMsg").children(".type").val(); //卡类型
+						localStorage.setItem('username', username);
+						$(".exchange-btn").on('click', function() {
+							console.log(cardnum);
+							console.log(doneCode);
+							console.log(rate);
+							console.log(validBonus);
+							console.log(cardtype);
+							window.location.href = "exchanging.html?cardnum=" + cardnum + "&doneCode=" + doneCode + "&rate=" + rate +
+								"&validBonus=" + validBonus + "&cardtype=" + cardtype + "&username=" + username + "&userphone=" +
+								userphone;
+						});
+					});
+
 				});
 			});
-
-		});
-		});
-	</script>
-</body>
+		</script>
+	</body>
 
 </html>

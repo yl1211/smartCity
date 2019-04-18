@@ -21,17 +21,15 @@
 				<p class="cityname"><strong>广西农信智慧城市APP</strong></p>
 			</div>
 		</div>
-		<form class="layui-form User" action="">
+		<div class="layui-form User" action="">
 			<div class="layui-form-item onerow">
-				<input id="phone" type="text" name="phone" placeholder="您的手机号" lay-verify="required|phone"
-					class="layui-input">
+				<input id="phone" type="text" name="phone" placeholder="您的手机号" class="layui-input">
 			</div>
 			<div class="layui-form-item onerow">
-				<input id="phone2" type="text" name="phone" placeholder="推广人手机号（选填）" lay-verify="required|phone"
-					class="layui-input">
+				<input id="phone2" type="text" placeholder="推广人手机号（选填）" class="layui-input">
 			</div>
-			<button type="button" class="layui-btn login_btn" id="login_btn" lay-submit="">下载</button>
-		</form>
+			<button class="layui-btn login_btn" id="login_btn">下载</button>
+		</div>
 		<div class="layui-row footer">
 			<p class="remark">备注：此页面为被推广人扫描推广二维码或者打开推广链接后出现的页面。</p>
 		</div>
@@ -42,23 +40,33 @@
 	<script type="text/javascript" src="../../js/getparameter.js"></script>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
 	<script>
-		$(document).ready(function () {
-			var a = GetRequest();
-			var userid = a['userid'];
-			var authorization = a['authorization'];   //authorization值
-			console.log(userid);
-			console.log(authorization);
+		var globalurl = "http://1.192.121.127:12613/gateway";     //映射地址
 
-			var userid = "828282216859f87b01685a1450b90000";
-			layui.use(['form'], function () {
-				var form = layui.form;
+		var a = GetRequest();
+		var userid = a['userid'];
+		var authorization = a['authorization'];   //authorization值
+		// var userid = "828282216859f87b01685a1450b90000";
+		console.log(userid);
+		console.log(authorization);
 
-				//判断是否有userid(是否是通用码)
-				// if (userid != "") {
-				// 	$("#phone2").parent(".onerow").hide();
-				// }
-				$("#login_btn").click(function () {
-					var phone = $("#phone").val();
+		layui.use(['form'], function () {
+			var form = layui.form;
+			form.render();
+
+			//判断是否有userid(是否是通用码)
+			if (userid == null) {
+				$("#phone2").parent(".onerow").show();
+			} else {
+				$("#phone2").parent(".onerow").hide();
+			}
+			$("#login_btn").click(function () {
+				var phone = $("#phone").val();
+				var phone2 = $("#phone2").val();
+				if (phone == "") {
+					layer.msg('您的手机号不能为空', { icon: 7, time: 2000 });
+					$('#phone').focus();
+					return;
+				} else {
 					$.ajax({
 						url: globalurl + "/extension/recordDownloadNum",
 						data: {
@@ -81,11 +89,11 @@
 								if (isAndroid) {
 									layer.msg("这个是安卓操作系统");
 									console.log(downurl);
-									window.location.href = downurl;
+									// window.location.href = downurl;
 								}
 								if (isIOS) {
 									layer.msg("这个是ios操作系统");
-									window.location.href = "https://www.baidu.com/";
+									// window.location.href = "https://www.baidu.com/";
 								}
 							}
 							else {
@@ -93,8 +101,8 @@
 							}
 						}
 					});
-				})
-			});
+				}
+			})
 		});
 	</script>
 </body>

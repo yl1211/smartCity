@@ -90,9 +90,7 @@
                 parent.layer.close(index);
             })
             $(".dayChoose").on("click", function () {
-
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.layer.iframeSrc(index, 'SelectionMonthly.html')
+                window.location.href = 'SelectionMonthly.html';
             })
             //获取当前年份与时间段区间
             var date = new Date;
@@ -181,22 +179,15 @@
 
             $(".timeTrue").on("click", function () {
                 //根据时间请求充值消费记录接口
-                var timeBlock = $(".seachTime").val();
-                var timeBlock2 = $(".seachTimeEnd").val();
-
-                var a = $(".seachTime").attr('data_start');
-                var b = $(".seachTimeEnd").attr('data_end');
-                var data_start = `${a.substring(0, 4)}-${a.substring(4, 6)}-${a.substring(6, 8)}`;
-                var data_end = `${b.substring(0, 4)}-${b.substring(4, 6)}-${b.substring(6, 8)}`;
-                
-                localStorage.setItem('startTime', data_start);
-                localStorage.setItem('endTime', data_end);
-                localStorage.setItem('authorization', authorization);
-                if (!timeBlock) {
+                var data_start = $(".seachTime").val();
+                var data_end = $(".seachTimeEnd").val();
+                console.log(data_start, data_end);
+                if (data_start == '') {
                     layer.msg("请选择开始时间!");
-                } else if (!timeBlock2) {
+                } else if (data_end == '') {
                     layer.msg("请选择截止时间!");
                 } else {
+                    // alert("回到父页面");
                     window.location.href = 'schoolBill.html?startTime=' + data_start + "&endTime=" + data_end + "&authorization=" + authorization;
                 }
             })

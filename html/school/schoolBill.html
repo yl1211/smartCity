@@ -33,7 +33,6 @@
 
 		<!-- 返回顶部 -->
 		<img src="../../img/mescroll-totop.png" class="go-top">
-
 		<div class="layui-row cardDetails">
 			<div class="layui-tab layui-tab-brief" lay-filter="test1">
 				<ul class="layui-tab-title">
@@ -53,7 +52,7 @@
 							</div>
 						</div>
 						<div class="seachContent">
-
+							<!-- 全部 -->
 						</div>
 					</div>
 					<div class="layui-tab-item rechargeDetail" id="content_2">
@@ -69,7 +68,7 @@
 							</div>
 						</div>
 						<div class="seachContent">
-
+							<!-- 充值 -->
 						</div>
 					</div>
 					<div class="layui-tab-item consumeDetail" id="content_3">
@@ -85,7 +84,7 @@
 							</div>
 						</div>
 						<div class="seachContent">
-
+							<!-- 消费 -->
 						</div>
 					</div>
 				</div>
@@ -111,8 +110,8 @@
 		var newStratDate = a['startTime'];
 		var newEndDate = a['endTime'];
 
-		var customerid = "1000148";
-		var dpcode = "4";
+		var customerid = "200";
+		var dpcode = "200000000000008";
 		var partnerCode = "10007";
 
 		layui.use(['form', 'layer', 'element', 'laytpl'], function () {
@@ -129,16 +128,17 @@
 
 			//点击小日历跳转按月选择页面
 			$(".seachTime").click(function () {
-				layer.open({
-					type: 2,
-					closeBtn: 0,
-					title: false,
-					content: 'SelectionMonthly.html?authorization=' + authorization,
-					area: ['100%', '100%'],
-					yes: function (index) {
-						layer.close(index);
-					},
-				});
+				window.location.href = 'SelectionMonthly.html?authorization=' + authorization;
+				// layer.open({
+				// 	type: 2,
+				// 	closeBtn: 0,
+				// 	title: false,
+				// 	content: 'SelectionMonthly.html?authorization=' + authorization,
+				// 	area: ['95%', '95%'],
+				// 	yes: function () {
+				// 		layer.close(index);
+				// 	},
+				// });
 			});
 
 			//获取当月第一天和最后一天
@@ -149,9 +149,8 @@
 			month = month < 10 ? '0' + month : month;
 			var firstdate = year + '-' + month + '-' + '01';
 			var lastdate = year + '-' + month + '-' + nowday;
-			var firstdate = "2011-11-11";
+			var firstdate = "2019-04-11";
 			var lastdate = "2019-11-11";
-
 			console.log(firstdate);
 			console.log(lastdate);
 
@@ -178,17 +177,22 @@
 								partnerCode: partnerCode,
 								flag: "-1"
 							},
-							async: false,
 							dataType: 'json',
+							beforeSend: function () {
+								$(".layui-fluid").append('<img src="../../img/loading.gif" class="loading" alt="">');
+							},
+							complete: function () {
+								$(".loading").remove();
+							},
 							success: function (res) {
 								if (res.code == '0000') {
-									if (res.data == "") {
-										// layer.msg("暂无数据");
-										me.lock();
-										me.noData();
-									} else {
-										var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-										console.log(success);
+									var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+									console.log(success);
+									// if (success.length <= 0) {
+									// 	layer.alert("暂无数据");
+									// 	me.lock();
+									// 	me.noData();
+									// } else {
 										var arrLen = success.length;
 										var html_all = '';
 										if (arrLen > 0) {
@@ -201,7 +205,15 @@
 													html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
 												}
 												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
-												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
+												if (success[i].type == '0') {
+													html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
+												} else if (success[i].type == '1') {
+													html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
+												} else if (success[i].type == '2') {
+													html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
+												} else {
+													html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
+												}
 												html_all += '</div>';
 												html_all += '<div class="layui-col-xs3">';
 												if (success[i].flag == "1") {
@@ -213,11 +225,11 @@
 												html_all += '</div>';
 											}
 										} else {
-											layer.msg("暂无数据");
+											layer.alert("无更多数据");
 											me.lock();
 											me.noData();
 										}
-									}
+									// }
 									setTimeout(function () {
 										$('.seachContent').append(html_all);
 										me.resetload();
@@ -247,24 +259,29 @@
 							data: {
 								beginDate: firstdate,
 								endDate: lastdate,
-								beginIndex: page,
+								beginIndex: pages,
 								authorization: authorization,
 								customerid: customerid,
 								dpcode: dpcode,
 								partnerCode: partnerCode,
 								flag: "0"
 							},
-							async: false,
 							dataType: 'json',
+							beforeSend: function () {
+								$(".layui-fluid").append('<img src="../../img/loading.gif" class="loading" alt="">');
+							},
+							complete: function () {
+								$(".loading").remove();
+							},
 							success: function (res) {
 								if (res.code == '0000') {
-									if (res.data == "") {
-										// layer.msg("暂无数据");
-										me.lock();
-										me.noData();
-									} else {
-										var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-										console.log(success);
+									var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+									console.log(success);
+									// if (success.length <= 0) {
+									// 	layer.alert("暂无数据");
+									// 	me.lock();
+									// 	me.noData();
+									// } else {
 										var arrLen = success.length;
 										var html_all = '';
 										if (arrLen > 0) {
@@ -273,7 +290,15 @@
 												html_all += '<div class="layui-col-xs9">';
 												html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
 												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
-												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
+												if (success[i].type == '0') {
+													html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
+												} else if (success[i].type == '1') {
+													html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
+												} else if (success[i].type == '2') {
+													html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
+												} else {
+													html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
+												}
 												html_all += '</div>';
 												html_all += '<div class="layui-col-xs3">';
 												html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
@@ -281,11 +306,11 @@
 												html_all += '</div>';
 											}
 										} else {
-											layer.msg("暂无数据");
+											layer.alert("无更多数据");
 											me.lock();
 											me.noData();
 										}
-									}
+									// }
 									setTimeout(function () {
 										$('.seachContent').append(html_all);
 										me.resetload();
@@ -314,24 +339,29 @@
 							data: {
 								beginDate: firstdate,
 								endDate: lastdate,
-								beginIndex: page,
+								beginIndex: page_3,
 								authorization: authorization,
 								customerid: customerid,
 								dpcode: dpcode,
 								partnerCode: partnerCode,
 								flag: "1"
 							},
-							async: false,
 							dataType: 'json',
+							beforeSend: function () {
+								$(".layui-fluid").append('<img src="../../img/loading.gif" class="loading" alt="">');
+							},
+							complete: function () {
+								$(".loading").remove();
+							},
 							success: function (res) {
 								if (res.code == '0000') {
-									if (res.data == "") {
-										// layer.msg("暂无数据");
-										me.lock();
-										me.noData();
-									} else {
-										var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-										console.log(success);
+									var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+									console.log(success);
+									// if (success.length <= 0) {
+									// 	layer.alert("暂无数据");
+									// 	me.lock();
+									// 	me.noData();
+									// } else {
 										var arrLen = success.length;
 										var html_all = '';
 										if (arrLen > 0) {
@@ -340,7 +370,15 @@
 												html_all += '<div class="layui-col-xs9">';
 												html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
 												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
-												html_all += '<p class="detailsNum">交易流水号: <span>' + success[i].txnid + '</span></p>';
+												if (success[i].type == '0') {
+													html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
+												} else if (success[i].type == '1') {
+													html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
+												} else if (success[i].type == '2') {
+													html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
+												} else {
+													html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
+												}
 												html_all += '</div>';
 												html_all += '<div class="layui-col-xs3">';
 												html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
@@ -348,11 +386,11 @@
 												html_all += '</div>';
 											}
 										} else {
-											layer.msg("暂无数据");
+											layer.alert("无更多数据");
 											me.lock();
 											me.noData();
 										}
-									}
+									// }
 									setTimeout(function () {
 										$('.seachContent').append(html_all);
 										me.resetload();
@@ -370,7 +408,6 @@
 			if (newStratDate == null) {
 				//默认显示本月全部
 				allList();
-				// $(".dropload-down").remove();
 				page = 0;
 				$('.seachContent').children().remove();
 
@@ -387,7 +424,7 @@
 					month = month < 10 ? '0' + month : month;
 					var firstdate = year + '-' + month + '-' + '01';
 					var lastdate = year + '-' + month + '-' + nowday;
-					var firstdate = "2011-11-11";
+					var firstdate = "2019-04-11";
 					var lastdate = "2019-11-11";
 
 					console.log(firstdate);
@@ -441,7 +478,6 @@
 						$(".dropload-down").remove();
 						pages = 0;
 						$('.seachContent').children().remove();
-						rechargeList();
 						rechargeList();
 					} else if (tab_index == 2) {
 						$(".dropload-down").remove();

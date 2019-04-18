@@ -85,8 +85,7 @@
             })
 
             $(".monthChoose").on("click", function () {
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.layer.iframeSrc(index, 'SelectionDaily.html');
+                window.location.href = 'SelectionDaily.html';
             })
             //获取当前年份与时间段区间
             var date = new Date;
@@ -170,10 +169,9 @@
                 var day = new Date(year, month, 0);
                 var firstdate = timeBlock + '01';
                 var lastdate = timeBlock + day.getDate();
-                localStorage.setItem('startTime', firstdate);
-                localStorage.setItem('endTime', lastdate);
-                localStorage.setItem('authorization', authorization);
-                if (!timeBlock) {
+                console.log(timeBlock)
+                console.log(firstdate,lastdate)
+                if (timeBlock == '--') {
                     layer.msg("请选择时间!");
                 } else {
                     window.location.href = 'schoolBill.html?startTime=' + firstdate + "&endTime=" + lastdate + "&authorization=" + authorization;

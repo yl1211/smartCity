@@ -20,4 +20,11 @@ body {
 	border-radius: 50%;
 	z-index: 999;
 }
-
+/* 加载动画 */
+.loading{
+	position: fixed;
+    top: 30%;
+    left: 40%;
+    z-index: 1200;
+    width: 20%;
+}

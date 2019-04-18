@@ -44,7 +44,7 @@
 	margin: 0 10px
 }
 .layui-form-radio>i:hover, .layui-form-radioed>i{
-	color:rgba(0, 95, 166) ;
+	color:#005fa6;
 }
 .cardMsg{
 	border-bottom: 1px solid gainsboro;

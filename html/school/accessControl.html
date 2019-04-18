@@ -8,40 +8,32 @@
 	<link rel="stylesheet" href="../../layui/css/layui.css" />
 	<link rel="stylesheet" href="../../css/base.css" />
 	<link rel="stylesheet" href="../../css/attendanceRecord.css" />
-	<title>门禁记录</title>
+	<title>考勤记录</title>
 </head>
 
 <body>
 	<div class="layui-fluid">
 		<!-- <div class="layui-row recorendContent">
 			<a href="javascript:history.back(-1);" class="back"><i class="layui-icon layui-icon-left"></i>返回</a>
-			<h2 class="file-title">门禁记录</h2>
+			<h2 class="file-title">考勤记录</h2>
 		</div> -->
+		<!-- 返回顶部 -->
+		<img src="../../img/mescroll-totop.png" class="go-top">
 		<div class="layui-row layui-inline contentBox">
 			<input type="text" class="layui-input-inline layui-input" id="startdate" placeholder="开始日期" readonly> --
 			<input type="text" class="layui-input-inline layui-input" id="enddate" placeholder="结束日期" readonly>
 			<button class="layui-btn queryBtn" type="button">查询</button>
 			<div class="layui-row recordBox" id="recordBox">
-				<!--<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>
-					<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>
-					<p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p>-->
+				<!-- <p class="recordTime">2018-12-03 12:34:23<span class="recordAddress">校北门</span></p> -->
 			</div>
 		</div>
-
-		<!--引用模板引擎-->
-		<script id="recordContent" type="text/html">
-			{{# layui.each(d.appList, function(index, item){ }}
-			<p class="recordTime">{{ item.opdt }}<span class="recordAddress">{{ item.address }}</span></p>
-			<!--无数据时-->
-			{{# }); }} {{# if(d.appList.length === 0){ }} {{# } }}
-		</script>
-
 		<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="../../layui/layui.js"></script>
 		<script type="text/javascript" src="../../js/jquery.base64.js"></script>
 		<script type="text/javascript" src="../../js/url.js"></script>
 		<script type="text/javascript" src="../../js/getparameter.js"></script>
 		<script type="text/javascript" src="../../js/jquery.selector-px.js"></script>
+		<script type="text/javascript" src="../../js/dropload.min.js"></script>
 		<script>
 			//获取url参数
 			$(document).ready(function () {
@@ -50,6 +42,10 @@
 				var customerid = a['customerid'];   //账户
 				var dpcode = a['dpcode'];   //用户所属企业代码
 				var partnerCode = a['partnerCode'];   //商户号
+
+				var customerid = '423';
+				var dpcode = '4';
+				var partnerCode = '10007';
 
 				var beginDate = $("#startdate").val();
 				var endDate = $("#enddate").val();
@@ -61,7 +57,7 @@
 					var laytpl = layui.laytpl;
 					var layer = layui.layer;
 
-					//默认展示当天门禁
+					//默认展示当天考勤
 					if (beginDate == "" && endDate == "") {
 						//获取当天日期
 						var newDay = new Date();
@@ -72,105 +68,175 @@
 						nowday = nowday < 10 ? '0' + nowday : nowday;
 						var today = year + '-' + month + '-' + nowday;
 						console.log(today);
-						var beginIndex = 1;
+						var page = 0;
 
-						// $.ajax({
-						// 	url: globalurl + '/merchant/attendanceListRespList',
-						// 	type: 'post',
-						// 	data: {
-						// 		authorization: authorization,
-						// 		beginDate: today,
-						// 		endDate: today,
-						// 		beginIndex: beginIndex,
-						// 		customerid: customerid,
-						// 		dpcode: dpcode,
-						// 		partnerCode: partnerCode
-						// 	},
-						// 	dataType: 'json',
-						// 	success: function (res) {
-						// 		console.log(res);
-						// 	}
-						// })
-						// var getAppTpl = recordContent.innerHTML,
-						// 	appView = document.getElementById('recordBox');
-						// laytpl(getAppTpl).render(res, function (html) {
-						// 	appView.innerHTML = html;
-						// });
-					} else {
-						//获取当前年份与时间段区间
-						var date = new Date;
-						var endYear = date.getFullYear(), startYear = endYear - 100;
-						//开始日期
-						$.dateSelector({
-							evEle: '#startdate',
-							startYear: startYear,
-							endYear: endYear,
-							timeBoo: false,
-							afterAction: function (d1, d2, d3) {
-								var sDate = new Date(d1 + '-' + d2 + '-' + d3);
-								var eDate = new Date($('#enddate').val().replace(/\-/g, "\/"));
-								if (sDate > eDate) {
-									layer.msg("开始日期不得大于于结束日期！");
-									return false;
-								} else {
-									$('#startdate').val(d1 + '-' + d2 + '-' + d3);
-								}
+						$('.contentBox').dropload({
+							scrollArea: window,
+							loadDownFn: function (me) {
+								page++;
+								$.ajax({
+									// url: globalurl + '/merchant/attendanceListRespList',
+									// type: 'post',
+									url: 'kaoqin.json',
+									type: 'get',
+									data: {
+										authorization: authorization,
+										beginDate: today,
+										endDate: today,
+										beginIndex: page,
+										customerid: customerid,
+										dpcode: dpcode,
+										partnerCode: partnerCode
+									},
+									dataType: 'json',
+									async: true,
+									success: function (res) {
+										console.log(res);
+										// var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+										// console.log(value);
+										var html_all = '';
+										var arrLen = res.length;
+										if (arrLen > 0) {
+											for (var i = 0; i < res.length; i++) {
+												html_all += '<p class="recordTime">' + res[i].opdt + '';
+												html_all += '<span class="recordAddress">' + res[i].address + '</span>';
+												html_all += '</p>';
+											}
+										} else {
+											me.lock();
+											me.noData();
+										}
+										setTimeout(function () {
+											$('#recordBox').append(html_all);
+											me.resetload();
+										}, 1000);
+									}
+									// ,
+									// error: function () {
+									// 	// 即使加载出错，也得重置
+									// 	me.resetload();
+									// }
+								})
 							}
-						});
-						//结束日期
-						$.dateSelector({
-							evEle: '#enddate',
-							startYear: startYear,
-							endYear: endYear,
-							timeBoo: false,
-							afterAction: function (d1, d2, d3) {
-								var sDate = new Date($('#startdate').val().replace(/\-/g, "\/"));
-								var eDate = new Date(d1 + '-' + d2 + '-' + d3);
-								if (sDate > eDate) {
-									layer.msg("结束日期不得小于开始日期！");
-									return false;
-								} else {
-									$('#enddate').val(d1 + '-' + d2 + '-' + d3);
-								}
-							}
-						});
-
-
-						//点击查询按钮
-						$('.queryBtn').click(function () {
-							var beginDate = $("#startdate").val();
-							var endDate = $("#enddate").val();
-							var beginIndex = 1;
-							console.log(beginDate);
-							console.log(endDate);
-							// $.ajax({
-							// 	url: globalurl + '/merchant/attendanceListRespList',
-							// 	type: 'post',
-							// 	data: {
-							// 		authorization: authorization,
-							// 		beginDate: beginDate,
-							// 		endDate: endDate,
-							// 		beginIndex: beginIndex,
-							// 		customerid: customerid,
-							// 		dpcode: dpcode,
-							// 		partnerCode: partnerCode
-							// 	},
-							// 	dataType: 'json',
-							// 	success: function (res) {
-							// 		console.log(res);
-							// 	}
-							// })
-							// var getAppTpl = recordContent.innerHTML,
-							// 	appView = document.getElementById('recordBox');
-							// laytpl(getAppTpl).render(res, function (html) {
-							// 	appView.innerHTML = html;
-							// });
-						});
+						})
 					}
 
+					//获取当前年份与时间段区间
+					var date = new Date;
+					var endYear = date.getFullYear(), startYear = endYear - 100;
+					//开始日期
+					$.dateSelector({
+						evEle: '#startdate',
+						startYear: startYear,
+						endYear: endYear,
+						timeBoo: false,
+						afterAction: function (d1, d2, d3) {
+							var sDate = new Date(d1 + '-' + d2 + '-' + d3);
+							var eDate = new Date($('#enddate').val().replace(/\-/g, "\/"));
+							if (sDate > eDate) {
+								layer.msg("开始日期不得大于于结束日期！");
+								return false;
+							} else {
+								$('#startdate').val(d1 + '-' + d2 + '-' + d3);
+							}
+						}
+					});
+					//结束日期
+					$.dateSelector({
+						evEle: '#enddate',
+						startYear: startYear,
+						endYear: endYear,
+						timeBoo: false,
+						afterAction: function (d1, d2, d3) {
+							var sDate = new Date($('#startdate').val().replace(/\-/g, "\/"));
+							var eDate = new Date(d1 + '-' + d2 + '-' + d3);
+							if (sDate > eDate) {
+								layer.msg("结束日期不得小于开始日期！");
+								return false;
+							} else {
+								$('#enddate').val(d1 + '-' + d2 + '-' + d3);
+							}
+						}
+					});
+
+
+					//点击查询按钮
+					$('.queryBtn').click(function () {
+						var beginDate = $("#startdate").val();
+						var endDate = $("#enddate").val();
+						var beginIndex = 1;
+						console.log(beginDate);
+						console.log(endDate);
+						$('.contentBox').dropload({
+							scrollArea: window,
+							loadDownFn: function (me) {
+								page++;
+								$.ajax({
+									// url: globalurl + '/merchant/attendanceListRespList',
+									url: 'kaoqin.json',
+									// type: 'post',
+									type: 'get',
+									data: {
+										authorization: authorization,
+										beginDate: beginDate,
+										endDate: endDate,
+										beginIndex: page,
+										customerid: customerid,
+										dpcode: dpcode,
+										partnerCode: partnerCode
+									},
+									dataType: 'json',
+									async: true,
+									success: function (res) {
+										console.log(res);
+										// var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+										// console.log(value);
+										var html_all = '';
+										var arrLen = res.length;
+										if (arrLen > 0) {
+											for (var i = 0; i < res.length; i++) {
+												html_all += '<p class="recordTime">' + res[i].opdt + '';
+												html_all += '<span class="recordAddress">' + res[i].address + '</span>';
+												html_all += '</p>';
+											}
+										} else {
+											me.lock();
+											me.noData();
+										}
+										setTimeout(function () {
+											$('#recordBox').append(html_all);
+											me.resetload();
+										}, 1000);
+									}
+									// ,
+									// error: function () {
+									// 	// 即使加载出错，也得重置
+									// 	me.resetload();
+									// }
+								})
+							}
+						})
+					});
 				})
 			})
 
+			//返回顶部
+			$(function () {
+				$(window).scroll(function () {
+					if ($(window).scrollTop() > 100) {
+						$(".go-top").fadeIn(400);
+					} else {
+						$(".go-top").fadeOut(400);
+					}
+				});
+				$(".go-top").click(function (event) {
+					event.preventDefault();
+					$('html,body').animate({
+						'scrollTop': 0
+					}, 300);
+					return false;
+				});
+			});
 		</script>
 </body>
 
