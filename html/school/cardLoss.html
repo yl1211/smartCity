@@ -44,7 +44,10 @@
 			var outid = a['outid'];   //学工号
 			var dpcode = a['dpcode'];   //用户所属企业代码
 			var partnerCode = a['partnerCode'];   //商户号
-
+			var name = '狗熊';
+			var outid = '450326198601040009';
+			var dpcode = '200000000000008';
+			var partnerCode = '10007';
 			$('.number').html(name);
 			$('.name').html(outid);
 
@@ -74,6 +77,12 @@
 								dpcode: dpcode,
 							},
 							dataType: 'json',
+							beforeSend: function () {
+								$(".layui-fluid").append('<img src="../../img/loading.gif" class="loading" alt="">');
+							},
+							complete: function () {
+								$(".loading").remove();
+							},
 							success: function (res) {
 								console.log(res);
 								if (res.code == "0000") {
@@ -82,7 +91,7 @@
 									$(".lossBtn").prop('disabled', 'disabled').addClass("layui-btn-disabled");
 								} else {
 									layer.close(index);
-									layer.msg('挂失失败！');
+									layer.msg(res.msg);
 								}
 							}
 						});

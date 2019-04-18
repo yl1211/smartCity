@@ -13,13 +13,13 @@
 <body>
 	<div class="layui-fluid">
 		<div class="layui-row listContent">
-			<!-- <h2 class="listTitle">
+			<h2 class="listTitle">
 				<a href="javascript:;" class="back">
-					<i class="layui-icon layui-icon-left"></i>
-					返回
+					<i class="layui-icon layui-icon-close"></i>
+					关闭
 				</a>
 				交易明细
-			</h2> -->
+			</h2>
 			<!--未领款内容-->
 			<div class="layui-row contentBox" id="content">
 				<form class="layui-form" action="">
@@ -29,35 +29,27 @@
 					</div>
 					<div class="layui-col-xs10 layui-col-xs-offset1 cardContent">
 						<div class="layui-row">
-							<div class="layui-col-xs6">
-								<div class="payType">充值方式</div>
-							</div>
-							<div class="layui-col-xs6">
-								<span class="way"></span>
-							</div>
-						</div>
-						<div class="layui-row">
-							<div class="layui-col-xs6">
-								<div class="payType">充值卡号</div>
-							</div>
-							<div class="layui-col-xs6">
-								<span class="type cardNum"></span>
-							</div>
-						</div>
-						<div class="layui-row">
-							<div class="layui-col-xs6">
-								<div class="payType">订单编号</div>
-							</div>
-							<div class="layui-col-xs6">
-								<span class="type orderNum"></span>
-							</div>
-						</div>
-						<div class="layui-row">
-							<div class="layui-col-xs6">
+							<div class="layui-col-xs4">
 								<div class="payType">交易时间</div>
 							</div>
-							<div class="layui-col-xs6">
-								<span class="type time"></span>
+							<div class="layui-col-xs8">
+								<span class="time"></span>
+							</div>
+						</div>
+						<div class="layui-row">
+							<div class="layui-col-xs4">
+								<div class="payType">钱包类型</div>
+							</div>
+							<div class="layui-col-xs8">
+								<span class="wallet"></span>
+							</div>
+						</div>
+						<div class="layui-row">
+							<div class="layui-col-xs4">
+								<div class="payType">交易描述</div>
+							</div>
+							<div class="layui-col-xs8">
+								<span class="description"></span>
 							</div>
 						</div>
 					</div>
@@ -75,15 +67,13 @@
 		$(document).ready(function () {
 			var a = GetRequest();
 			var money = a['money'];
-			var tradeWay = a['tradeWay'];
-			var cardno = a['cardno'];
-			var billId = a['billId'];
 			var tradeTime = a['tradeTime'];
+			var wallet = a['wallet'];
+			var description = a['description'];
 			console.log(money);
-			console.log(tradeWay);
-			console.log(cardno);
-			console.log(billId);
 			console.log(tradeTime);
+			console.log(wallet);
+			console.log(description);
 
 			layui.use(['laytpl', 'layer', 'form'], function () {
 				var form = layui.form;
@@ -99,10 +89,10 @@
 
 				//显示详情
 				$('.receiveMoney').html(money);
-				$('.way').html(tradeWay);
-				$('.cardNum').html(cardno);
-				$('.orderNum').html(billId);
 				$('.time').html(tradeTime);
+				$('.wallet').html(wallet);
+				$('.time').html(tradeTime);
+				$('.description').html(description);
 			});
 		});
 	</script>

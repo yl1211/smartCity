@@ -8,14 +8,14 @@
 	<link rel="stylesheet" href="../../layui/css/layui.css" />
 	<link rel="stylesheet" href="../../css/base.css" />
 	<link rel="stylesheet" href="../../css/attendanceRecord.css" />
-	<title>考勤记录</title>
+	<title>门禁记录</title>
 </head>
 
 <body>
 	<div class="layui-fluid">
 		<!-- <div class="layui-row recorendContent">
 			<a href="javascript:history.back(-1);" class="back"><i class="layui-icon layui-icon-left"></i>返回</a>
-			<h2 class="file-title">考勤记录</h2>
+			<h2 class="file-title">门禁记录</h2>
 		</div> -->
 		<!-- 返回顶部 -->
 		<img src="../../img/mescroll-totop.png" class="go-top">
@@ -57,7 +57,7 @@
 					var laytpl = layui.laytpl;
 					var layer = layui.layer;
 
-					//默认展示当天考勤
+					//默认展示当天门禁
 					if (beginDate == "" && endDate == "") {
 						//获取当天日期
 						var newDay = new Date();
@@ -75,10 +75,10 @@
 							loadDownFn: function (me) {
 								page++;
 								$.ajax({
-									// url: globalurl + '/merchant/attendanceListRespList',
-									// type: 'post',
-									url: 'kaoqin.json',
-									type: 'get',
+									url: globalurl + '/merchant/attendanceListRespList',
+									type: 'post',
+									// url: 'kaoqin.json',
+									// type: 'get',
 									data: {
 										authorization: authorization,
 										beginDate: today,
@@ -89,33 +89,40 @@
 										partnerCode: partnerCode
 									},
 									dataType: 'json',
-									async: true,
+									beforeSend: function () {
+										$(".layui-fluid").append('<img src="../../img/loading.gif" class="loading" alt="">');
+									},
+									complete: function () {
+										$(".loading").remove();
+									},
 									success: function (res) {
-										console.log(res);
-										// var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-										// console.log(value);
-										var html_all = '';
-										var arrLen = res.length;
-										if (arrLen > 0) {
-											for (var i = 0; i < res.length; i++) {
-												html_all += '<p class="recordTime">' + res[i].opdt + '';
-												html_all += '<span class="recordAddress">' + res[i].address + '</span>';
-												html_all += '</p>';
+										if (res.code == '0000') {
+											var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+											console.log(value);
+											var html_all = '';
+											var arrLen = res.length;
+											if (arrLen > 0) {
+												for (var i = 0; i < value.length; i++) {
+													html_all += '<p class="recordTime">' + value[i].opdt + '';
+													html_all += '<span class="recordAddress">' + value[i].address + '</span>';
+													html_all += '</p>';
+												}
+											} else {
+												me.lock();
+												me.noData();
 											}
+											setTimeout(function () {
+												$('#recordBox').append(html_all);
+												me.resetload();
+											}, 1000);
 										} else {
-											me.lock();
-											me.noData();
+											layer.msg(res.msg);
 										}
-										setTimeout(function () {
-											$('#recordBox').append(html_all);
-											me.resetload();
-										}, 1000);
+									},
+									error: function () {
+										// 即使加载出错，也得重置
+										me.resetload();
 									}
-									// ,
-									// error: function () {
-									// 	// 即使加载出错，也得重置
-									// 	me.resetload();
-									// }
 								})
 							}
 						})
@@ -173,8 +180,8 @@
 								page++;
 								$.ajax({
 									// url: globalurl + '/merchant/attendanceListRespList',
-									url: 'kaoqin.json',
 									// type: 'post',
+									url: 'kaoqin.json',
 									type: 'get',
 									data: {
 										authorization: authorization,
@@ -186,33 +193,40 @@
 										partnerCode: partnerCode
 									},
 									dataType: 'json',
-									async: true,
+									beforeSend: function () {
+										$(".layui-fluid").append('<img src="../../img/loading.gif" class="loading" alt="">');
+									},
+									complete: function () {
+										$(".loading").remove();
+									},
 									success: function (res) {
-										console.log(res);
-										// var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
-										// console.log(value);
-										var html_all = '';
-										var arrLen = res.length;
-										if (arrLen > 0) {
-											for (var i = 0; i < res.length; i++) {
-												html_all += '<p class="recordTime">' + res[i].opdt + '';
-												html_all += '<span class="recordAddress">' + res[i].address + '</span>';
-												html_all += '</p>';
+										if (res.code == '0000') {
+											var value = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
+											console.log(value);
+											var html_all = '';
+											var arrLen = res.length;
+											if (arrLen > 0) {
+												for (var i = 0; i < value.length; i++) {
+													html_all += '<p class="recordTime">' + value[i].opdt + '';
+													html_all += '<span class="recordAddress">' + value[i].address + '</span>';
+													html_all += '</p>';
+												}
+											} else {
+												me.lock();
+												me.noData();
 											}
+											setTimeout(function () {
+												$('#recordBox').append(html_all);
+												me.resetload();
+											}, 1000);
 										} else {
-											me.lock();
-											me.noData();
+											layer.msg(res.msg);
 										}
-										setTimeout(function () {
-											$('#recordBox').append(html_all);
-											me.resetload();
-										}, 1000);
+									},
+									error: function () {
+										// 即使加载出错，也得重置
+										me.resetload();
 									}
-									// ,
-									// error: function () {
-									// 	// 即使加载出错，也得重置
-									// 	me.resetload();
-									// }
 								})
 							}
 						})

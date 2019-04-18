@@ -149,7 +149,7 @@
 			month = month < 10 ? '0' + month : month;
 			var firstdate = year + '-' + month + '-' + '01';
 			var lastdate = year + '-' + month + '-' + nowday;
-			var firstdate = "2019-04-11";
+			var firstdate = "2011-04-11";
 			var lastdate = "2019-11-11";
 			console.log(firstdate);
 			console.log(lastdate);
@@ -188,48 +188,43 @@
 								if (res.code == '0000') {
 									var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
 									console.log(success);
-									// if (success.length <= 0) {
-									// 	layer.alert("暂无数据");
-									// 	me.lock();
-									// 	me.noData();
-									// } else {
-										var arrLen = success.length;
-										var html_all = '';
-										if (arrLen > 0) {
-											for (var i = 0; i < success.length; i++) {
-												html_all += '<div class="layui-row seachContentBox">';
-												html_all += '<div class="layui-col-xs9">';
-												if (success[i].flag == "1") {
-													html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
-												} else if (success[i].flag == "0") {
-													html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
-												}
-												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
-												if (success[i].type == '0') {
-													html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
-												} else if (success[i].type == '1') {
-													html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
-												} else if (success[i].type == '2') {
-													html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
-												} else {
-													html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
-												}
-												html_all += '</div>';
-												html_all += '<div class="layui-col-xs3">';
-												if (success[i].flag == "1") {
-													html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
-												} else if (success[i].flag == "0") {
-													html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
-												}
-												html_all += ' </div>';
-												html_all += '</div>';
+									var arrLen = success.length;
+									var html_all = '';
+									if (arrLen > 0) {
+										for (var i = 0; i < success.length; i++) {
+											html_all += '<div class="layui-row seachContentBox">';
+											html_all += '<div class="layui-col-xs9">';
+											if (success[i].flag == "1") {
+												html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
+											} else if (success[i].flag == "0") {
+												html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
 											}
-										} else {
-											layer.alert("无更多数据");
-											me.lock();
-											me.noData();
+											html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
+											html_all += '<input type="hidden" class="description" value="' + success[i].description + '">';
+											if (success[i].type == '0') {
+												html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
+											} else if (success[i].type == '1') {
+												html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
+											} else if (success[i].type == '2') {
+												html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
+											} else {
+												html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
+											}
+											html_all += '</div>';
+											html_all += '<div class="layui-col-xs3">';
+											if (success[i].flag == "1") {
+												html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
+											} else if (success[i].flag == "0") {
+												html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
+											}
+											html_all += ' </div>';
+											html_all += '</div>';
 										}
-									// }
+									} else {
+										layer.alert("无更多数据");
+										me.lock();
+										me.noData();
+									}
 									setTimeout(function () {
 										$('.seachContent').append(html_all);
 										me.resetload();
@@ -277,40 +272,35 @@
 								if (res.code == '0000') {
 									var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
 									console.log(success);
-									// if (success.length <= 0) {
-									// 	layer.alert("暂无数据");
-									// 	me.lock();
-									// 	me.noData();
-									// } else {
-										var arrLen = success.length;
-										var html_all = '';
-										if (arrLen > 0) {
-											for (var i = 0; i < success.length; i++) {
-												html_all += '<div class="layui-row seachContentBox">';
-												html_all += '<div class="layui-col-xs9">';
-												html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
-												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
-												if (success[i].type == '0') {
-													html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
-												} else if (success[i].type == '1') {
-													html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
-												} else if (success[i].type == '2') {
-													html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
-												} else {
-													html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
-												}
-												html_all += '</div>';
-												html_all += '<div class="layui-col-xs3">';
-												html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
-												html_all += ' </div>';
-												html_all += '</div>';
+									var arrLen = success.length;
+									var html_all = '';
+									if (arrLen > 0) {
+										for (var i = 0; i < success.length; i++) {
+											html_all += '<div class="layui-row seachContentBox">';
+											html_all += '<div class="layui-col-xs9">';
+											html_all += ' <p class="detailsType" value="' + success[i].field1 + '">充值</p>';
+											html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
+											html_all += '<input type="hidden" class="description" value="' + success[i].description + '">';
+											if (success[i].type == '0') {
+												html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
+											} else if (success[i].type == '1') {
+												html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
+											} else if (success[i].type == '2') {
+												html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
+											} else {
+												html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
 											}
-										} else {
-											layer.alert("无更多数据");
-											me.lock();
-											me.noData();
+											html_all += '</div>';
+											html_all += '<div class="layui-col-xs3">';
+											html_all += ' <p class="detailsMoney">' + '+' + success[i].opfare + '</p>';
+											html_all += ' </div>';
+											html_all += '</div>';
 										}
-									// }
+									} else {
+										layer.alert("无更多数据");
+										me.lock();
+										me.noData();
+									}
 									setTimeout(function () {
 										$('.seachContent').append(html_all);
 										me.resetload();
@@ -357,40 +347,35 @@
 								if (res.code == '0000') {
 									var success = JSON.parse($.base64.decode(res.data, 'UTF-8'));   //base64解密
 									console.log(success);
-									// if (success.length <= 0) {
-									// 	layer.alert("暂无数据");
-									// 	me.lock();
-									// 	me.noData();
-									// } else {
-										var arrLen = success.length;
-										var html_all = '';
-										if (arrLen > 0) {
-											for (var i = 0; i < success.length; i++) {
-												html_all += '<div class="layui-row seachContentBox">';
-												html_all += '<div class="layui-col-xs9">';
-												html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
-												html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
-												if (success[i].type == '0') {
-													html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
-												} else if (success[i].type == '1') {
-													html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
-												} else if (success[i].type == '2') {
-													html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
-												} else {
-													html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
-												}
-												html_all += '</div>';
-												html_all += '<div class="layui-col-xs3">';
-												html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
-												html_all += ' </div>';
-												html_all += '</div>';
+									var arrLen = success.length;
+									var html_all = '';
+									if (arrLen > 0) {
+										for (var i = 0; i < success.length; i++) {
+											html_all += '<div class="layui-row seachContentBox">';
+											html_all += '<div class="layui-col-xs9">';
+											html_all += ' <p class="detailsType" value="' + success[i].field2 + '">消费</p>';
+											html_all += '<p class="detailsTime">' + success[i].opdt + '</p>';
+											html_all += '<input type="hidden" class="description" value="' + success[i].description + '">';
+											if (success[i].type == '0') {
+												html_all += '<p class="detailsNum">钱包类型: <span>主钱包</span></p>';
+											} else if (success[i].type == '1') {
+												html_all += '<p class="detailsNum">钱包类型: <span>补助钱包</span></p>';
+											} else if (success[i].type == '2') {
+												html_all += '<p class="detailsNum">钱包类型: <span>混合消费</span></p>';
+											} else {
+												html_all += '<p class="detailsNum">钱包类型: <span>电子钱包</span></p>';
 											}
-										} else {
-											layer.alert("无更多数据");
-											me.lock();
-											me.noData();
+											html_all += '</div>';
+											html_all += '<div class="layui-col-xs3">';
+											html_all += ' <p class="detailsMoney">' + '-' + success[i].opfare + '</p>';
+											html_all += ' </div>';
+											html_all += '</div>';
 										}
-									// }
+									} else {
+										layer.alert("无更多数据");
+										me.lock();
+										me.noData();
+									}
 									setTimeout(function () {
 										$('.seachContent').append(html_all);
 										me.resetload();
@@ -424,7 +409,7 @@
 					month = month < 10 ? '0' + month : month;
 					var firstdate = year + '-' + month + '-' + '01';
 					var lastdate = year + '-' + month + '-' + nowday;
-					var firstdate = "2019-04-11";
+					var firstdate = "2011-04-11";
 					var lastdate = "2019-11-11";
 
 					console.log(firstdate);
@@ -493,16 +478,16 @@
 			$('.seachContent').on('click', '.seachContentBox', function () {
 				var type = $(this).find(".detailsType").html();
 				var money = $(this).find(".detailsMoney").html();
-				var tradeWay = $(this).find(".detailsType").attr('value');
-				var billId = $(this).find('span').html();
 				var tradeTime = $(this).find('.detailsTime').html();
+				var wallet = $(this).find('.detailsNum span').html();
+				var description = $(this).find('.description').val();
 				if (type == "消费") {
 					layer.open({
 						type: 2,
 						closeBtn: 0,
 						title: false,
-						content: 'ConsumptionDetails.html?money=' + money + '&tradeWay=' + tradeWay + '&cardno=' + cardno + '&billId=' + billId + '&tradeTime=' + tradeTime,
-						area: ['100%', '100%'],
+						content: 'ConsumptionDetails.html?money=' + money + '&tradeTime=' + tradeTime + '&wallet=' + wallet + '&description=' + description,
+						area: ['95%', '90%'],
 						yes: function (index) {
 							layer.close(index);
 						},
@@ -512,8 +497,8 @@
 						type: 2,
 						closeBtn: 0,
 						title: false,
-						content: 'RechargeDetails.html?money=' + money + '&tradeWay=' + tradeWay + '&cardno=' + cardno + '&billId=' + billId + '&tradeTime=' + tradeTime,
-						area: ['100%', '100%'],
+						content: 'RechargeDetails.html?money=' + money + '&tradeTime=' + tradeTime + '&wallet=' + wallet + '&description=' + description,
+						area: ['95%', '90%'],
 						yes: function (index) {
 							layer.close(index);
 						},
